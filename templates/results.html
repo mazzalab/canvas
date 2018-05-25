@@ -1,0 +1,56 @@
+<!doctype html>
+{% extends 'base.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block navbar %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="parallax filter-gradient blue" data-color="blue" style="height:100px !important;">
+    <div class="parallax-background">
+        <img src="../static/img/dna2.png">
+    </div>
+</div>
+<div class= "section section-gray section-clients">
+  <div>
+    <select id="locality-dropdown" name="locality"></select>
+    <script>
+        let dropdown = $('#locality-dropdown');
+
+        dropdown.empty();
+
+        dropdown.append('<option selected="true" disabled>Choose CNV</option>');
+        dropdown.prop('selectedIndex', 0);
+
+        // Populate dropdown with list of provinces
+        $.getJSON("{{ json_out }}", function (data) {
+        $.each(data, function (key, entry) {
+          dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+":"+entry.START+"-"+entry.END));
+        })
+        });
+    </script>
+    <br>
+    <div class="row">
+    {% for c in choices %}
+      <div class="col-md-4">
+        <div class="panel panel-info">
+          <div class="panel-heading">{{ c }}</div>
+          <div class="panel-body">Panel content</div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+
+      <!-- <script>
+          var mydata = JSON.parse('{{ json_out }}');
+          for (var i = 0; i < mydata.length; i++) {
+          console.log(mydata[i].PAZIENTE);}
+      </script> -->
+  </div>
+  <p>
+    <a href="{{file_out}}" download="{{download_name}}">Download results as xlsx</a>
+  </p>
+</div>
+{% endblock %}

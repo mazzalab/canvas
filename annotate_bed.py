@@ -1,14 +1,3 @@
-""""
-It annotates a tab-delimited input file with a set of BED files, with textual features in their 4th columns
-"""
-
-import argparse
-import re
-import time
-import collections
-import pandas as pd
-from pandas import DataFrame
-
 __author__ = "Tommaso Mazza"
 __copyright__ = "Copyright 2017, The AnnotateCNV Project"
 __version__ = "0.0.9"
@@ -37,261 +26,353 @@ __license__ = u"""
   02110-1301 USA
   """
 
+""""
+It annotates a tab-delimited input file with a set of BED files, with textual features in their 4th columns
+"""
+
+import argparse
+import re
+import time
+import collections
+import pandas as pd
+from pandas import DataFrame
+from pymongo import MongoClient
+import sys
+import os
+from io import StringIO
 
 
-def read_cnv_coordinates(cnv_file: str) -> DataFrame:
-    """
-    Read and annotate the original CNV file as a DataFrame
-    :param cnv_file: File path and name of the original CNV file to be annotated
-    :return: A DataFrame containing the CNV to be annotate, one per line
-    """
+class MainApp:
+    def __init__(self, args):
 
-    cnv_coords = pd.read_table(cnv_file, encoding='cp1252')
-    # cnv_coords = cnv_coords[['CHR', 'START', 'END']]
-    # cnv_coords = cnv_coords[(pd.isnull(cnv_coords.START)) & (pd.isnull(cnv_coords.END)) & (pd.isnull(cnv_coords.CHR))]
-    cnv_coords = cnv_coords[cnv_coords.START.notnull() & cnv_coords.END.notnull() & cnv_coords.CHR.notnull()]
+        self.args = args
 
-    cnv_coords['START'] = cnv_coords['START'].astype('int')
-    cnv_coords['END'] = cnv_coords['END'].astype('int')
-    # cnv_coords = cnv_coords.reset_index(drop=True)
+        self.connection = MongoClient('localhost', 27017, unicode_decode_error_handler='ignore')
+    
+        self.db = self.connection['BED']
+        self.db_gl = self.connection['genelists']
+        self.db_t = self.connection['targets']
+        self.d = vars(self.args)
+        
+    def process(self):
+        
+        for arg in self.d:
+            
+            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all'] and \
+                    (self.d[arg] or self.d['all']) and not arg.startswith('__'):
+                print("Checking presence of {}...".format(arg))
+                if not arg in self.db.collection_names():
+                    sys.exit("The collection {} could not be found in the BED db. Exiting.".format(arg))
 
-    return cnv_coords
-
-
-def add_annotation(cnv_tobe_annotated: DataFrame, annotation_bedfile: str, column_name_suffix: str) -> DataFrame:
-    """
-    Take a DataFrame and add in the last six columns the annotation provided in the 4th column of the BED file
-    :param str column_name_suffix: Name of the six columns to be added
-    :param str annotation_bedfile: File path and name of the annotation BED file
-    :param DataFrame cnv_tobe_annotated: DataFrame to be annotated
-    :return: A DataFrame containing the input DataFrame with the new annotations as last 6 columns
-    """
-
-    distance_from_gene = 1000000
-
-    annotation_info = []
-    """:type : list[list[str]] """
-    with open(annotation_bedfile)as f:
-        for line in f:
-            L = line.strip().split("\t")
-            if L[0] != "chr":
-                annotation_info.append(L)
-
-    inside_molecules = []
-    """:type : list[str]"""
-    inside_molecules_count = []
-    """:type : list[int]"""
-    cross_molecules = []
-    """:type : list[str]"""
-    cross_molecules_count = []
-    """:type : list[int]"""
-    distal_molecules = []
-    """:type : list[str]"""
-    distal_molecules_count = []
-    """:type : list[int]"""
-    cnv_annotated = cnv_tobe_annotated
-    """:type : DataFrame """
-    for index, row in cnv_tobe_annotated.iterrows():
-        chrom = row['CHR']
-        start = row['START']
-        end = row['END']
-
-        inside_molecule = []
-        """:type : list[str]"""
-
-        cross_molecule = []
-        """:type : list[str]"""
-
-        distal_molecule = []
-        """:type : list[str]"""
-
-        for annotation_coord in annotation_info:
-            """:type : list[str]"""
-            chrom_bed = annotation_coord[0]
-
-            try:
-                start_bed = int(annotation_coord[1])
-                end_bed = int(annotation_coord[2])
-            except ValueError:
-                print("Oops! The BED file does not contain valid genomic coordinates. Let's check!")
-                break
-
-            if chrom == chrom_bed and start <= start_bed and end >= end_bed:
-                # let's check this fourth field, which must contain the feature to be added (e.g., miRNA Symbol)
-                inside_molecule.append(annotation_coord[3])
-
-            elif (chrom == chrom_bed and start <= start_bed <= end and end < end_bed) or \
-                    (chrom == chrom_bed and start_bed <= start <= end_bed and end > end_bed) or (
-                        chrom == chrom_bed and start_bed < start < end_bed and start_bed < end < end_bed):
-                cross_molecule.append(annotation_coord[3])
-
-            elif (chrom == chrom_bed and end < start_bed and start_bed - end < distance_from_gene) or \
-                    (chrom == chrom_bed and start > end_bed and start - end_bed < distance_from_gene):
-                distal_molecule.append(annotation_coord[3])
-
-        if len(inside_molecule) > 0:
-            inside_molecule = set(inside_molecule)
-            inside_molecules.append(",".join(inside_molecule))
-            inside_molecules_count.append(len(inside_molecule))
-        else:
-            inside_molecules.append(".")
-            inside_molecules_count.append(0)
-
-        if len(cross_molecule) > 0:
-            cross_molecule = set(cross_molecule)
-            cross_molecules.append(",".join(cross_molecule))
-            cross_molecules_count.append(len(cross_molecule))
-        else:
-            cross_molecules.append(".")
-            cross_molecules_count.append(0)
-
-        if len(distal_molecule) > 0:
-            distal_molecule = set(distal_molecule)
-            distal_molecules.append(",".join(distal_molecule))
-            distal_molecules_count.append(len(distal_molecule))
-        else:
-            distal_molecules.append(".")
-            distal_molecules_count.append(0)
-
-    cnv_annotated.loc[:, column_name_suffix + '_inside'] = inside_molecules
-    cnv_annotated.loc[:, column_name_suffix + '_inside_count'] = inside_molecules_count
-    cnv_annotated.loc[:, column_name_suffix + '_cross'] = cross_molecules
-    cnv_annotated.loc[:, column_name_suffix + '_cross_count'] = cross_molecules_count
-    cnv_annotated.loc[:, column_name_suffix + '_distal'] = distal_molecules
-    cnv_annotated.loc[:, column_name_suffix + '_distal_count'] = distal_molecules_count
-
-    return cnv_annotated
-
-
-def __get_genetarget(mirs_in_cnv: str, mirbase_dict: dict, target_dict: dict) -> list:
-    """
-    Take a list of miRs, formatted as from miRBase, parse it, get the corresponding mature miR symbols, and get a list
-    of their target genes
-    :param str mirs_in_cnv: List of miRs contained in a CNV region, formatted as from miRBase
-    :param dict mirbase_dict: Dictionary containing the association MI id (stem loop) -> mirna_names (mature)
-    :param dict target_dict: Dictionary associating mature mirna -> target genes
-    :return: List of targeted genes by the miRs contained in the CNV
-    """
-    m_inside = re.findall(
-        r'(?:\.|(\"ID=(?P<mi_name>MI[0-9]+);[Alias=MI[0-9]+]?;Name=(?P<mirna_name>[A-Za-z0-9\-]+)\"[,]?))',
-        mirs_in_cnv)
-
-    mature_mir_gene_names = []
-    for (other, mi_name, mirna_name) in m_inside:
-        if mi_name in mirbase_dict:
-            mature_mirna_names = mirbase_dict[mi_name]
-            gene_targets = []
-            """:type : list[str]"""
-            for mature_mirna_name in mature_mirna_names:
-                if mature_mirna_name in target_dict:
-                    gene_targets = gene_targets + target_dict[mature_mirna_name]
-        else:
-            gene_targets = []
-
-        mature_mir_gene_names = mature_mir_gene_names + gene_targets
-
-    return mature_mir_gene_names if len(mature_mir_gene_names) > 0 else ["."]
-
-
-def add_mirna_target(cnv_tobe_annotated: DataFrame, mirbase_file: str, db_target_file: str,
-                     mir_gene_index: collections.namedtuple, unique: bool,
-                     miR_colname_suffix: str,
-                     target_colname_suffix: str) -> DataFrame:
-    """
-    Take a DataFrame and annotate it with targeting genes of miRs according to a db_target_file
-    :param target_colname_suffix: Suffix string for the column names containing gene target (inside, cross and distal)
-    :param namedtuple mir_gene_index: 0-based column indices of miR and Gene targets
-    :param DataFrame cnv_tobe_annotated: DataFrame to be annotated
-    :param str mirbase_file: Original flat file of miRBase
-    :param str db_target_file: Flat file of a database reporting "Gene Symbol" and targeting "miRNA" plus an header
-    :param bool unique: If true, only unique genes will be reported for each CNV region
-    :param str miR_colname_suffix: Suffix string for the column name containing annotated miRs in the CNVs
-    :return DataFrame: Annotated DataFrame
-    """
-
-    mirbase_info = {}
-    """:type : dict[str, list[str]] """
-    with open(mirbase_file)as mb:
-        for line in mb:
-            if not line.startswith("#"):
-                mbL = line.rstrip().split("\t")
-                if mbL[2] != "miRNA_primary_transcript":
-                    m = re.match(r'.+;Name=(?P<mirna_name>[A-Za-z0-9\-]+);Derives_from=(?P<mi>MI[0-9]+)$', mbL[8])
-                    if not m.group('mi') in mirbase_info:
-                        mirbase_info[m.group('mi')] = [m.group('mirna_name')]
-                    else:
-                        mirbase_info[m.group('mi')].append(m.group('mirna_name'))
-
-    target_info = {}
-    """:type : dict[str, list[str]] """
-    with open(db_target_file)as t:
-        t.readline()  # Skip header line
-        mir_index = mir_gene_index.miR
-        gene_index = mir_gene_index.gene
-
-        for line in t:
-            tL = line.rstrip().split("\t")
-
-            if not tL[mir_index] in target_info:
-                target_info[tL[mir_index]] = [tL[gene_index]]
+                if arg == 'mirbase':
+                    if not ('tarbase' in self.db_t.collection_names() or
+                                    'targetscan' in self.db_t.collection_names()):
+                        sys.exit("Need tarbase and/or targetscan collection in targets db to annotate mirna. "
+                                 "Exiting.")
+                    if not self.d['mirna'] and not self.d['all']:
+                        sys.exit('The --mirbase option depends on the prior execution of --mirna. '
+                                 'Please include this option as well.')
+        
+        sys.stdout.write("Requested DBs are present. Proceeding to annotate...\n")
+        if self.args.cnv_file:
+            if os.path.exists(self.args.cnv_file):
+                cnv_info = self.read_cnv_coordinates_file(self.args.cnv_file)
             else:
-                target_info[tL[mir_index]].append(tL[gene_index])
+                sys.exit("CNV file not found: {}".format(self.args.cnv_file))
+        elif self.args.cnv_line:
+            cnv_info = self.read_cnv_coordinates_line(self.args.cnv_line)
+        
+        self.out_dataframe = cnv_info
 
-    inside_mature_mir_gene_names = []
-    """: type : list[str] """
-    inside_mature_mir_gene_names_count = []
-    """: type : list[int] """
-    cross_mature_mir_gene_names = []
-    """: type : list[str] """
-    cross_mature_mir_gene_names_count = []
-    """: type : list[int] """
-    distal_mature_mir_gene_names = []
-    """: type : list[str] """
-    distal_mature_mir_gene_names_count = []
-    """: type : list[int] """
-    for index, row in cnv_tobe_annotated.iterrows():
-        miR_inside = row[miR_colname_suffix + '_inside']
-        target_genes = __get_genetarget(miR_inside, mirbase_info, target_info)
-        target_genes = set(target_genes) if unique else target_genes
-        inside_mature_mir_gene_names.append(",".join(target_genes))
-        inside_mature_mir_gene_names_count.append(len(target_genes) if list(target_genes)[0] != "." else 0)
+        # Annotation based on the options that were chosen
+        for arg in self.d:
+            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all'] and (self.d[arg] or self.d['all']) and not arg.startswith('__'):
+                print("Adding annotation for", arg)
+                if arg != 'mirbase':
+                    self.add_annotation(arg)
+                else:
+                    for target_db in self.db_t.collection_names():
+                        self.add_mirna_target(target=target_db, unique=True)
+        
+        # Geneslist annotation
+        print("Adding genelists annotations...")
+        if self.d['gene'] or self.d['all']:
+            for name in sorted(self.db_gl.collection_names()):
+                self.add_meta_gene(name)
+        else:
+            sys.stderr.write("WARNING: Could not add genelists annotation since --gene option was not included.\n")
+        
+        #Writing final file
+        write_file(self.out_dataframe, self.args.out)
+        # return self.out_dataframe.reset_index().to_json(orient='records')
+    
+    def read_cnv_coordinates_file(self, cnv_file: str) -> DataFrame:
+        """
+        Read and annotate the original CNV file as a DataFrame
+        :param cnv_file: File path and name of the original CNV file to be annotated
+        :return: A DataFrame containing the CNV to be annotate, one per line
+        """
+        
+        cnv_coords = pd.read_table(cnv_file, encoding='cp1252', sep='\t')
+        cnv_coords.columns = map(str.upper, cnv_coords.columns)
+        cnv_coords = cnv_coords[
+            cnv_coords.START.notnull() & cnv_coords.END.notnull() & cnv_coords.CHR.notnull()]
+        
+        cnv_coords['START'] = cnv_coords['START'].astype('int')
+        cnv_coords['END'] = cnv_coords['END'].astype('int')
+        return cnv_coords
 
-        miR_cross = row[miR_colname_suffix + '_cross']
-        target_genes = __get_genetarget(miR_cross, mirbase_info, target_info)
-        target_genes = set(target_genes) if unique else target_genes
-        cross_mature_mir_gene_names.append(",".join(target_genes))
-        cross_mature_mir_gene_names_count.append(len(target_genes) if list(target_genes)[0] != "." else 0)
+    def read_cnv_coordinates_line(self, cnv_line: str) -> DataFrame:
+        """
+        Read and annotate the original CNV file as a DataFrame
+        :param cnv_file: File path and name of the original CNV file to be annotated
+        :return: A DataFrame containing the CNV to be annotate, one per line
+        """
+        
+        m = re.match(r'(?P<chr>chr[0-9]+):(?P<start>\d+)-(?P<end>\d+)', cnv_line)
+        parsed_line = StringIO("""CHR\tSTART\tEND\n{0}\t{1}\t{2}""".format(m.group('chr'), m.group('start'),
+                                                                           m.group('end')))
+        cnv_coords = pd.read_csv(parsed_line, sep='\t')
+        return cnv_coords
+    
+    def add_annotation(self, annotation_db: str):
+        """
+        Take a DataFrame and add in the last six columns the annotation provided in the 4th column of the BED file
+        :param str annotation_db: File path and name of the annotation BED file
+        """
+        db = self.connection['BED'][annotation_db]
+        print('Annotating', annotation_db)
+        distance_from_gene = self.args.distance
+        
+        inside_molecules = []
+        """:type : list[str]"""
+        inside_molecules_count = []
+        """:type : list[int]"""
+        cross_molecules = []
+        """:type : list[str]"""
+        cross_molecules_count = []
+        """:type : list[int]"""
+        distal_molecules = []
+        """:type : list[str]"""
+        distal_molecules_count = []
+        """:type : list[int]"""
 
-        miR_distal = row[miR_colname_suffix + '_distal']
-        target_genes = __get_genetarget(miR_distal, mirbase_info, target_info)
-        target_genes = set(target_genes) if unique else target_genes
-        distal_mature_mir_gene_names.append(",".join(target_genes))
-        distal_mature_mir_gene_names_count.append(len(target_genes) if list(target_genes)[0] != "." else 0)
+        for row in self.out_dataframe.itertuples():
+            chrom = row.CHR
+            start = row.START
+            end = row.END
+            inside_molecule = db.find({"$and": [{"chr": chrom, "start": {"$gte": start},
+                                                 "end": {"$lte": end}}]}).distinct('info')
+            
+            cross_molecule = db.find(
+                {"$or": [
+                    {"$and": [
+                        {"chr": chrom, "start": {"$gte": start, "$lte": end}, "end": {"$gt": end}}
+                    ]},
+                    {"$and": [
+                        {"chr": chrom, "start": {"$lte": start}, "end": {"$gte": start, "$lt": end}}
+                    ]},
+                    {"$and": [
+                        {"chr": chrom}, {"start": {"$lt": start}}, {"end": {"$gt": start}},
+                        {"start": {"$lt": end}}, {"end": {"$gt": end}}
+                    ]}
 
-    cnv_annotated = cnv_tobe_annotated
-    cnv_annotated.loc[:, target_colname_suffix + '_inside'] = inside_mature_mir_gene_names
-    cnv_annotated.loc[:, target_colname_suffix + '_inside_count'] = inside_mature_mir_gene_names_count
-    cnv_annotated.loc[:, target_colname_suffix + '_cross'] = cross_mature_mir_gene_names
-    cnv_annotated.loc[:, target_colname_suffix + '_cross_count'] = cross_mature_mir_gene_names_count
-    cnv_annotated.loc[:, target_colname_suffix + '_distal'] = distal_mature_mir_gene_names
-    cnv_annotated.loc[:, target_colname_suffix + '_distal_count'] = distal_mature_mir_gene_names_count
+                ]}
+            ).distinct('info')
 
-    return cnv_annotated
+            distal_molecule = db.find(
+                {"$or": [
+                    {"$and": [
+                        {"chr": chrom}, {"start": {"$gt": end}}, {"start": {"$lt": distance_from_gene+end}}
+                    ]},
+                    {"$and": [
+                        {"chr": chrom}, {"end": {"$lt": start}}, {"end": {"$gt": start-distance_from_gene}}
+                    ]}
+                ]}
+            ).distinct('info')
+            
+            if len(inside_molecule) > 0:
+                inside_molecules.append(",".join(inside_molecule))
+                inside_molecules_count.append(len(inside_molecule))
+            else:
+                inside_molecules.append(".")
+                inside_molecules_count.append(0)
 
+            if len(cross_molecule) > 0:
+                cross_molecules.append(",".join(cross_molecule))
+                cross_molecules_count.append(len(cross_molecule))
 
+            else:
+                cross_molecules.append(".")
+                cross_molecules_count.append(0)
+
+            if len(distal_molecule) > 0:
+                distal_molecules.append(",".join(distal_molecule))
+                distal_molecules_count.append(len(distal_molecule))
+            else:
+                distal_molecules.append(".")
+                distal_molecules_count.append(0)
+
+        self.out_dataframe.loc[:, annotation_db + '_inside'] = inside_molecules
+        self.out_dataframe.loc[:, annotation_db + '_inside_count'] = inside_molecules_count
+        self.out_dataframe.loc[:, annotation_db + '_cross'] = cross_molecules
+        self.out_dataframe.loc[:, annotation_db + '_cross_count'] = cross_molecules_count
+        self.out_dataframe.loc[:, annotation_db + '_distal'] = distal_molecules
+        self.out_dataframe.loc[:, annotation_db + '_distal_count'] = distal_molecules_count
+        
+    def __get_genetarget(self, mirs_in_cnv: str, mirbase_dict: dict, target_dict: dict) -> list:
+        """
+        Take a list of miRs, formatted as from miRBase, parse it, get the corresponding mature miR symbols, and get a list
+        of their target genes
+        :param str mirs_in_cnv: List of miRs contained in a CNV region, formatted as from miRBase
+        :param dict mirbase_dict: Dictionary containing the association MI id (stem loop) -> mirna_names (mature)
+        :param dict target_dict: Dictionary associating mature mirna -> target genes
+        :return: List of targeted genes by the miRs contained in the CNV
+        """
+        m_inside = re.findall(
+            r'(?:\.|(\"ID=(?P<mi_name>MI[0-9]+);[Alias=MI[0-9]+]?;Name=(?P<mirna_name>[A-Za-z0-9\-]+)\"[,]?))',
+            mirs_in_cnv)
+        
+        mature_mir_gene_names = []
+        for (other, mi_name, mirna_name) in m_inside:
+            if mi_name in mirbase_dict:
+                mature_mirna_names = mirbase_dict[mi_name]
+                gene_targets = []
+                """:type : list[str]"""
+                for mature_mirna_name in mature_mirna_names:
+                    if mature_mirna_name in target_dict:
+                        gene_targets = gene_targets + target_dict[mature_mirna_name]
+            else:
+                gene_targets = []
+            
+            mature_mir_gene_names = mature_mir_gene_names + gene_targets
+        
+        return mature_mir_gene_names if len(mature_mir_gene_names) > 0 else ["."]
+
+    def add_mirna_target(self, target: str, unique: bool):
+        """
+        Take a DataFrame and annotate it with targeting genes of miRs according to a target db
+        :param target: Suffix string for the column names containing gene target (inside, cross and distal)
+        :param bool unique: If true, only unique genes will be reported for each CNV region
+        """
+        
+        db_mirbase = self.connection['BED']['mirbase']
+        
+        if unique:
+            mirbase_list = db_mirbase.find({
+                "$and": [
+                    {"feature": {"$ne": "miRNA_primary_transcript"}}
+                ]}
+            ).distinct('info')
+        else:
+            
+            mirbase_list =[el['info'] for el in db_mirbase.find({
+                "$and": [
+                    {"feature": {"$ne": "miRNA_primary_transcript"}}
+                ]}, {"_id": 0, "info": 1}
+            )]
+            
+        mirbase_info = {}
+        for entry in mirbase_list:
+            m = re.match(r'.+;Name=(?P<mirna_name>[A-Za-z0-9\-]+);Derives_from=(?P<mi>MI[0-9]+)$', entry)
+            if not m.group('mi') in mirbase_info:
+                mirbase_info[m.group('mi')] = [m.group('mirna_name')]
+            else:
+                mirbase_info[m.group('mi')].append(m.group('mirna_name'))
+        
+        db_target = self.connection['targets'][target]
+        target_info = {}
+        
+        for entry in list(db_target.find()):
+            if entry['mirna'] not in target_info:
+                target_info[entry['mirna']] = [entry['geneName']]
+            else:
+                target_info[entry['mirna']].append(entry['geneName'])
+        #
+        inside_mature_mir_gene_names = []
+        """: type : list[str] """
+        inside_mature_mir_gene_names_count = []
+        """: type : list[int] """
+        cross_mature_mir_gene_names = []
+        """: type : list[str] """
+        cross_mature_mir_gene_names_count = []
+        """: type : list[int] """
+        distal_mature_mir_gene_names = []
+        """: type : list[str] """
+        distal_mature_mir_gene_names_count = []
+        """: type : list[int] """
+        
+        for row in self.out_dataframe.itertuples():
+            miR_inside = row.mirna_inside
+            target_genes = self.__get_genetarget(miR_inside, mirbase_info, target_info)
+            target_genes = set(target_genes) if unique else target_genes
+            inside_mature_mir_gene_names.append(",".join(target_genes))
+            inside_mature_mir_gene_names_count.append(len(target_genes) if list(target_genes)[0] != "." else 0)
+
+            miR_cross = row.mirna_cross
+            target_genes = self.__get_genetarget(miR_cross, mirbase_info, target_info)
+            target_genes = set(target_genes) if unique else target_genes
+            cross_mature_mir_gene_names.append(",".join(target_genes))
+            cross_mature_mir_gene_names_count.append(len(target_genes) if list(target_genes)[0] != "." else 0)
+
+            miR_distal = row.mirna_distal
+            target_genes = self.__get_genetarget(miR_distal, mirbase_info, target_info)
+            target_genes = set(target_genes) if unique else target_genes
+            distal_mature_mir_gene_names.append(",".join(target_genes))
+            distal_mature_mir_gene_names_count.append(len(target_genes) if list(target_genes)[0] != "." else 0)
+
+        self.out_dataframe.loc[:, target + '_inside'] = inside_mature_mir_gene_names
+        self.out_dataframe.loc[:, target + '_inside_count'] = inside_mature_mir_gene_names_count
+        self.out_dataframe.loc[:, target + '_cross'] = cross_mature_mir_gene_names
+        self.out_dataframe.loc[:, target + '_cross_count'] = cross_mature_mir_gene_names_count
+        self.out_dataframe.loc[:, target + '_distal'] = distal_mature_mir_gene_names
+        self.out_dataframe.loc[:, target + '_distal_count'] = distal_mature_mir_gene_names_count
+
+    def add_meta_gene(self, genelist):
+        db = self.connection['genelists'][genelist]
+        genelist_l = set(db.find().distinct('gene'))
+        
+        genes_inside = []
+        genes_cross = []
+        genes_distal = []
+        genes_inside_count = []
+        genes_cross_count = []
+        genes_distal_count = []
+        
+        for row in self.out_dataframe.itertuples():
+            inside = ','.join(list(set(row.gene_inside.split(',')) & genelist_l))
+            genes_inside.append(inside) if inside else genes_inside.append('.')
+            genes_inside_count.append(str(len(inside.split(',')))) if inside else genes_inside_count.append('0')
+
+            cross = ','.join(list(set(row.gene_cross.split(',')) & genelist_l))
+            genes_cross.append(cross) if cross else genes_cross.append('.')
+            genes_cross_count.append(str(len(cross.split(',')))) if cross else genes_cross_count.append('0')
+
+            distal = ','.join(list(set(row.gene_distal.split(',')) & genelist_l))
+            genes_distal.append(distal) if distal else genes_distal.append('.')
+            genes_distal_count.append(str(len(distal.split(',')))) if distal else genes_distal_count.append('0')
+            
+        self.out_dataframe.loc[:, genelist + '_inside'] = genes_inside
+        self.out_dataframe.loc[:, genelist + '_inside_count'] = genes_inside_count
+        self.out_dataframe.loc[:, genelist + '_cross'] = genes_cross
+        self.out_dataframe.loc[:, genelist + '_cross_count'] = genes_cross_count
+        self.out_dataframe.loc[:, genelist + '_distal'] = genes_distal
+        self.out_dataframe.loc[:, genelist + '_distal_count'] = genes_distal_count
+
+    
 def write_file(cnv_infolist: DataFrame, out_filename: str):
     """
     Write a DataFrame to excel
     :param DataFrame cnv_infolist: Annotated pandas DataFrame to be written to xlsx file
     :param out_filename: File name of the final xlsx file
     """
-
-    # cnv_infolist.to_excel(out_filename, sheet_name='Annotated CNV', header=True)
+    
     writer = pd.ExcelWriter(out_filename, engine='xlsxwriter')
-    cnv_infolist.to_excel(writer, sheet_name='Annotated CNV - '+time.strftime("%d-%m-%Y"), startrow=1, header=False, index=False)
-
+    cnv_infolist.to_excel(writer, sheet_name='Annotated CNV - ' + time.strftime("%d-%m-%Y"), startrow=1,
+                          header=False, index=False)
+    
     workbook = writer.book
-    worksheet = writer.sheets['Annotated CNV - '+time.strftime("%d-%m-%Y")]
+    worksheet = writer.sheets['Annotated CNV - ' + time.strftime("%d-%m-%Y")]
     # worksheet.set_column('A:D', 10)
     # worksheet.set_column('E:ZZ', 15)
     worksheet.freeze_panes(1, 0)
@@ -302,66 +383,46 @@ def write_file(cnv_infolist: DataFrame, out_filename: str):
         'font_color': 'red',
         # 'fg_color': '#ffca6f',
         'border': 0})
-
+    
     for col_num, value in enumerate(cnv_infolist.columns.values):
         worksheet.write(0, col_num, value, header_format)
-
+    
     writer.save()
 
+    json = cnv_infolist.reset_index().to_json(orient='records')
+    with open(re.sub('.xlsx', '.json', out_filename), 'w') as f:
+        f.write(json)
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
+    
     parser = argparse.ArgumentParser()
-    parser.add_argument("--cnv", required=True, help="CNV file to be annotated")
+    parser.add_argument("--cnv_file", help="CNV file to be annotated")
     parser.add_argument("--out", required=True, help="Annotated file")
-
-    parser.add_argument("--gene", required=False, help="BED file of all RefSeq genes")
-    parser.add_argument("--coding_gene", required=False, help="BED file of all coding RefSeq genes")
-    parser.add_argument("--noncoding_gene", required=False, help="BED file of all non-coding RefSeq genes")
-    parser.add_argument("--mirna", required=False, help="BED file of known miRNAs")
-    parser.add_argument("--longNC", required=False, help="BED file of known long Non-coding molecules")
-    parser.add_argument("--circRNA", required=False, help="BED file of known circular RNA molecules")
-    parser.add_argument("--pseudogene", required=False, help="BED file of known pseudogenes from GENECODE")
-    parser.add_argument("--mirbase", required=False, help="miRBase file")
-    parser.add_argument("--targetscan", required=False, help="TargetScan file")
-    parser.add_argument("--tarbase", required=False, help="Tarbase file")
-
+    parser.add_argument("--cnv_line", help="Single CNV to be annotated (E.g.: 'chr1:11110-11150'")
+    parser.add_argument("--gene", action='store_true', required=False,
+                        help="BED file of all RefSeq genes")
+    parser.add_argument("--coding_gene", action='store_true', required=False,
+                        help="BED file of all coding RefSeq genes")
+    parser.add_argument("--noncoding_gene", action='store_true', required=False,
+                        help="BED file of all non-coding RefSeq genes")
+    parser.add_argument("--mirna", action='store_true', required=False, help="BED file of known miRNAs")
+    parser.add_argument("--longNC", action='store_true', required=False, help="BED file of known long "
+                                                                              "Non-coding molecules")
+    parser.add_argument("--circRNA", action='store_true', required=False, help="BED file of known "
+                                                                               "circular RNA molecules")
+    parser.add_argument("--pseudogene", action='store_true', required=False,
+                        help="BED file of known pseudogenes from GENECODE")
+    parser.add_argument("--mirbase", action='store_true', required=False, help="miRBase file")
+    parser.add_argument("--all", action='store_true', required=False,
+                        help="Perform all available annotations")
+    parser.add_argument("-D", "--distance", type=int, default=1000000, required=False,
+                        help="Distance from gene (Default 1Mb)")
+    
     args = parser.parse_args()
-    cnv_bedfile = args.cnv
-    gene_bedfile = args.gene
-    coding_gene_bedfile = args.coding_gene
-    noncoding_gene_bedfile = args.noncoding_gene
-    mirna_bedfile = args.mirna
-    longNC_bedfile = args.longNC
-    circRNA_bedfile = args.circRNA
-    preudogene_bedfile = args.pseudogene
-    mirbase_file = args.mirbase
-    targetscan_file = args.targetscan
-    tarbase_file = args.tarbase
-    out_file = args.out
-
-    cnv_info = read_cnv_coordinates(cnv_bedfile)
-
-    out_dataframe = cnv_info
-    """: type : DataFrame """
-    if gene_bedfile:
-        out_dataframe = add_annotation(out_dataframe, gene_bedfile, "gene")
-    if coding_gene_bedfile:
-        out_dataframe = add_annotation(out_dataframe, coding_gene_bedfile, "coding_gene")
-    if noncoding_gene_bedfile:
-        out_dataframe = add_annotation(out_dataframe, noncoding_gene_bedfile, "noncoding_gene")
-    if preudogene_bedfile:
-        out_dataframe = add_annotation(out_dataframe, preudogene_bedfile, "pseudogene")
-    if mirna_bedfile:
-        out_dataframe = add_annotation(out_dataframe, mirna_bedfile, "miR")
-    if mirbase_file and targetscan_file or tarbase_file:
-        mir_gene_ind = collections.namedtuple('mir_gene_ind', 'miR gene')
-        out_dataframe = add_mirna_target(out_dataframe, mirbase_file, targetscan_file, mir_gene_ind(miR=1, gene=0),
-                                         True, "miR", "Targetscan")
-        out_dataframe = add_mirna_target(out_dataframe, mirbase_file, tarbase_file, mir_gene_ind(miR=2, gene=1),
-                                         True, "miR", "Tarbase")
-    if longNC_bedfile:
-        out_dataframe = add_annotation(out_dataframe, longNC_bedfile, "lnc")
-    if circRNA_bedfile:
-        out_dataframe = add_annotation(out_dataframe, circRNA_bedfile, "circ")
-
-    write_file(out_dataframe, out_file)
+    if args.cnv_file and args.cnv_line:
+        sys.exit("Input line(s) can be provided as --cnv_line OR --cnv_file. "
+                 "They cannot be specified together.")
+    elif not (args.cnv_file or args.cnv_line):
+        sys.exit("Please provide input as either --cnv_line or --cnv_file.")
+    MainApp(args).process()
