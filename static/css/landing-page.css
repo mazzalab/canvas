@@ -66,6 +66,16 @@ a:focus, a:active {
   margin-left: 10px;
 }
 
+.panel-heading {
+  color: #ffffff !important;
+  background-color: #307ba0!important;
+  border-color: #307ba0!important;
+}
+
+.panel-info {
+    border-color: #307ba0;
+}
+
 .navbar {
   -webkit-transition: all 300ms linear;
   -moz-transition: all 300ms linear;
@@ -1419,7 +1429,6 @@ vertical-align: middle;
     margin-bottom: 10px;
   }
 }
-
 
 ul.banner-social-buttons {
   margin-top: 0;

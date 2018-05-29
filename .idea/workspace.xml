@@ -1,132 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="240b687c-d558-49db-b1ac-c8908ba7987b" name="Default" comment="- Major rewrite of annotate_bed.py (pure python3 + mongoDB)&#10;- First draft of flask backend + JS frontend">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/fonts/FontAwesome.otf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/fonts/fontawesome-webfont.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/fonts/fontawesome-webfont.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/fonts/fontawesome-webfont.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/fonts/glyphicons-halflings-regular.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/fonts/glyphicons-halflings-regular.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/fonts/glyphicons-halflings-regular.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/blue.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/dna2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/examples/home_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/examples/home_2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/examples/home_3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/faces/face-2.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/faces/face-3.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/faces/face-4.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/favicon.ico" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/gray.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/green.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/landing-page-1/adobe.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/landing-page-1/airbnb.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/landing-page-1/bg.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/landing-page-1/bg1.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/landing-page-1/ebay.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/landing-page-1/evernote.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/landing-page-1/iphone.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/landing-page-1/mac2.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/landing-page-1/zappos.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/nodna2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/orange.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/red.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/circRNA.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/coding_gene.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/gene.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/longNC.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/meta_longNC.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/mirbase.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/mirna.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/noncoding_gene.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/pseudogene.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/refseq_allgenes.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/refseq_coding_genes.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/refseq_noncoding_genes.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/ASD_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/ID_a_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/ID_b_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_1_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_2_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_3_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_4_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_5_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_6_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_S_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene_noscore_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/dosage_sensitive_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/epilessia_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/malformazioni_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/mendeliome_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/onologhi_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/pubmed_autism_09-02-2018_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/pubmed_brain_malformations_09-02-2018_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/pubmed_epilepsy_or_seizures_09-02-2018_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/pubmed_intellectual_disability_09-02-2018_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/input_output/cnv_file_new.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/input_output/silver_russell.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/targets/tarbase.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/targets/targetscan.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/setup_mongo_collections.sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/bootstrap.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/landing-page.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/fonts/fontawesome-webfont.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/fonts/glyphicons-halflings-regular.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/SmoothScroll.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/bootstrap.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/jquery-1.10.2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/jquery-ui-1.10.4.custom.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/results.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/working.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/ASD_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/ID_a_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/ID_b_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/Method_Type_TarBase.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/TargetScan_71_Conserved_Site_filtered.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/circRNA_file.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/dosage_sensitive_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/epilessia_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/gene-score_1_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/gene-score_2_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/gene-score_3_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/gene-score_4_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/gene-score_5_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/gene-score_6_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/gene-score_S_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/gene_noscore_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/longNC_file.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/malformazioni_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/mendeliome_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/meta_allgene_refseq.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/meta_coding_gene_refseq.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/meta_longNC_file.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/meta_noncoding_gene_refseq.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/miR_file.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/miR_file_complete.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/onologhi_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/pseudogenes_GENECODE_original_file.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/pubmed_09-02-2018_autism_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/pubmed_09-02-2018_brain malformations_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/pubmed_09-02-2018_epilepsy or seizures_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/pubmed_09-02-2018_intellectual disability_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/refseq_allgenes.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/refseq_coding_genes.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/refseq_noncoding_genes.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tarbase_data_normal_methods_Dec2017.txt" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/clean_targetscan.R" afterPath="$PROJECT_DIR$/other scripts/clean_targetscan.R" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/make_meta_gene.R" afterPath="$PROJECT_DIR$/other scripts/make_meta_gene.R" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/make_meta_lnc.R" afterPath="$PROJECT_DIR$/other scripts/make_meta_lnc.R" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/CaNVAs.iml" afterPath="$PROJECT_DIR$/.idea/CaNVAs.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="240b687c-d558-49db-b1ac-c8908ba7987b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/tips.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/annotate_bed.py" afterPath="$PROJECT_DIR$/annotate_bed.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/landing-page.css" afterPath="$PROJECT_DIR$/static/css/landing-page.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/results.html" afterPath="$PROJECT_DIR$/templates/results.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -153,7 +33,7 @@
       <file leaf-file-name="annotate_bed.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/annotate_bed.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1298">
+            <state relative-caret-position="-54">
               <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
               <folding>
                 <element signature="e#1224#1239#0" expanded="true" />
@@ -166,8 +46,8 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="127" column="17" lean-forward="false" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
+            <state relative-caret-position="222">
+              <caret line="118" column="30" lean-forward="true" selection-start-line="118" selection-start-column="30" selection-end-line="118" selection-end-column="30" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -178,7 +58,7 @@
       <file leaf-file-name="setup_mongo_collections.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="714">
               <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
               <folding />
             </state>
@@ -231,10 +111,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1079" />
-    <option name="y" value="840" />
-    <option name="width" value="1922" />
-    <option name="height" value="1049" />
+    <option name="x" value="1384" />
+    <option name="y" value="844" />
+    <option name="width" value="1616" />
+    <option name="height" value="1045" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -252,6 +132,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -275,7 +156,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="canvas" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="canvas" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="canvas" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="canvas" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -309,11 +222,10 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/miniconda3/envs/canvas/bin/python3.6" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/m.truglio/PycharmProjects/canvas/setup_mongo_collections.sh" />
@@ -540,19 +452,28 @@
       <option name="presentableId" value="Default" />
       <updated>1523369992357</updated>
     </task>
+    <task id="LOCAL-00001" summary="- Major rewrite of annotate_bed.py (pure python3 + mongoDB)&#10;- First draft of flask backend + JS frontend">
+      <created>1527260159072</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1527260159072</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1079" y="840" width="1922" height="1049" extended-state="6" />
+    <frame x="1384" y="844" width="1616" height="1045" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41379312" sideWeight="0.14941302" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4134199" sideWeight="0.56313777" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286638" sideWeight="0.49359658" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.006937033" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41379312" sideWeight="0.85058695" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24332978" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23788266" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4134199" sideWeight="0.43686223" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16007653" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288201" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -575,6 +496,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="- Major rewrite of annotate_bed.py (pure python3 + mongoDB)&#10;- First draft of flask backend + JS frontend" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Major rewrite of annotate_bed.py (pure python3 + mongoDB)&#10;- First draft of flask backend + JS frontend" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="2" />
@@ -582,6 +507,35 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6222">
+          <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
+          <folding>
+            <element signature="e#1224#1239#0" expanded="true" />
+            <element signature="e#9554#10963#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2176">
+          <caret line="128" column="19" lean-forward="true" selection-start-line="128" selection-start-column="19" selection-end-line="128" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/annotate_bed.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
@@ -808,7 +762,7 @@
     <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
     <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="714">
           <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
           <folding />
         </state>
@@ -816,7 +770,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/annotate_bed.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1298">
+        <state relative-caret-position="-54">
           <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
@@ -827,8 +781,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="127" column="17" lean-forward="false" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
+        <state relative-caret-position="222">
+          <caret line="118" column="30" lean-forward="true" selection-start-line="118" selection-start-column="30" selection-end-line="118" selection-end-column="30" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>

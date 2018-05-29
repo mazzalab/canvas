@@ -1,8 +1,20 @@
 <!doctype html>
 {% extends 'base.html' %}
+{% block head %}
+{{ super() }}
+<style>
+  label{
+    font-weight: normal!important;
+    font-size:90%;
+  }
+  input[type="radio"]{
+    margin: 3px 0 0;
+  }
+</style>
+
+{% endblock %}
 
 {% block title %}Results{% endblock %}
-
 {% block navbar %}
 {{ super() }}
 {% endblock %}
@@ -15,16 +27,16 @@
 </div>
 <div class= "section section-gray section-clients">
   <div>
-    <select id="locality-dropdown" name="locality"></select>
+    <select id="cnv-dropdown" name="CNVs" style="margin-left:30px;"></select>
     <script>
-        let dropdown = $('#locality-dropdown');
+        let dropdown = $('#cnv-dropdown');
 
-        dropdown.empty();
+        // dropdown.empty();
 
         dropdown.append('<option selected="true" disabled>Choose CNV</option>');
         dropdown.prop('selectedIndex', 0);
 
-        // Populate dropdown with list of provinces
+        // Populate dropdown with list of CNVs
         $.getJSON("{{ json_out }}", function (data) {
         $.each(data, function (key, entry) {
           dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+":"+entry.START+"-"+entry.END));
@@ -32,12 +44,69 @@
         });
     </script>
     <br>
-    <div class="row">
+    <div class="row" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
     {% for c in choices %}
       <div class="col-md-4">
         <div class="panel panel-info">
-          <div class="panel-heading">{{ c }}</div>
-          <div class="panel-body">Panel content</div>
+          <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">{{ c }}</div>
+          <div class="panel-body">
+            <form>
+              <div class="radio-inline">
+                <label class="form-check-label-{{c}}">
+                <input type="radio" class="form-check-input" name="{{c}}" id="inside-{{c}}" value="inside-{{c}}"
+                checked>inside
+                </label>
+              </div>
+              <div class="radio-inline">
+                <label class="form-check-label-{{c}}">
+                <input type="radio" class="form-check-input" name="{{c}}" id="cross-{{c}}" value="cross-{{c}}"
+                unchecked>cross
+                </label>
+              </div>
+              <div class="radio-inline">
+                <label class="form-check-label-{{c}}">
+                <input type="radio" class="form-check-input" name="{{c}}" id="distal-{{c}}" value="distal-{{c}}"
+                unchecked>distal
+                </label>
+              </div>
+              <div class="help-tip">
+                <p>You can select among three subsets of {{ c }}s:<br /><br />
+                  &nbsp;&nbsp;- <b>inside</b>:<br />
+                  &nbsp;&nbsp;- <b>cross</b>:<br />
+                  &nbsp;&nbsp;- <b>distal</b>:<br />
+              </p>
+              </div>
+              <select multiple class="form-control" id="sel-{{c}}"></select>
+              <script>
+                  $('#sel-{{c}}').empty();
+                  $.getJSON("{{ json_out }}", function (data) {
+                    $.each(data, function (key, entry) {
+                      console.log(entry.{{c}}_inside)
+                      var splitgenes = entry.{{c}}_inside.split(',')
+                      console.log(splitgenes)
+                      for (i = 0; i < splitgenes.length; i++) {
+                        console.log(splitgenes[i])
+                        if(splitgenes[i]!='.'){
+                          $('#sel-{{c}}').append($('<option></option>').attr('value', splitgenes[i]).text(splitgenes[i]));
+                        }
+                      }
+                      // $('#sel-{{c}}').append($('<option></option>').attr('value', entry.index).text(''));
+                    })
+                  });
+
+              </script>
+              <button type="button" id="getSelectsBtn-{{c}}">GeneCards</button>
+              <script>
+                $(document).ready(function() {
+                    $("#getSelectsBtn-{{c}}").click(function(){
+                        $.each($("#sel-{{c}} option:selected"), function(){
+                            console.log("You have selected - " + $(this).val());
+                        });
+                    });
+                });
+              </script>
+            </form>
+          </div>
         </div>
       </div>
     {% endfor %}
