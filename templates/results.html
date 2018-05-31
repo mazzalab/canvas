@@ -11,6 +11,57 @@
     margin: 3px 0 0;
   }
 </style>
+<script>
+    function readTextFile(file) {
+      var rawFile = new XMLHttpRequest();
+      rawFile.overrideMimeType("application/json");
+      rawFile.open("GET", file, true);
+      rawFile.onreadystatechange = function() {
+          if (rawFile.readyState === 4 && rawFile.status == "200") {
+              return rawFile.responseText;
+          }
+      }
+      rawFile.send(null)
+    }
+</script>
+
+<script id="json-reader">
+
+  var jsonData;
+  $.ajax({
+    dataType: "json",
+    url: "{{ json_out }}",
+    async: false,
+    success: function(data){jsonData = data}
+  });
+
+</script>
+
+<script>
+    var cnvselection=-1;
+    function updateGenes(cnvselection, jsonData) {
+      {% for c in choices %}
+        console.log("FIELD"+"{{c}}")
+      $('#sel-{{c}}').empty();
+      console.log("UPDATING "+ '#sel-{{c}}')
+      console.log("CHOICE: "+cnvselection)
+      if (cnvselection==-1){
+        console.log("no choice")
+      }else{
+        console.log("CORRECT CHOICE: ")
+        console.log(jsonData[cnvselection])
+        var splitgenes = jsonData[cnvselection].{{c}}_inside.split(',')
+          for (i = 0; i < splitgenes.length; i++) {
+            // console.log(splitgenes[i])
+            if(splitgenes[i]!='.'){
+              $('#sel-{{c}}').append($('<option></option>').attr('value', splitgenes[i]).text(splitgenes[i]));
+            }
+          }
+      }
+      {% endfor %}
+    };
+
+</script>
 
 {% endblock %}
 
@@ -25,6 +76,7 @@
         <img src="../static/img/dna2.png">
     </div>
 </div>
+
 <div class= "section section-gray section-clients">
   <div>
     <select id="cnv-dropdown" name="CNVs" style="margin-left:30px;"></select>
@@ -33,7 +85,7 @@
 
         // dropdown.empty();
 
-        dropdown.append('<option selected="true" disabled>Choose CNV</option>');
+        dropdown.append('<option selected="true" value="-1" disabled>Choose CNV</option>');
         dropdown.prop('selectedIndex', 0);
 
         // Populate dropdown with list of CNVs
@@ -42,6 +94,14 @@
           dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+":"+entry.START+"-"+entry.END));
         })
         });
+
+        document.getElementById('cnv-dropdown').addEventListener('change',function(){
+          var cnvdrop = document.getElementById("cnv-dropdown");
+          cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+          console.log("HELLOOOO "+cnvselection)
+          updateGenes(cnvselection, jsonData);
+        });
+
     </script>
     <br>
     <div class="row" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
@@ -70,37 +130,26 @@
                 </label>
               </div>
               <div class="help-tip">
-                <p>You can select among three subsets of {{ c }}s:<br /><br />
+                <p>You can select among three subsets of <b>{{ c }}</b>s:<br /><br />
                   &nbsp;&nbsp;- <b>inside</b>:<br />
                   &nbsp;&nbsp;- <b>cross</b>:<br />
                   &nbsp;&nbsp;- <b>distal</b>:<br />
               </p>
               </div>
               <select multiple class="form-control" id="sel-{{c}}"></select>
-              <script>
-                  $('#sel-{{c}}').empty();
-                  $.getJSON("{{ json_out }}", function (data) {
-                    $.each(data, function (key, entry) {
-                      console.log(entry.{{c}}_inside)
-                      var splitgenes = entry.{{c}}_inside.split(',')
-                      console.log(splitgenes)
-                      for (i = 0; i < splitgenes.length; i++) {
-                        console.log(splitgenes[i])
-                        if(splitgenes[i]!='.'){
-                          $('#sel-{{c}}').append($('<option></option>').attr('value', splitgenes[i]).text(splitgenes[i]));
-                        }
-                      }
-                      // $('#sel-{{c}}').append($('<option></option>').attr('value', entry.index).text(''));
-                    })
-                  });
+              <div>
 
-              </script>
-              <button type="button" id="getSelectsBtn-{{c}}">GeneCards</button>
+              </div>
+              <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+              style="margin-top:10px; padding: 4px 8px; border-width: 1px;">
+              <img src="../static/img/gc_small.png" /></button>
               <script>
                 $(document).ready(function() {
                     $("#getSelectsBtn-{{c}}").click(function(){
                         $.each($("#sel-{{c}} option:selected"), function(){
-                            console.log("You have selected - " + $(this).val());
+                          window.open("https://www.genecards.org/cgi-bin/carddisp.pl?gene="+$(this).val(), '_blank');
+                          window.focus();
+                          console.log("You have selected - " + $(this).val());
                         });
                     });
                 });
@@ -112,11 +161,6 @@
     {% endfor %}
     </div>
 
-      <!-- <script>
-          var mydata = JSON.parse('{{ json_out }}');
-          for (var i = 0; i < mydata.length; i++) {
-          console.log(mydata[i].PAZIENTE);}
-      </script> -->
   </div>
   <p>
     <a href="{{file_out}}" download="{{download_name}}">Download results as xlsx</a>

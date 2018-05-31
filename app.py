@@ -112,7 +112,7 @@ def working():
         setattrs(args, cnv_line=session['cnv_line'])
         setattrs(args, cnv_file=None)
 
-    session['ann_choices'] = ['gene', 'mirna', 'pseudogene', 'longNC', 'circRNA']
+    session['ann_choices'] = ['gene', 'mirna', 'pseudogene', 'longNC', 'circRNA'] #todo provvisori ovviamente
     setattrs(args, all=True, circRNA=False,
              coding_gene=False, distance=1000000, gene=False, longNC=False, mirna=False, mirbase=False,
              noncoding_gene=False, out=session['file_out'],
