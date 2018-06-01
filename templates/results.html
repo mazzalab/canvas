@@ -10,6 +10,33 @@
   input[type="radio"]{
     margin: 3px 0 0;
   }
+  .modal
+  {
+      overflow: hidden;
+  }
+  .modal-dialog{
+      margin-right: 0;
+      margin-left: 0;
+  }
+  .modal-header{
+    height:30px;background-color:#444;
+    color:#ddd;
+  }
+  .modal-title{
+    margin-top:-10px;
+    font-size:16px;
+  }
+  .modal-header .close{
+    margin-top:-10px;
+    color:#fff;
+  }
+  .modal-body{
+    color:#888;
+  }
+  .modal-body p {
+    text-align:center;
+    padding-top:10px;
+  }
 </style>
 <script>
     function readTextFile(file) {
@@ -41,28 +68,110 @@
     var cnvselection=-1;
     function updateGenes(cnvselection, jsonData) {
       {% for c in choices %}
-        console.log("FIELD"+"{{c}}")
-      $('#sel-{{c}}').empty();
-      console.log("UPDATING "+ '#sel-{{c}}')
-      console.log("CHOICE: "+cnvselection)
-      if (cnvselection==-1){
-        console.log("no choice")
-      }else{
-        console.log("CORRECT CHOICE: ")
-        console.log(jsonData[cnvselection])
-        var splitgenes = jsonData[cnvselection].{{c}}_inside.split(',')
-          for (i = 0; i < splitgenes.length; i++) {
-            // console.log(splitgenes[i])
-            if(splitgenes[i]!='.'){
-              $('#sel-{{c}}').append($('<option></option>').attr('value', splitgenes[i]).text(splitgenes[i]));
+          $('#sel-{{c}}').empty();
+          // console.log("UPDATING "+ '#sel-{{c}}')
+          // console.log("CHOICE: "+cnvselection)
+          if (cnvselection==-1){
+            console.log("no choice")
+          }else{
+            var position = 'inside';
+            var radios = document.getElementsByName("radio-{{c}}");
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    // do whatever you want with the checked radio
+                    position = radios[i].value;
+
+                    document.getElementById("radio-{{c}}-inside-label").innerHTML = 'inside ('+jsonData[cnvselection].{{c}}_inside_count+')';
+                    document.getElementById("radio-{{c}}-cross-label").innerHTML = 'cross ('+jsonData[cnvselection].{{c}}_cross_count+')';
+                    document.getElementById("radio-{{c}}-distal-label").innerHTML = 'distal ('+jsonData[cnvselection].{{c}}_distal_count+')';
+
+                    if(position == 'inside-{{c}}'){
+                      var splitgenes = jsonData[cnvselection].{{c}}_inside.split(',')
+                    }else if (position == 'cross-{{c}}') {
+                      var splitgenes = jsonData[cnvselection].{{c}}_cross.split(',')
+                    }else if (position == 'distal-{{c}}') {
+                      var splitgenes = jsonData[cnvselection].{{c}}_distal.split(',')
+                    }
+                    // only one radio can be logically checked, don't check the rest
+                    break;
+                }
             }
+            // console.log("CORRECT CHOICE: ")
+            // console.log(jsonData[cnvselection])
+
+            for (i = 0; i < splitgenes.length; i++) {
+                // console.log(splitgenes[i])
+                if ('{{c}}' == 'mirna' && splitgenes[i]){
+                  // console.log("UPDATING MIRNA WITH")
+                  // console.log(splitgenes[i])
+                  var regexp = /"ID=(.*);Alias=(.*);Name=(.*)"/gm;
+                  var match = regexp.exec(splitgenes[i])
+                  if (match){
+                    genename = match[3]
+                    geneID = match[1]
+                  }else{
+                    genename = '.'
+                    geneID = '0'
+                  }
+
+                }else{
+                  genename = splitgenes[i]
+                }
+                if(genename!='.'){
+                  if ('{{c}}' == 'mirna' && geneID){
+                    $('#sel-{{c}}').append($('<option></option>').attr('value', geneID).text(genename));
+                  }else{
+                    $('#sel-{{c}}').append($('<option></option>').attr('value', genename).text(genename));
+                  }
+                }
+              }
           }
-      }
       {% endfor %}
     };
 
 </script>
 
+<script>
+  $(document).on("click", ".open-AddBookDialog", function () {
+    $(".modal-dialog").draggable({
+      handle: ".modal-header"
+    });
+    $('.modal-content').resizable({
+      // alsoResize: ".modal-dialog",
+      // alsoResize: "#modal-sel",
+      minHeight: 400,
+      minWidth: 300
+    });
+    $('#myModal').on('show.bs.modal', function () {
+        $(this).find('.modal-body').css({
+            'max-height':'100%'
+        });
+    });
+        var category = $(this).data('category');
+        var position = 'inside-gene';
+        var radios = document.getElementsByName("radio-"+category);
+        for (var i = 0, length = radios.length; i < length; i++) {
+           if (radios[i].checked) {
+               // do whatever you want with the checked radio
+                position = radios[i].value;
+                break;
+            };
+        };
+        document.getElementById("modal-title").innerHTML = category + ' - ' + position.split('-')[0];
+        function updateModal(){
+          var modaldata = document.getElementById("sel-"+category).innerHTML;
+          document.getElementById("modal-sel").innerHTML = modaldata
+        }
+        console.log(category)
+        console.log(position)
+        updateModal()
+       // $(".modal-body #bookId").val( myBookId );
+
+       // As pointed out in comments,
+       // it is superfluous to have to manually call the modal.
+       // $('#addBookDialog').modal('show');
+  });
+</script>
 {% endblock %}
 
 {% block title %}Results{% endblock %}
@@ -76,33 +185,44 @@
         <img src="../static/img/dna2.png">
     </div>
 </div>
-
-<div class= "section section-gray section-clients">
+<div class= "section section-gray section-clients" style="padding-top:10px">
   <div>
-    <select id="cnv-dropdown" name="CNVs" style="margin-left:30px;"></select>
-    <script>
-        let dropdown = $('#cnv-dropdown');
+      <h2 style="margin-left:30px; margin-bottom: 40px; color: #307ba0;">Results</h2>
+    <div style="display:-webkit-box; margin-left: 30px;">
+        <div style="display: -webkit-inline-box; vertical-align: -webkit-baseline-middle;">
 
-        // dropdown.empty();
+        <select data-style="btn-new" id="cnv-dropdown" name="CNVs"></select>
+        <script>
+            let dropdown = $('#cnv-dropdown');
 
-        dropdown.append('<option selected="true" value="-1" disabled>Choose CNV</option>');
-        dropdown.prop('selectedIndex', 0);
+            // dropdown.empty();
 
-        // Populate dropdown with list of CNVs
-        $.getJSON("{{ json_out }}", function (data) {
-        $.each(data, function (key, entry) {
-          dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+":"+entry.START+"-"+entry.END));
-        })
-        });
+            dropdown.append('<option selected="true" value="-1" disabled>Choose CNV</option>');
+            dropdown.prop('selectedIndex', 0);
 
-        document.getElementById('cnv-dropdown').addEventListener('change',function(){
-          var cnvdrop = document.getElementById("cnv-dropdown");
-          cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
-          console.log("HELLOOOO "+cnvselection)
-          updateGenes(cnvselection, jsonData);
-        });
+            // Populate dropdown with list of CNVs
+            $.getJSON("{{ json_out }}", function (data) {
+            $.each(data, function (key, entry) {
+              dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+": "+entry.START+" - "+entry.END));
+            })
+            });
 
-    </script>
+            document.getElementById('cnv-dropdown').addEventListener('change',function(){
+              var cnvdrop = document.getElementById("cnv-dropdown");
+              cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+              updateGenes(cnvselection, jsonData);
+            });
+        </script>
+        </div>
+        <span style="vertical-align:-webkit-baseline-middle; margin-left:20px;">
+          or download results as an &nbsp
+          <a class="btn btn-success btn-lg active" href="{{file_out}}" download="{{download_name}}"
+          style="margin-left: 10px; font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #16821f; color: #ffffff;border-color: #34aa3a;"
+          role="button" aria-pressed="true">
+          Excel File</a>
+        </span>
+    </div>
+
     <br>
     <div class="row" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
     {% for c in choices %}
@@ -113,20 +233,20 @@
             <form>
               <div class="radio-inline">
                 <label class="form-check-label-{{c}}">
-                <input type="radio" class="form-check-input" name="{{c}}" id="inside-{{c}}" value="inside-{{c}}"
-                checked>inside
+                <input type="radio" class="form-check-input" name="radio-{{c}}" id="inside-{{c}}" value="inside-{{c}}"
+                checked><span id="radio-{{c}}-inside-label">inside (0)</span>
                 </label>
               </div>
               <div class="radio-inline">
                 <label class="form-check-label-{{c}}">
-                <input type="radio" class="form-check-input" name="{{c}}" id="cross-{{c}}" value="cross-{{c}}"
-                unchecked>cross
+                <input type="radio" class="form-check-input" name="radio-{{c}}" id="cross-{{c}}" value="cross-{{c}}"
+                unchecked><span id="radio-{{c}}-cross-label">cross (0)</span>
                 </label>
               </div>
               <div class="radio-inline">
                 <label class="form-check-label-{{c}}">
-                <input type="radio" class="form-check-input" name="{{c}}" id="distal-{{c}}" value="distal-{{c}}"
-                unchecked>distal
+                <input type="radio" class="form-check-input" name="radio-{{c}}" id="distal-{{c}}" value="distal-{{c}}"
+                unchecked><span id="radio-{{c}}-distal-label">distal (0)</span>
                 </label>
               </div>
               <div class="help-tip">
@@ -136,34 +256,111 @@
                   &nbsp;&nbsp;- <b>distal</b>:<br />
               </p>
               </div>
+
               <select multiple class="form-control" id="sel-{{c}}"></select>
               <div>
 
               </div>
-              <button class="btn" type="button" id="getSelectsBtn-{{c}}"
-              style="margin-top:10px; padding: 4px 8px; border-width: 1px;">
-              <img src="../static/img/gc_small.png" /></button>
-              <script>
-                $(document).ready(function() {
-                    $("#getSelectsBtn-{{c}}").click(function(){
-                        $.each($("#sel-{{c}} option:selected"), function(){
-                          window.open("https://www.genecards.org/cgi-bin/carddisp.pl?gene="+$(this).val(), '_blank');
-                          window.focus();
-                          console.log("You have selected - " + $(this).val());
+              {% if c == 'gene' %}
+                  <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                  style="margin-top:10px; padding: 4px 8px; border-width: 1px;">
+                  <img src="../static/img/gc_small.png" style="max-width:100%" /></button>
+                  <script>
+                    $(document).ready(function() {
+                        $("#getSelectsBtn-{{c}}").click(function(){
+                            $.each($("#sel-{{c}} option:selected"), function(){
+                              window.open("https://www.genecards.org/cgi-bin/carddisp.pl?gene="+$(this).val(), '_blank');
+                              // window.focus();
+                              console.log("You have selected - " + $(this).val());
+                            });
                         });
                     });
-                });
-              </script>
+                  </script>
+              {% endif %}
+
+              {% if c == 'mirna' %}
+                  <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                  style="margin-top:10px; padding: 8px 8px; font-size:95%; font-weight: bold; color:#d60000; border-width: 1px;">miRBase
+                  </button>
+                  <script>
+                    $(document).ready(function() {
+                        $("#getSelectsBtn-{{c}}").click(function(){
+                            $.each($("#sel-{{c}} option:selected"), function(){
+                              window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val(), '_blank');
+                              // window.focus();
+                              console.log("You have selected - " + $(this).val());
+                            });
+                        });
+                    });
+                  </script>
+              {% endif %}
+
+              {% if c == 'pseudogene' %}
+                  <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                  style="margin-top:10px;     padding: 5px 8px 9px 8px; border-width: 1px;">
+                  <img src="../static/img/ensembl_small.png" style="max-width:100%" /></button>
+                  <script>
+                    $(document).ready(function() {
+                        $("#getSelectsBtn-{{c}}").click(function(){
+                            $.each($("#sel-{{c}} option:selected"), function(){
+                              window.open("https://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;t="+$(this).val(), '_blank');
+                              // window.focus();
+                              console.log("You have selected - " + $(this).val());
+                            });
+                        });
+                    });
+                  </script>
+              {% endif %}
+              <a href="#myModal" data-toggle="modal" data-category="{{c}}" data-position="" data-backdrop="false" title="Add this item" class="open-AddBookDialog btn btn-primary">test</a>
+
             </form>
           </div>
         </div>
       </div>
     {% endfor %}
+    <script>
+        var cnvdrop = document.getElementById("cnv-dropdown");
+        cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+        {% for c in choices %}
+        var radios = document.getElementsByName("radio-{{c}}");
+        var prev = null;
+        for(var i = 0; i < radios.length; i++) {
+            radios[i].onclick = function() {
+                updateGenes(cnvselection, jsonData)
+            };
+        }
+        {% endfor %}
+    </script>
     </div>
 
   </div>
-  <p>
-    <a href="{{file_out}}" download="{{download_name}}">Download results as xlsx</a>
-  </p>
+
 </div>
+<!-- Trigger/Open The Modal -->
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="min-height:400px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title" id="modal-title" style="text-transform:capitalize">Title</h4>
+
+            </div>
+            <div class="modal-body" style="height:calc(100% - 60px); ">
+              <select multiple class="form-control" id="modal-sel" style="size:30;     min-height: calc(100% - 25px);height:calc(100% - 25px);"></select>
+            </div>
+            <!-- <div class="modal-footer"> -->
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="loadpage" type="button" class="btn btn-primary">Save</button> -->
+            <!-- </div> -->
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<script>
+
+</script>
 {% endblock %}

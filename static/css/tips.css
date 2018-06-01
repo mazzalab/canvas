@@ -1,8 +1,9 @@
 .help-tip{
+
   display: inline-block;
-  position: absolute;
-  top: 54px;
-  left: 230px;
+  position: relative;
+  top: -10px;
+  left: 2px;
   text-align: center;
   background-color: #BCDBEA;
   border-radius: 50%;
