@@ -62,8 +62,9 @@ a:focus, a:active {
   outline: 0;
 }
 
-#line_input{
-  margin-left: 10px;
+input{
+  padding-left: 5px;
+  margin-left: 8px;
 }
 
 select {
@@ -82,6 +83,96 @@ select[multiple], select[size] {
     height: 125px;
 }
 
+.modal
+{
+    overflow: hidden;
+}
+.modal-dialog{
+    position: absolute;
+    top: 10px;
+    right: 100px;
+    margin-right: 0;
+    margin-left: 0;
+}
+.modal-header{
+  height:30px;background-color:#444;
+  color:#ddd;
+}
+.modal-title{
+  margin-top:-10px;
+  font-size:16px;
+}
+.modal-header .close{
+  margin-top:-10px;
+  color:#fff;
+}
+.modal-body{
+  color:#888;
+}
+.modal-body p {
+  text-align:center;
+  padding-top:10px;
+}
+.new-win {
+  position: absolute;
+      bottom: 0px;
+      right: 0px;
+}
+
+.input-panel-heading{
+  background: -webkit-linear-gradient(50deg,#004d73,#8fe3ff)!important;
+    background: -o-linear-gradient(50deg,#004d73,#8fe3ff)!important;
+    background: linear-gradient(40deg,#004d73,#8fe3ff)!important;
+}
+
+.reference-panel-heading{
+  background: -webkit-linear-gradient(50deg,#ce5500,#ffeb8a)!important;
+    background: -o-linear-gradient(50deg,#ce5500,#ffeb8a)!important;
+    background: linear-gradient(40deg,#ce5500,#ffeb8a)!important;
+}
+
+.annotation-panel-heading{
+  text-align: right;
+  background: -webkit-linear-gradient(50deg,#a1ffa4,#006f04)!important;
+    background: -o-linear-gradient(50deg,#a1ffa4,#006f04)!important;
+    background: linear-gradient(40deg,#a1ffa4,#006f04)!important;
+    border-color: #1d8a00;
+}
+
+#annot{
+  list-style-type: none;
+  margin-left: -30px;
+}
+
+#annot li label{
+  font-weight: normal;
+  vertical-align: top;
+}
+
+#genes{
+  list-style-type: none;
+  margin-left: -30px;
+}
+
+#genes li label{
+  font-weight: normal;
+  vertical-align: top;
+}
+
+#hgform{
+  text-align: center;
+}
+.submit-button{
+    -webkit-box-shadow: 0 0 10px #ff7660;
+    box-shadow: 0 0 10px #ff7660;
+    border-radius: 10em;
+    background-color: #ffffff!important;
+    color: #d60000!important;
+    font-size: 120%;
+    padding: 10px 20px;
+    font-weight: bold;
+    /* float: right; */
+}
 option {
   -webkit-appearance: none;
 -moz-appearance: none;
@@ -104,7 +195,15 @@ padding: 5px;
 }
 
 .panel-info {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
     border-color: #307ba0;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.panel-body {
+  padding: 17px 25px;
 }
 
 .navbar {
@@ -706,7 +805,7 @@ vertical-align: middle;
   left: auto;
 }
 .landing-page .section-clients {
-  padding: 60px 0;
+  padding: 40px 0;
 }
 .landing-page .section-clients .info .icon {
   background: transparent;
@@ -856,7 +955,7 @@ vertical-align: middle;
 
 .landing-page .parallax {
   width: 100%;
-  height: 480px;
+  height: 435px;
   overflow: hidden;
   display: block;
   background-size: 100%;
@@ -1200,6 +1299,22 @@ vertical-align: middle;
 }
 
 @media (max-width: 767px){
+
+  .container {
+    width:320px;
+  }
+  #annot-panel{
+    width:295px;
+  }
+  #annot-panel-container{
+    padding-left: 0px;
+  }
+  #bed-checklist{
+    width: auto!important;
+  }
+  #genelist-checklist{
+    width:auto!important;
+  }
   .nav > li{
     text-align: center;
   }
@@ -1283,13 +1398,70 @@ vertical-align: middle;
     }
 }
 
+@media (max-width:768px){
+    #submit-field{
+      margin-left: -27px;
+    }
+}
 
 @media (max-width: 992px){
   .section-demo {
     text-align: center;
   }
+  #hg-panel{
+    height: auto;
+  }
+
 }
 
+@media (min-width: 768px){
+    #fileupload{
+      display:block;
+    }
+    #hg-panel{
+      height: 105px;
+    }
+    #annot-panel{
+      height:497px;
+    }
+
+    #genes li {
+      margin-left: 5px;
+      display: flex;
+    }
+    #annot li {
+      margin-left: 5px;
+      display: flex;
+    }
+
+    #annot li label {
+      margin-left: 5px!important;
+    }
+
+    #genes li label {
+      margin-left: 5px!important;
+    }
+}
+
+@media (min-width: 992px){
+    #fileupload{
+      display:-webkit-box;
+    }
+    #annot-panel{
+      height:auto;
+    }
+    #genes li {
+      display: auto;
+    }
+    #annot li {
+      display: auto;
+    }
+    #hg-panel {
+      height: 101px;
+    }
+
+
+}
 
 
 .fixed-plugin{

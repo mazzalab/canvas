@@ -4,8 +4,9 @@ from flask import Flask, render_template, request, redirect, flash, send_from_di
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField, FileRequired
 from werkzeug.utils import secure_filename
-from wtforms import StringField, SubmitField, FileField, RadioField
-from wtforms.validators import DataRequired, Length
+from wtforms import StringField, SubmitField, FileField, RadioField, SelectMultipleField
+from wtforms.widgets import ListWidget, CheckboxInput
+from wtforms.validators import DataRequired, Length, Required
 from flask import url_for
 from flask_bootstrap import Bootstrap
 from multiprocessing.pool import ThreadPool
@@ -20,6 +21,16 @@ finished = False
 
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ANNOT_CHOICES = [('all_beds','All'), ('circRNA','circRNA'), ('genes', 'Genes'),('coding_gene','Coding genes'),
+                 ('longNC','Long non-coding'), ('mirna','miRNA'), ('mirbase','mirBase'),
+                 ('noncoding_gene','Non-coding genes'),('pseudogene','Pseudogenes')]
+
+GENELISTS = [('all_genes','All'), ('ASD', 'ASD'), ('ID_a', 'ID a'), ('ID_b','ID b'), ('dosage_sensitive', 'Dosage sensitive'),
+             ('epilessia', 'Epilepsy'), ('malformazioni', 'Malformations'), ('mendeliome', 'Mendeliome'),
+             ('onologhi', 'Onologs'), ('pubmed_autism_09-02-2018', 'PubMed Autism'),
+             ('pubmed_brain_malformations_09-02-2018', 'PubMed Brain Malformations'),
+             ('pubmed_epilepsy_or_seizures_09-02-2018', 'PubMed Epilepsy'),
+             ('pubmed_intellectual_disability_09-02-2018', 'PubMed Intellectual Disability')]
 
 app.config['SECRET_KEY'] = 'AGATTAcanvas2018'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -55,13 +66,21 @@ def setattrs(_self, **kwargs):
     for k,v in kwargs.items():
         setattr(_self, k, v)
         
-        
+class MultiCheckboxField(SelectMultipleField):
+    widget = ListWidget(prefix_label=False)
+    option_widget = CheckboxInput()
+    
 class MainForm(FlaskForm):
     line_input = StringField(u'CNV string ', validators=[Length(max=50)])
     upload = FileField('Input file', validators=[
         FileAllowed(['txt', 'csv', 'cnv'], 'Text only!')
     ])
+    window = StringField(u'Window (bp):', validators=[Length(max=15)], default='1000000')
+    annot = MultiCheckboxField('Label', choices=ANNOT_CHOICES)
+    genes = MultiCheckboxField('Label', choices=GENELISTS)
     submit = SubmitField("Submit")
+
+
 
 # class FileForm(FlaskForm):
 #     filein = FileField("Input file", validators=[DataRequired()])

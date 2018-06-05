@@ -46,7 +46,6 @@ class MainApp:
     def __init__(self, args):
 
         self.args = args
-
         self.connection = MongoClient('localhost', 27017, unicode_decode_error_handler='ignore')
     
         self.db = self.connection['BED']
@@ -115,6 +114,12 @@ class MainApp:
         
         cnv_coords = pd.read_table(cnv_file, encoding='cp1252', sep='\t')
         cnv_coords.columns = map(str.upper, cnv_coords.columns)
+        if not (hasattr(cnv_coords, 'START')):
+            raise NameError("The input file does not contain the required 'Start' field.")
+        if not (hasattr(cnv_coords, 'END')):
+            raise NameError("The input file does not contain the required 'End' field.")
+        if not (hasattr(cnv_coords, 'CHR')):
+            raise NameError("The input file does not contain the required 'Chr' field.")
         cnv_coords = cnv_coords[
             cnv_coords.START.notnull() & cnv_coords.END.notnull() & cnv_coords.CHR.notnull()]
         

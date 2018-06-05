@@ -10,33 +10,6 @@
   input[type="radio"]{
     margin: 3px 0 0;
   }
-  .modal
-  {
-      overflow: hidden;
-  }
-  .modal-dialog{
-      margin-right: 0;
-      margin-left: 0;
-  }
-  .modal-header{
-    height:30px;background-color:#444;
-    color:#ddd;
-  }
-  .modal-title{
-    margin-top:-10px;
-    font-size:16px;
-  }
-  .modal-header .close{
-    margin-top:-10px;
-    color:#fff;
-  }
-  .modal-body{
-    color:#888;
-  }
-  .modal-body p {
-    text-align:center;
-    padding-top:10px;
-  }
 </style>
 <script>
     function readTextFile(file) {
@@ -64,6 +37,32 @@
 
 </script>
 
+<script type ="text/javascript">
+  $(document).on("click", "#loadpage", function () {
+      var values = $('#modal-sel').val();
+
+      // set fso = CreateObject("Scripting.FileSystemObject");
+      // set s = fso.CreateTextFile("\test.txt", True);
+      console.log("downloading")
+      console.log(values)
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(values.join("\n")));
+      element.setAttribute('download', "selected_genes.txt");
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+      // for (i=0; i< )
+      // s.writeline(document.passForm.input1.value);
+      // s.writeline(document.passForm.input2.value);
+      // s.writeline(document.passForm.input3.value);
+      // s.Close();
+    });
+</script>
+
 <script>
     var cnvselection=-1;
     function updateGenes(cnvselection, jsonData) {
@@ -74,6 +73,7 @@
           if (cnvselection==-1){
             console.log("no choice")
           }else{
+            enableWin("{{c}}")
             var position = 'inside';
             var radios = document.getElementsByName("radio-{{c}}");
             for (var i = 0, length = radios.length; i < length; i++) {
@@ -139,7 +139,7 @@
     $('.modal-content').resizable({
       // alsoResize: ".modal-dialog",
       // alsoResize: "#modal-sel",
-      minHeight: 400,
+      // minHeight: 400,
       minWidth: 300
     });
     $('#myModal').on('show.bs.modal', function () {
@@ -171,6 +171,16 @@
        // it is superfluous to have to manually call the modal.
        // $('#addBookDialog').modal('show');
   });
+</script>
+
+<script>
+    function enableWin(category) {
+        document.getElementById("modal-link-"+category).disabled = false;
+    }
+
+    function disableWin(category) {
+        document.getElementById("modal-link-"+category).disabled = true;
+    }
 </script>
 {% endblock %}
 
@@ -261,9 +271,11 @@
               <div>
 
               </div>
+              <div style="position:relative; margin-top:10px; min-height: 30px;">
+
               {% if c == 'gene' %}
                   <button class="btn" type="button" id="getSelectsBtn-{{c}}"
-                  style="margin-top:10px; padding: 4px 8px; border-width: 1px;">
+                  style="padding: 4px 8px; border-width: 1px;">
                   <img src="../static/img/gc_small.png" style="max-width:100%" /></button>
                   <script>
                     $(document).ready(function() {
@@ -280,7 +292,7 @@
 
               {% if c == 'mirna' %}
                   <button class="btn" type="button" id="getSelectsBtn-{{c}}"
-                  style="margin-top:10px; padding: 8px 8px; font-size:95%; font-weight: bold; color:#d60000; border-width: 1px;">miRBase
+                  style="padding: 8px 8px; font-size:95%; font-weight: bold; color:#d60000; border-width: 1px;">miRBase
                   </button>
                   <script>
                     $(document).ready(function() {
@@ -297,7 +309,7 @@
 
               {% if c == 'pseudogene' %}
                   <button class="btn" type="button" id="getSelectsBtn-{{c}}"
-                  style="margin-top:10px;     padding: 5px 8px 9px 8px; border-width: 1px;">
+                  style="padding: 5px 8px 9px 8px; border-width: 1px;">
                   <img src="../static/img/ensembl_small.png" style="max-width:100%" /></button>
                   <script>
                     $(document).ready(function() {
@@ -311,8 +323,13 @@
                     });
                   </script>
               {% endif %}
-              <a href="#myModal" data-toggle="modal" data-category="{{c}}" data-position="" data-backdrop="false" title="Add this item" class="open-AddBookDialog btn btn-primary">test</a>
-
+              <a id="modal-link-{{c}}" href="#myModal" data-toggle="modal" data-category="{{c}}" data-position=""
+              data-backdrop="false" title="Add this item" class="open-AddBookDialog new-win">
+              <img src="../static/img/newwin.png"></a>
+              <script>
+                disableWin("{{c}}")
+              </script>
+            </div>
             </form>
           </div>
         </div>
@@ -341,26 +358,25 @@
 
 <div id="myModal" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content" style="min-height:400px">
+        <div class="modal-content" style="min-height:400px; max-width:300px">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                  <h4 class="modal-title" id="modal-title" style="text-transform:capitalize">Title</h4>
 
             </div>
-            <div class="modal-body" style="height:calc(100% - 60px); ">
-              <select multiple class="form-control" id="modal-sel" style="size:30;     min-height: calc(100% - 25px);height:calc(100% - 25px);"></select>
+            <div class="modal-body" style="height:calc(100% - 100px);">
+              <select multiple class="form-control" id="modal-sel"
+                style=" min-height: calc(100% - 25px); height:280px"></select>
             </div>
-            <!-- <div class="modal-footer"> -->
-                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button id="loadpage" type="button" class="btn btn-primary">Save</button> -->
-            <!-- </div> -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="loadpage" type="button" class="btn btn-primary">Download selected</button>
+            </div>
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-<script>
 
-</script>
 {% endblock %}

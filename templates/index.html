@@ -13,9 +13,24 @@
     <link href="../static/css/bootstrap.css" rel="stylesheet" />
     <link href="../static/css/landing-page.css" rel="stylesheet"/>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="../static/css/landing-page.css" rel="stylesheet"/>
+		<link href="../static/css/tips.css" rel="stylesheet"/>
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   {% endblock %}
 	<script type="text/javascript">
 		onload=function(){document.forms['mainform'].reset()}
+	</script>
+
+	<script>
+		submitForms = function(){
+				document.getElementById("mainform").submit();
+				document.getElementById("hg-form").submit();
+				document.getElementById("annot-form").submit();
+		}
 	</script>
 </head>
 
@@ -37,7 +52,7 @@
                             <!-- you logо img -->
                         </div>
                         <div class="brand">
-                         CANVAS
+                         InCAS
                         </div>
                     </div>
               </a>
@@ -87,14 +102,13 @@
                         <img src="img/landing-page-1/iphone.png"/>
                     </div>
                 </div> -->
-                <div class="col-sm-6 col-xs-offset-1" style="width:100%;">
+                <div class="col-sm-6 col-xs-offset-1" style="width:100%; margin-left:0px">
                     <div class="description">
-                        <h2>Welcome to CANVAS</h2>
+                        <h2>Welcome to InCAS</h2>
                         <br>
                         <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus, quam eget
 													malesuada aliquet, tellus tellus vestibulum nisl, eget elementum dui sapien commodo ligula.
-													Duis vitae mi quis metus vestibulum finibus. Aliquam at lacus metus. Pellentesque lacinia
-													sodales neque, nec faucibus dui scelerisque et. </h5>
+													Duis vitae mi quis metus vestibulum finibus.</h5>
                     </div>
                     <div class="buttons">
                         <a href="http://codedesign.elkind.net/themes/bootstrap-theme-basic-app/">
@@ -110,35 +124,120 @@
 
     <div class="section section-gray section-clients">
         <div class="container">
-				<form id="mainform" name="mainform" method="post" enctype="multipart/form-data">
-					{{ form.csrf_token }}
-					<div class="radio">
-						<label>
-					  <input id="radio1" name="radio1" onclick="document.getElementById('line_input').disabled = false;
-						document.getElementById('radio2').checked = false;
-						document.getElementById('upload').disabled = true;"
-						type="radio" checked="checked"> Single CNV annotation
-					  </label>
+					<div class="row">
+						<div class="col-md-6 col-sm-6" style="width:42%">
+							<div class="row">
+									<div id="input-panel" class="panel panel-info" style="min-width: 295px; border-radius: 10px;">
+					          <div class="panel-heading input-panel-heading"
+											style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 10px; border-color: #307ba0">Input</div>
+					          	<div class="panel-body">
+												<form id="mainform" name="mainform" method="post" enctype="multipart/form-data">
+													{{ form.csrf_token }}
+													<div class="radio">
+														<label>
+													  <input id="radio1" name="radio1" onclick="document.getElementById('line_input').disabled = false;
+														document.getElementById('radio2').checked = false;
+														document.getElementById('upload').disabled = true;"
+														type="radio" checked="checked"> Single CNV annotation
+													  </label>
+													</div>
+													<div style="margin-left:20px">
+											    	{{ form.line_input.label }}:{{ form.line_input(placeholder='E.g.: chr1:12345-23456') }}
+													</div>
+													<div class="radio">
+														<label style="margin-top: 25px;">
+													  <input id="radio2" name="radio2" onclick="document.getElementById('line_input').disabled = true;
+														document.getElementById('radio1').checked = false;
+														document.getElementById('upload').disabled = false;"
+														type="radio"> Batch annotation from file
+													  </label>
+													</div>
+													<div id="fileupload" style="margin-left:20px;">
+															{{ form.upload.label }}: {{ form.upload(disabled=True) }}
+													</div>
+													<div style="margin-top: 35px;">
+															<span style="color: #006da0; font-weight:bold">Window (bp): </span>{{ form.window(size=6) }}
+													</div>
+													<br>
+													<!-- <input type="submit" value="SUBMIT" class="submit-button"> -->
+
+												</form>
+											</div>
+										</div>
+										<div id="hg-panel" class="panel panel-info" style="min-width: 295px; border-radius: 10px;">
+											<div class="panel-heading reference-panel-heading"
+												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 10px; border-color: #307ba0">Reference</div>
+												<div class="panel-body">
+													<form id="hgform" name="hgform" method="post" enctype="multipart/form-data">
+														{{ form.csrf_token }}
+														<div class="radio-inline">
+							                <label>
+							                <input type="radio" class="form-check-input" name="radio-hg18" id="radio-hg18"
+															value="hg18" unchecked
+															onclick="document.getElementById('radio-hg19').checked = false;
+															document.getElementById('radio-hg38').checked = false;">
+															<span id="span-hg18">hg18</span>
+							                </label>
+							              </div>
+														<div class="radio-inline">
+							                <label>
+							                <input type="radio" class="form-check-input" name="radio-hg19" id="radio-hg19"
+															value="hg19" checked
+															onclick="document.getElementById('radio-hg18').checked = false;
+															document.getElementById('radio-hg38').checked = false;">
+															<span id="span-hg19">hg19</span>
+							                </label>
+							              </div>
+														<div class="radio-inline">
+							                <label>
+							                <input type="radio" class="form-check-input" name="radio-hg38" id="radio-hg38"
+															value="hg38" unchecked
+															onclick="document.getElementById('radio-hg18').checked = false;
+															document.getElementById('radio-hg19').checked = false;">
+															<span id="span-hg38">hg38</span>
+							                </label>
+							              </div>
+													</form>
+												</div>
+											</div>
+								</div>
+
+						</div>
+
+
+						<div class="col-md-6 col-sm-6" style="width:58%" id="annot-panel-container">
+								<div id="annot-panel" class="panel panel-info" style="min-width: 295px; border-radius: 10px; border-color: #1d8a00;">
+									<div class="panel-heading annotation-panel-heading"
+										style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 8px; border-color: #307ba0">
+										Annotation</div>
+										<div class="panel-body">
+											<form id="annot-form" name="annotform" method="post" enctype="multipart/form-data">
+												{{ form.csrf_token }}
+												<div class="row">
+													<div id="bed-checklist" class="col-sm-6" style="width:45%">
+														<label>BED</label>
+														{{ form.annot }}
+													</div>
+													<div id="genelist-checklist" class="col-sm-6" style="width:55%">
+														<label>Gene Lists</label>
+														{{ form.genes }}
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+						</div>
+					</div>
+					<div style="text-align: center;" id="submit-field">
+						<input type="submit" value="SUBMIT" class="submit-button" onclick="submitForms()">
 					</div>
 
-					    {{ form.line_input.label }}:{{ form.line_input(placeholder='E.g.: chr1:12345-23456') }}
-
-					<div class="radio">
-						<label>
-					  <input id="radio2" name="radio2" onclick="document.getElementById('line_input').disabled = true;
-						document.getElementById('radio1').checked = false;
-						document.getElementById('upload').disabled = false;"
-						type="radio"> Batch annotation from file
-					  </label>
-					</div>
-							{{ form.upload.label }}: {{ form.upload(disabled=True) }}
-					<br>
-					<input type="submit" value="Submit">
-
-				</form>
-        </div>
+      </div>
     </div>
 
+		<script>
+			document.getElementById("cnv-dropdown");
+		</script>
     <div class="section section-presentation">
         <div class="container">
             <div class="row">
@@ -346,7 +445,6 @@
 
             if (responsive >= 768){
                 big_image = $('.parallax-background').find('img');
-                console.log(big_image);
                 $(window).on('scroll',function(){
                     parallax();
                 });
@@ -400,5 +498,39 @@ Change UA-XXXXXXX-X to be your site's ID
     ga('send', 'pageview');
 
 </script>
+
+
+<script>
+		$('#genes-0:checkbox').change(function ()  {
+				console.log("Changed!")
+				var boxes = document.getElementsByName("genes");
+				for (var i = 1, length = boxes.length; i < length; i++){
+					console.log(boxes[i].id)
+					boxes[i].checked = boxes[0].checked;
+				}
+				// if($(this).attr("checked")) $('input:checkbox').attr('checked','checked');
+				// else $('input:checkbox').removeAttr('checked');
+		});
+
+		$('#genes-0:checkbox').checked = true;
+
+</script>
+
+
+<script>
+		$('#annot-0:checkbox').change(function ()  {
+				console.log("Changed!")
+				var boxes = document.getElementsByName("annot");
+				for (var i = 1, length = boxes.length; i < length; i++){
+					console.log(boxes[i].id)
+					boxes[i].checked = boxes[0].checked;
+				}
+				// if($(this).attr("checked")) $('input:checkbox').attr('checked','checked');
+				// else $('input:checkbox').removeAttr('checked');
+		});
+</script>
+
+
+
 
 </html>
