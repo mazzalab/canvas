@@ -52,15 +52,20 @@ class MainApp:
         self.db_gl = self.connection['genelists']
         self.db_t = self.connection['targets']
         self.d = vars(self.args)
+        print(self.d)
         
     def process(self):
         
         for arg in self.d:
             
-            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all'] and \
-                    (self.d[arg] or self.d['all']) and not arg.startswith('__'):
+            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists'] and \
+                    (self.d[arg] or self.d['all_beds']) and not arg.startswith('__'):
                 print("Checking presence of {}...".format(arg))
-                if not arg in self.db.collection_names():
+                
+                # Checking presence of required genelists and BEDs....
+                if 'genelist' in arg and not arg.replace('_genelist', '') in self.db_gl.collection_names():
+                    sys.exit("The collection {} could not be found in the genelists db. Exiting.".format(arg))
+                if not 'genelist' in arg and not arg in self.db.collection_names():
                     sys.exit("The collection {} could not be found in the BED db. Exiting.".format(arg))
 
                 if arg == 'mirbase':
@@ -68,10 +73,10 @@ class MainApp:
                                     'targetscan' in self.db_t.collection_names()):
                         sys.exit("Need tarbase and/or targetscan collection in targets db to annotate mirna. "
                                  "Exiting.")
-                    if not self.d['mirna'] and not self.d['all']:
+                    if not self.d['mirna'] and not self.d['all_beds']:
                         sys.exit('The --mirbase option depends on the prior execution of --mirna. '
                                  'Please include this option as well.')
-        
+                        
         sys.stdout.write("Requested DBs are present. Proceeding to annotate...\n")
         if self.args.cnv_file:
             if os.path.exists(self.args.cnv_file):
@@ -85,7 +90,8 @@ class MainApp:
 
         # Annotation based on the options that were chosen
         for arg in self.d:
-            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all'] and (self.d[arg] or self.d['all']) and not arg.startswith('__'):
+            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists'] and \
+                    (self.d[arg] or self.d['all_beds']) and not arg.startswith('__') and not 'genelist' in arg:
                 print("Adding annotation for", arg)
                 if arg != 'mirbase':
                     self.add_annotation(arg)
@@ -93,11 +99,13 @@ class MainApp:
                     for target_db in self.db_t.collection_names():
                         self.add_mirna_target(target=target_db, unique=True)
         
-        # Geneslist annotation
-        print("Adding genelists annotations...")
-        if self.d['gene'] or self.d['all']:
+        # Genelists annotation
+        print("Adding genelists classifications...")
+        if self.d['gene'] or self.d['all_genelists']:
             for name in sorted(self.db_gl.collection_names()):
-                self.add_meta_gene(name)
+                if self.d[name+'_genelist'] or self.d['all_genelists']:
+                    print("Adding {} gene classification...".format(name))
+                    self.add_meta_gene(name)
         else:
             sys.stderr.write("WARNING: Could not add genelists annotation since --gene option was not included.\n")
         
@@ -188,10 +196,12 @@ class MainApp:
             distal_molecule = db.find(
                 {"$or": [
                     {"$and": [
-                        {"chr": chrom}, {"start": {"$gt": end}}, {"start": {"$lt": distance_from_gene+end}}
+                        {"chr": chrom}, {"start": {"$gt": end}}, {"start": {"$lt": distance_from_gene+end}},
+                        {"end": {"$lt": distance_from_gene + end}}, {"end": {"$gt": end}}
                     ]},
                     {"$and": [
-                        {"chr": chrom}, {"end": {"$lt": start}}, {"end": {"$gt": start-distance_from_gene}}
+                        {"chr": chrom}, {"end": {"$lt": start}}, {"end": {"$gt": start-distance_from_gene}},
+                        {"start": {"$gt": start - distance_from_gene}}, {"start": {"$lt": start}}
                     ]}
                 ]}
             ).distinct('info')
@@ -402,9 +412,9 @@ def write_file(cnv_infolist: DataFrame, out_filename: str):
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("--cnv_file", help="CNV file to be annotated")
+    parser.add_argument("--cnv-file", help="CNV file to be annotated")
     parser.add_argument("--out", required=True, help="Annotated file")
-    parser.add_argument("--cnv_line", help="Single CNV to be annotated (E.g.: 'chr1:11110-11150'")
+    parser.add_argument("--cnv-line", help="Single CNV to be annotated (E.g.: 'chr1:11110-11150'")
     parser.add_argument("--gene", action='store_true', required=False,
                         help="BED file of all RefSeq genes")
     parser.add_argument("--coding_gene", action='store_true', required=False,
@@ -419,11 +429,42 @@ if __name__ == '__main__':
     parser.add_argument("--pseudogene", action='store_true', required=False,
                         help="BED file of known pseudogenes from GENECODE")
     parser.add_argument("--mirbase", action='store_true', required=False, help="miRBase file")
-    parser.add_argument("--all", action='store_true', required=False,
+    parser.add_argument("--all", dest='all-beds', action='store_true', required=False,
                         help="Perform all available annotations")
+    
+    parser.add_argument("--all-genelists", action='store_true', required=False,
+                        help="Perform all available gene classifications")
+    parser.add_argument("--ASD-genelist", dest='ASD_genelist', action='store_true', required=False,
+                        help="Perform ASD gene classification")
+    parser.add_argument("--IDa-genelist", dest='ID_a_genelist', action='store_true', required=False,
+                        help="Perform ID_a gene classification")
+    parser.add_argument("--IDb-genelist", dest='ID_b_genelist', action='store_true', required=False,
+                        help="Perform ID_b gene classification")
+    parser.add_argument("--dosage-sensitive-genelist", dest='dosage_sensitive_genelist', action='store_true', required=False,
+                        help="Perform dosage-sensitive gene classification")
+    parser.add_argument("--epilepsy-genelist", dest='epilessia_genelist', action='store_true', required=False,
+                        help="Perform epilepsy gene classification")
+    parser.add_argument("--malformations-genelist", dest='malformazioni_genelist', action='store_true', required=False,
+                        help="Perform malformations gene classification")
+    parser.add_argument("--mendeliome-genelist", dest='mendeliome_genelist', action='store_true', required=False,
+                        help="Perform mendeliome gene classification")
+    parser.add_argument("--onologs-genelist", dest='onologhi_genelist', action='store_true', required=False,
+                        help="Perform onologs gene classification")
+    parser.add_argument("--pubmed-autism-genelist", dest='pubmed_autism_09-02-2018_genelist', action='store_true', required=False,
+                        help="Perform pubmed autism gene classification")
+    parser.add_argument("--pubmed-brain-genelist", dest='pubmed_brain_malformations_09-02-2018_genelist',
+                        action='store_true', required=False,
+                        help="Perform pubmed brain malformations gene classification")
+    parser.add_argument("--pubmed-epilepsy-genelist", dest='pubmed_epilepsy_or_seizures_09-02-2018_genelist',
+                        action='store_true', required=False,
+                        help="Perform pubmed epilepsy gene classification")
+    parser.add_argument("--pubmed-ID-genelist", dest='pubmed_intellectual_disability_09-02-2018_genelist',
+                        action='store_true', required=False,
+                        help="Perform pubmed intellectual disability gene classification")
+
     parser.add_argument("-D", "--distance", type=int, default=1000000, required=False,
                         help="Distance from gene (Default 1Mb)")
-    
+        
     args = parser.parse_args()
     if args.cnv_file and args.cnv_line:
         sys.exit("Input line(s) can be provided as --cnv_line OR --cnv_file. "

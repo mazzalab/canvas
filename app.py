@@ -21,11 +21,11 @@ finished = False
 
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-ANNOT_CHOICES = [('all_beds','All'), ('circRNA','circRNA'), ('genes', 'Genes'),('coding_gene','Coding genes'),
+ANNOT_CHOICES = [('all_beds','All'), ('circRNA','circRNA'), ('gene', 'Genes'),('coding_gene','Coding genes'),
                  ('longNC','Long non-coding'), ('mirna','miRNA'), ('mirbase','mirBase'),
                  ('noncoding_gene','Non-coding genes'),('pseudogene','Pseudogenes')]
 
-GENELISTS = [('all_genes','All'), ('ASD', 'ASD'), ('ID_a', 'ID a'), ('ID_b','ID b'), ('dosage_sensitive', 'Dosage sensitive'),
+GENELISTS = [('all_genelists','All'), ('ASD', 'ASD'), ('ID_a', 'ID a'), ('ID_b','ID b'), ('dosage_sensitive', 'Dosage sensitive'),
              ('epilessia', 'Epilepsy'), ('malformazioni', 'Malformations'), ('mendeliome', 'Mendeliome'),
              ('onologhi', 'Onologs'), ('pubmed_autism_09-02-2018', 'PubMed Autism'),
              ('pubmed_brain_malformations_09-02-2018', 'PubMed Brain Malformations'),
@@ -76,8 +76,8 @@ class MainForm(FlaskForm):
         FileAllowed(['txt', 'csv', 'cnv'], 'Text only!')
     ])
     window = StringField(u'Window (bp):', validators=[Length(max=15)], default='1000000')
-    annot = MultiCheckboxField('Label', choices=ANNOT_CHOICES)
-    genes = MultiCheckboxField('Label', choices=GENELISTS)
+    annot = MultiCheckboxField('annot', choices=ANNOT_CHOICES)
+    genes = MultiCheckboxField('genes', choices=GENELISTS)
     submit = SubmitField("Submit")
 
 
@@ -88,11 +88,11 @@ class MainForm(FlaskForm):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    session['ann_choices'] = []
+    session['genes_choices'] = []
     form = MainForm()
 
     if form.validate_on_submit():
-        
-
         session['task_id'] = id_generator()
         os.mkdir(os.path.join(app.config['UPLOAD_FOLDER'], session['task_id']))
         if 'radio2' in request.form:
@@ -108,6 +108,29 @@ def index():
             session['choice'] = 'line'
             session['working_filename'] = os.path.join(session['task_id'], session['task_id']+'.csv')
             session['cnv_line'] = request.form['line_input']
+        
+        if 'radio-hg19' in request.form:
+            session['hg'] = 'hg19'
+        elif 'radio-hg18' in request.form:
+            session['hg'] = 'hg18'
+        elif 'radio-hg38' in request.form:
+            session['hg'] = 'hg38'
+        print("REF:", session['hg'])
+
+        for elem in request.form.getlist('annot'):
+                session['ann_choices'].append(elem)
+
+        for elem in request.form.getlist('genes'):
+                session['genes_choices'].append(elem+'_genelist')
+            
+        if 'distance' in request.form:
+            session['distance'] = request.form['distance']
+        else:
+            session['distance'] = 1000000
+            
+        print("ANNOT:", session['ann_choices'])
+        print("GENES:", session['genes_choices'])
+        print("DISTANCE", session['distance'])
         return redirect(url_for('working'))
 
     return render_template('index.html', form=form)
@@ -119,9 +142,21 @@ def working():
     global finished
     finished = False
 
-    args = Object
     session['file_out'] = os.path.join(app.config['UPLOAD_FOLDER'], "{}.xlsx".format(
         os.path.splitext(session['working_filename'])[0]))
+    
+    args = Object
+    setattrs(args, cnv_file=None, cnv_line=None, all_beds=False, circRNA=False,
+             coding_gene=False, gene=False, longNC=False, mirna=False, mirbase=False,
+             noncoding_gene=False, pseudogene=False, all_genelists=False, ASD_genelist=False,
+             ID_a_genelist=False, ID_b_genelist=False, dosage_sensitive_genelist=False,
+             epilessia_genelist=False, malformazioni_genelist=False, mendeliome_genelist=False,
+             onologhi_genelist=False, pubmed_autism_genelist=False,
+             pubmed_brain_malformations_genelist=False, pubmed_epilepsy_or_seizures_genelist=False,
+             pubmed_intellectual_disability_genelist=False, distance=session['distance'],
+             out=session['file_out'])
+
+
     if session['choice'] == 'file':
         session['download_name'] = os.path.splitext(session['filename'])[0] + '_CANVAS.xlsx'
         setattrs(args, cnv_line=None)
@@ -130,14 +165,14 @@ def working():
         session['download_name'] = 'CANVAS_results.xlsx'
         setattrs(args, cnv_line=session['cnv_line'])
         setattrs(args, cnv_file=None)
-
-    session['ann_choices'] = ['gene', 'mirna', 'pseudogene', 'longNC', 'circRNA'] #todo provvisori ovviamente
-    setattrs(args, all=True, circRNA=False,
-             coding_gene=False, distance=1000000, gene=False, longNC=False, mirna=False, mirbase=False,
-             noncoding_gene=False, out=session['file_out'],
-             pseudogene=False)
-
-       
+    
+    for elem in session['ann_choices']:
+        setattr(args, elem, True)
+    
+    for elem in session['genes_choices']:
+        setattr(args, elem, True)
+        
+  
     async_result = pool.apply_async(worker, (args,))
     
     return render_template('working.html')
@@ -157,6 +192,14 @@ def thread_status():
 
 @app.route('/results.html', methods=['GET', 'POST'])
 def results():
+    if 'all_beds' in session['ann_choices']:
+        print(session)
+        print(session['ann_choices'])
+        session['ann_choices'].remove('all_beds')
+        
+    if 'all_genelists' in session['ann_choices']:
+        session['ann_choices'].remove('all_genelists')
+        
     return render_template('results.html', json_out=re.sub('.xlsx', '.json', session['file_out']),
                            file_out=session['file_out'], download_name=session['download_name'],
                            choices=session['ann_choices'])

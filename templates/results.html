@@ -224,7 +224,7 @@
             });
         </script>
         </div>
-        <span style="vertical-align:-webkit-baseline-middle; margin-left:20px;">
+        <span id="download-span" style="vertical-align:-webkit-baseline-middle; margin-left:20px;">
           or download results as an &nbsp
           <a class="btn btn-success btn-lg active" href="{{file_out}}" download="{{download_name}}"
           style="margin-left: 10px; font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #16821f; color: #ffffff;border-color: #34aa3a;"
@@ -236,7 +236,7 @@
     <br>
     <div class="row" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
     {% for c in choices %}
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <div class="panel panel-info">
           <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">{{ c }}</div>
           <div class="panel-body">
@@ -271,7 +271,7 @@
               <div>
 
               </div>
-              <div style="position:relative; margin-top:10px; min-height: 30px;">
+              <div style="position:relative; margin-top:10px; min-height: 36px;">
 
               {% if c == 'gene' %}
                   <button class="btn" type="button" id="getSelectsBtn-{{c}}"

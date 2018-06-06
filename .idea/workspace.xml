@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="240b687c-d558-49db-b1ac-c8908ba7987b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/img/Thumbs.db" afterPath="$PROJECT_DIR$/static/img/Thumbs.db" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/pubmed_autism_09-02-2018_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/pubmed_brain_malformations_09-02-2018_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/pubmed_epilepsy_or_seizures_09-02-2018_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/pubmed_intellectual_disability_09-02-2018_genelist.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/annotate_bed.py" afterPath="$PROJECT_DIR$/annotate_bed.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/landing-page.css" afterPath="$PROJECT_DIR$/static/css/landing-page.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/tips.css" afterPath="$PROJECT_DIR$/static/css/tips.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/results.html" afterPath="$PROJECT_DIR$/templates/results.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,14 +35,14 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="annotate_bed.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="annotate_bed.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/annotate_bed.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6222">
-              <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
+            <state relative-caret-position="259">
+              <caret line="203" column="95" lean-forward="false" selection-start-line="203" selection-start-column="95" selection-end-line="203" selection-end-column="95" />
               <folding>
                 <element signature="e#1224#1239#0" expanded="true" />
-                <element signature="e#9554#10963#0" expanded="false" />
+                <element signature="e#10792#12201#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -47,8 +51,8 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="131" column="4" lean-forward="true" selection-start-line="131" selection-start-column="4" selection-end-line="131" selection-end-column="4" />
+            <state relative-caret-position="3183">
+              <caret line="200" column="8" lean-forward="false" selection-start-line="200" selection-start-column="8" selection-end-line="200" selection-end-column="8" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -56,18 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mongoCanvas/BED/mirna" pinned="false" current-in-tab="true">
-        <entry file="mongo://mongoCanvas/BED/mirna">
-          <provider selected="true" editor-type-id="MongoData">
-            <state />
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="setup_mongo_collections.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="714">
-              <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
+            <state relative-caret-position="884">
+              <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -79,7 +76,6 @@
     <findStrings>
       <find>pubmed_09-02-2018_brain malformations_genelist.txt</find>
       <find>plus</find>
-      <find>input</find>
       <find>mir_col</find>
       <find>enco</find>
       <find>unique</find>
@@ -93,6 +89,20 @@
       <find>uploa</find>
       <find>ann_</find>
       <find>choices</find>
+      <find>rais</find>
+      <find>requi</find>
+      <find>args</find>
+      <find>print</find>
+      <find>mainapp</find>
+      <find>input</find>
+      <find>ann_cho</find>
+      <find>todo</find>
+      <find>ann</find>
+      <find>session['ann</find>
+      <find>session</find>
+      <find>file_ou</find>
+      <find>all</find>
+      <find>choic</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -103,8 +113,8 @@
       <list>
         <option value="$PROJECT_DIR$/make_meta_gene.R" />
         <option value="$PROJECT_DIR$/setup_mongo_collections.sh" />
-        <option value="$PROJECT_DIR$/annotate_bed.py" />
         <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/annotate_bed.py" />
       </list>
     </option>
   </component>
@@ -121,10 +131,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1384" />
-    <option name="y" value="844" />
-    <option name="width" value="1616" />
-    <option name="height" value="1045" />
+    <option name="x" value="1079" />
+    <option name="y" value="840" />
+    <option name="width" value="1922" />
+    <option name="height" value="1049" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -238,7 +248,7 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/miniconda3/envs/canvas/bin/python3.6" />
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/m.truglio/PycharmProjects/canvas/setup_mongo_collections.sh" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/m.truglio/PycharmProjects/canvas/annotate_bed.py" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -483,26 +493,40 @@
       <option name="project" value="LOCAL" />
       <updated>1527765907323</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="- First working prototype. &#10;- Modal windows still need a fix for resizing.">
+      <created>1527865987298</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1527865987298</updated>
+    </task>
+    <task id="LOCAL-00005" summary="- 2 more panels in home&#10;- Improved results page (+modal window)">
+      <created>1528204441629</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1528204441629</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1384" y="844" width="1616" height="1045" extended-state="0" />
+    <frame x="1079" y="840" width="1922" height="1049" extended-state="6" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4134199" sideWeight="0.5656888" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.21771611" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286638" sideWeight="0.49359658" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24107143" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4134199" sideWeight="0.4343112" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32844242" sideWeight="0.48355898" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31323373" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.7822839" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16007653" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288201" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24936225" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20793037" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -523,7 +547,9 @@
     <MESSAGE value="- Major rewrite of annotate_bed.py (pure python3 + mongoDB)&#10;- First draft of flask backend + JS frontend" />
     <MESSAGE value="- Started populating the result panels." />
     <MESSAGE value="- Progress: panels get populated by choosing a cnv from dropdown." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Progress: panels get populated by choosing a cnv from dropdown." />
+    <MESSAGE value="- First working prototype. &#10;- Modal windows still need a fix for resizing." />
+    <MESSAGE value="- 2 more panels in home&#10;- Improved results page (+modal window)" />
+    <option name="LAST_COMMIT_MESSAGE" value="- 2 more panels in home&#10;- Improved results page (+modal window)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -534,11 +560,40 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/annotate_bed.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="47" column="24" lean-forward="false" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="24" />
+          <folding>
+            <element signature="e#1224#1239#0" expanded="true" />
+            <element signature="e#10792#12201#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="76" column="6" lean-forward="true" selection-start-line="76" selection-start-column="6" selection-end-line="76" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6222">
           <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -567,7 +622,7 @@
           <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -596,7 +651,7 @@
           <caret line="43" column="6" lean-forward="false" selection-start-line="43" selection-start-column="6" selection-end-line="43" selection-end-column="6" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -625,7 +680,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -644,7 +699,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -663,7 +718,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -682,7 +737,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -701,7 +756,7 @@
           <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="32" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -728,7 +783,7 @@
           <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="32" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -755,7 +810,7 @@
           <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="32" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -782,7 +837,7 @@
           <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -800,7 +855,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -816,29 +871,29 @@
     <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
     <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
+        <state relative-caret-position="884">
+          <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6222">
-          <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#9554#10963#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="131" column="4" lean-forward="true" selection-start-line="131" selection-start-column="4" selection-end-line="131" selection-end-column="4" />
+        <state relative-caret-position="3183">
+          <caret line="200" column="8" lean-forward="false" selection-start-line="200" selection-start-column="8" selection-end-line="200" selection-end-column="8" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="203" column="95" lean-forward="false" selection-start-line="203" selection-start-column="95" selection-end-line="203" selection-end-column="95" />
+          <folding>
+            <element signature="e#1224#1239#0" expanded="true" />
+            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>

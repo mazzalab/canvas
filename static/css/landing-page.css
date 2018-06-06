@@ -80,7 +80,7 @@ select {
 }
 
 select[multiple], select[size] {
-    height: 125px;
+    height: 146px;
 }
 
 .modal
@@ -195,6 +195,8 @@ padding: 5px;
 }
 
 .panel-info {
+    min-width: 220px;
+    /* min-height: 296px; */
     -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
     border-color: #307ba0;
@@ -203,6 +205,7 @@ padding: 5px;
 }
 
 .panel-body {
+  height: 243px;
   padding: 17px 25px;
 }
 
@@ -1642,9 +1645,22 @@ ul.banner-social-buttons li {
 
 }
 
+@media(max-width:1190px) {
+  .panel-info{
+    min-height: 310px;
+  }
+
 @media(max-width:1199px) {
   ul.banner-social-buttons {
     margin-top: 15px;
+  }
+}
+
+@media(max-width:582px) {
+  #download-span {
+    margin-top: 20px;
+    display: -webkit-inline-box;
+    margin-left: 0px !important  ;
   }
 }
 
