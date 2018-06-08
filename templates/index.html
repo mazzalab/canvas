@@ -25,13 +25,7 @@
 		onload=function(){document.forms['mainform'].reset()}
 	</script>
 
-	<script>
-		submitForms = function(){
-				document.getElementById("mainform").submit();
-				// document.getElementById("hgform").submit();
-				// document.getElementById("annot-form").submit();
-		}
-	</script>
+
 </head>
 
 <body class="landing-page">
@@ -124,7 +118,8 @@
 
     <div class="section section-gray section-clients">
         <div class="container">
-					<form id="mainform" name="mainform" method="post" enctype="multipart/form-data">
+					<form id="mainform" class="needs-validation" action="/" name="mainform" method="post"
+					enctype="multipart/form-data" onsubmit="return checkBoxes();">
 						{{ form.csrf_token }}
 					<div class="row">
 						<div class="col-md-6 col-sm-6" style="width:42%">
@@ -142,7 +137,7 @@
 													  </label>
 													</div>
 													<div style="margin-left:20px">
-											    	{{ form.line_input.label }}:{{ form.line_input(placeholder='E.g.: chr1:12345-23456') }}
+											    	{{ form.line_input.label }}:{{ form.line_input(placeholder='E.g.: chr1:12345-23456', required=True, pattern='chr\d+:\d+-\d+$') }}
 													</div>
 													<div class="radio">
 														<label style="margin-top: 25px;">
@@ -153,10 +148,10 @@
 													  </label>
 													</div>
 													<div id="fileupload" style="margin-left:20px;">
-															{{ form.upload.label }}: {{ form.upload(disabled=True) }}
+															{{ form.upload.label }}: {{ form.upload(disabled=True, required=True) }}
 													</div>
 													<div style="margin-top: 35px;">
-															<span style="color: #006da0; font-weight:bold">Window (bp): </span>{{ form.window(size=6) }}
+															<span style="color: #006da0; font-weight:bold">Window (bp): </span>{{ form.window(size=6, required=True, pattern='\d+') }}
 													</div>
 													<br>
 													<!-- <input type="submit" value="SUBMIT" class="submit-button"> -->
@@ -166,7 +161,7 @@
 										<div id="hg-panel" class="panel panel-info" style="min-width: 295px; border-radius: 10px;">
 											<div class="panel-heading reference-panel-heading"
 												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 10px; border-color: #307ba0">Reference</div>
-												<div class="panel-body">
+												<div class="panel-body" style="text-align: center;">
 														<div class="radio-inline">
 							                <label>
 							                <input type="radio" class="form-check-input" name="radio-hg18" id="radio-hg18"
@@ -208,13 +203,13 @@
 										Annotation</div>
 										<div class="panel-body">
 												<div class="row">
-													<div id="bed-checklist" class="col-sm-6" style="width:45%">
+													<div id="bed-checklist" class="col-sm-6 ann-checkbox-group required" style="width:45%">
 														<label>BED</label>
 														{{ form.annot }}
 													</div>
-													<div id="genelist-checklist" class="col-sm-6" style="width:55%">
+													<div id="genelist-checklist" class="col-sm-6 genes-checkbox-group" style="width:55%">
 														<label>Gene Lists</label>
-														{{ form.genes }}
+														{{ form.genes(required=True) }}
 													</div>
 												</div>
 										</div>
@@ -222,15 +217,54 @@
 						</div>
 					</div>
 					<div style="text-align: center;" id="submit-field">
-						<input type="submit" value="SUBMIT" class="submit-button" onclick="submitForms()">
+						<input type="submit" value="SUBMIT" class="submit-button">
 					</div>
 			</form>
+			<script>
+				function checkBoxes(){
+
+						if($('div.ann-checkbox-group.required :checkbox:checked').length<=0){
+							alert("NOOOO!");
+							return false;
+						}
+				};
+			</script>
+
+			<script>
+					jQuery('ul#genes input').attr({'disabled':'disabled'})
+
+					$('#annot-2').click(function(){
+					    if($(this).is(':checked')){
+					        jQuery('ul#genes input').removeAttr('disabled');
+					    } else {
+									jQuery('ul#genes input').attr({'disabled':'disabled'});
+					    }
+					});
+
+					$('#annot-0').click(function(){
+							if($(this).is(':checked')){
+									jQuery('ul#genes input').removeAttr('disabled');
+							} else {
+									jQuery('ul#genes input').attr({'disabled':'disabled'});
+							}
+					});
+
+					// jQuery('ul#genes input').attr({'disabled':'disabled'})
+					// if ( document.getElementById('annot-2').checked){
+					//
+					// 	jQuery('ul#genes input').removeAttr('disabled');
+					// }else{
+					// 	jQuery('ul#genes input').attr({'disabled':'disabled'});
+					// }
+					//
+					// if ( $('#annot-2').attr({'unchecked':'unchecked'})){
+					// 	jQuery('ul#genes input').attr({'disabled':'disabled'})
+					// }
+			</script>
+
       </div>
     </div>
 
-		<script>
-			document.getElementById("cnv-dropdown");
-		</script>
     <div class="section section-presentation">
         <div class="container">
             <div class="row">

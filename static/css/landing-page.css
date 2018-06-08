@@ -162,6 +162,7 @@ select[multiple], select[size] {
 #hgform{
   text-align: center;
 }
+
 .submit-button{
     -webkit-box-shadow: 0 0 10px #ff7660;
     box-shadow: 0 0 10px #ff7660;
@@ -173,6 +174,24 @@ select[multiple], select[size] {
     font-weight: bold;
     /* float: right; */
 }
+
+input[aria-invalid="true"], textarea[aria-invalid="true"] {
+  border: 1px solid #f00;
+  box-shadow: 0 0 4px 0 #f00;
+}
+
+/* input[aria-invalid="false"], textarea[aria-invalid="false"] {
+  border: 1px solid #3ebd00;
+  box-shadow: 0 0 4px 0 #3ebd00;
+} */
+/* input:invalid {
+  border: 2px solid red;
+} */
+
+/* input:valid {
+  border: 2px solid green;
+} */
+
 option {
   -webkit-appearance: none;
 -moz-appearance: none;
@@ -1403,16 +1422,25 @@ vertical-align: middle;
 
 @media (max-width:768px){
     #submit-field{
-      margin-left: -27px;
+      margin-left: -42px;
     }
+
+    #hg-panel{
+      height: 105px;
+    }
+
+    #annot-panel{
+      height:690px;
+    }
+
 }
 
 @media (max-width: 992px){
   .section-demo {
     text-align: center;
   }
-  #hg-panel{
-    height: auto;
+  #input-panel {
+    height: 372px;
   }
 
 }
@@ -1447,11 +1475,17 @@ vertical-align: middle;
 }
 
 @media (min-width: 992px){
+    #input-panel {
+      height: 312px;
+    }
     #fileupload{
       display:-webkit-box;
     }
+    #upload{
+      max-width: 256px;
+    }
     #annot-panel{
-      height:auto;
+      height: 433px;
     }
     #genes li {
       display: auto;
@@ -1645,10 +1679,11 @@ ul.banner-social-buttons li {
 
 }
 
-@media(max-width:1190px) {
-  .panel-info{
+@media(max-width:1199px) {
+  /* .panel-info{
     min-height: 310px;
-  }
+  } */
+}
 
 @media(max-width:1199px) {
   ul.banner-social-buttons {

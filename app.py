@@ -6,7 +6,7 @@ from flask_wtf.file import FileAllowed, FileField, FileRequired
 from werkzeug.utils import secure_filename
 from wtforms import StringField, SubmitField, FileField, RadioField, SelectMultipleField
 from wtforms.widgets import ListWidget, CheckboxInput
-from wtforms.validators import DataRequired, Length, Required
+from wtforms.validators import DataRequired, Length, Required, regexp, data_required
 from flask import url_for
 from flask_bootstrap import Bootstrap
 from multiprocessing.pool import ThreadPool
