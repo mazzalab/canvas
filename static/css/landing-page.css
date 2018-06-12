@@ -80,6 +80,7 @@ select {
 }
 
 select[multiple], select[size] {
+    margin-top: 5px;
     height: 146px;
 }
 
@@ -205,7 +206,27 @@ padding: 5px;
     text-align: inherit;
     white-space: nowrap;
     border: 0;
+}
 
+.sortable-placeholder {
+    margin-left: 0 !important;
+    border: 1px solid #ccc;
+    background-color: yellow;
+    -webkit-box-shadow: 0px 0px 10px #888;
+    -moz-box-shadow: 0px 0px 10px #888;
+    box-shadow: 0px 0px 10px #888;
+}
+
+
+.draggablePanelList .panel-heading {
+       cursor: move;
+   }
+
+#genesmodal-link {
+    color: #7b2a2a;
+    padding: 7px;
+    position: relative;
+    border-width: 1px;
 }
 .panel-heading {
   color: #ffffff !important;
@@ -214,7 +235,7 @@ padding: 5px;
 }
 
 .panel-info {
-    min-width: 220px;
+    min-width: 317px;
     /* min-height: 296px; */
     -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
@@ -225,7 +246,7 @@ padding: 5px;
 
 .panel-body {
   height: 243px;
-  padding: 17px 25px;
+  padding: 13px 25px;
 }
 
 .navbar {
@@ -957,6 +978,7 @@ vertical-align: middle;
   max-width: 970px;
 }
 
+
  .header-text{
       text-transform: uppercase;
       font-weight: 700;
@@ -1412,29 +1434,69 @@ vertical-align: middle;
     float: none !important;
   }
 
+  #submit-field{
+    margin-left: -42px;
+  }
+
+  #hg-panel{
+    height: 105px;
+  }
+
+  #annot-panel{
+    height:690px;
+  }
+
+  #getSelectsBtn-gene img{
+    width: 100%;
+  }
+  /* .panel-info{
+    height: 315px;
+  } */
+  #modal-link-gene img {
+    width: 100%;
+  }
+  .results-container {
+    max-width: unset !important;
+    width: 100% !important;
+  }
 }
 
-@media (min-width: 768px){
-    .landing-page .navbar-top{
-        padding-top: 10px;
-    }
-}
 
 @media (max-width:768px){
-    #submit-field{
-      margin-left: -42px;
-    }
-
-    #hg-panel{
-      height: 105px;
-    }
-
-    #annot-panel{
-      height:690px;
-    }
+  .results-container {
+    width: unset !important;
+  }
 
 }
 
+@media (min-width:1200px){
+  .results-container {
+    max-width: unset !important;
+  }
+}
+@media (max-width:1199px) and (min-width:769px){
+
+  .results-container {
+    max-width: 1165px !important;
+  }
+
+  #radios{
+    text-align: center;
+  }
+  #getSelectGenesBtn-gene{
+    font-size: 75%;
+  }
+  #getSelectsBtn-gene img{
+    width: 70px;
+  }
+  .panel-info{
+    height: 315px;
+    min-width: 254px;
+  }
+  #modal-link-gene img {
+    width: 13px;
+  }
+}
 @media (max-width: 992px){
   .section-demo {
     text-align: center;
@@ -1446,6 +1508,14 @@ vertical-align: middle;
 }
 
 @media (min-width: 768px){
+
+  .results-container {
+    max-width: unset !important;
+  }
+    .landing-page .navbar-top{
+        padding-top: 10px;
+    }
+
     #fileupload{
       display:block;
     }
@@ -1475,6 +1545,7 @@ vertical-align: middle;
 }
 
 @media (min-width: 992px){
+
     #input-panel {
       height: 312px;
     }

@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="240b687c-d558-49db-b1ac-c8908ba7987b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/pubmed_autism_09-02-2018_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/pubmed_brain_malformations_09-02-2018_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/pubmed_epilepsy_or_seizures_09-02-2018_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/pubmed_intellectual_disability_09-02-2018_genelist.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/annotate_bed.py" afterPath="$PROJECT_DIR$/annotate_bed.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/landing-page.css" afterPath="$PROJECT_DIR$/static/css/landing-page.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/results.html" afterPath="$PROJECT_DIR$/templates/results.html" />
     </list>
@@ -38,25 +35,52 @@
       <file leaf-file-name="annotate_bed.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/annotate_bed.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="203" column="95" lean-forward="false" selection-start-line="203" selection-start-column="95" selection-end-line="203" selection-end-column="95" />
+            <state relative-caret-position="353">
+              <caret line="510" column="71" lean-forward="false" selection-start-line="510" selection-start-column="71" selection-end-line="510" selection-end-column="71" />
               <folding>
                 <element signature="e#1224#1239#0" expanded="true" />
-                <element signature="e#10792#12201#0" expanded="false" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mongoCanvas/targets/tarbase" pinned="false" current-in-tab="false">
+        <entry file="mongo://mongoCanvas/targets/tarbase">
+          <provider selected="true" editor-type-id="MongoData">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3183">
-              <caret line="200" column="8" lean-forward="false" selection-start-line="200" selection-start-column="8" selection-end-line="200" selection-end-column="8" />
+            <state relative-caret-position="-1275">
+              <caret line="24" column="75" lean-forward="false" selection-start-line="24" selection-start-column="68" selection-end-line="24" selection-end-column="75" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mongoCanvas/BED/mirbase" pinned="false" current-in-tab="false">
+        <entry file="mongo://mongoCanvas/BED/mirbase">
+          <provider selected="true" editor-type-id="MongoData">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mongoCanvas/BED/circRNA" pinned="false" current-in-tab="false">
+        <entry file="mongo://mongoCanvas/BED/circRNA">
+          <provider selected="true" editor-type-id="MongoData">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mongoCanvas/BED/coding_gene" pinned="false" current-in-tab="false">
+        <entry file="mongo://mongoCanvas/BED/coding_gene">
+          <provider selected="true" editor-type-id="MongoData">
+            <state />
           </provider>
         </entry>
       </file>
@@ -74,7 +98,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pubmed_09-02-2018_brain malformations_genelist.txt</find>
       <find>plus</find>
       <find>mir_col</find>
       <find>enco</find>
@@ -101,8 +124,10 @@
       <find>session['ann</find>
       <find>session</find>
       <find>file_ou</find>
-      <find>all</find>
       <find>choic</find>
+      <find>all</find>
+      <find>pubme</find>
+      <find>pubmed</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -507,19 +532,34 @@
       <option name="project" value="LOCAL" />
       <updated>1528204441629</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="- bugfix: &quot;distal&quot; was not strict (a gene could start or end outside the chosen window), now it is;&#10;- genelists can now be selected as options (previously, the entire set was always used by default);&#10;- all checkboxes and options work now;&#10;- css adjustments.">
+      <created>1528297111724</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1528297111724</updated>
+    </task>
+    <task id="LOCAL-00007" summary="- bugfix: &quot;distal&quot; was not strict (a gene could start or end outside the chosen window), now it is;&#10;- genelists can now be selected as options (previously, the entire set was always used by default);&#10;- all checkboxes and options work now;&#10;- css adjustments.">
+      <created>1528470664486</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1528470664486</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1079" y="840" width="1922" height="1049" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.21771611" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32844242" sideWeight="0.48355898" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.25773746" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.49573106" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.47705442" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31323373" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.7822839" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31696904" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.74226254" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16007653" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -540,6 +580,16 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
@@ -549,7 +599,8 @@
     <MESSAGE value="- Progress: panels get populated by choosing a cnv from dropdown." />
     <MESSAGE value="- First working prototype. &#10;- Modal windows still need a fix for resizing." />
     <MESSAGE value="- 2 more panels in home&#10;- Improved results page (+modal window)" />
-    <option name="LAST_COMMIT_MESSAGE" value="- 2 more panels in home&#10;- Improved results page (+modal window)" />
+    <MESSAGE value="- bugfix: &quot;distal&quot; was not strict (a gene could start or end outside the chosen window), now it is;&#10;- genelists can now be selected as options (previously, the entire set was always used by default);&#10;- all checkboxes and options work now;&#10;- css adjustments." />
+    <option name="LAST_COMMIT_MESSAGE" value="- bugfix: &quot;distal&quot; was not strict (a gene could start or end outside the chosen window), now it is;&#10;- genelists can now be selected as options (previously, the entire set was always used by default);&#10;- all checkboxes and options work now;&#10;- css adjustments." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -560,11 +611,38 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/annotate_bed.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3332">
+          <caret line="205" column="18" lean-forward="false" selection-start-line="205" selection-start-column="18" selection-end-line="205" selection-end-column="18" />
+          <folding>
+            <element signature="e#1224#1239#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1190">
+          <caret line="84" column="28" lean-forward="false" selection-start-line="84" selection-start-column="28" selection-end-line="84" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
           <caret line="47" column="24" lean-forward="false" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="24" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -593,7 +671,6 @@
           <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -622,7 +699,6 @@
           <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -651,7 +727,6 @@
           <caret line="43" column="6" lean-forward="false" selection-start-line="43" selection-start-column="6" selection-end-line="43" selection-end-column="6" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -680,7 +755,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -699,7 +773,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -718,7 +791,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -737,7 +809,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -756,7 +827,6 @@
           <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="32" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -783,7 +853,6 @@
           <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="32" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -810,7 +879,6 @@
           <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="32" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -837,7 +905,6 @@
           <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -855,7 +922,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -879,8 +945,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3183">
-          <caret line="200" column="8" lean-forward="false" selection-start-line="200" selection-start-column="8" selection-end-line="200" selection-end-column="8" />
+        <state relative-caret-position="-1275">
+          <caret line="24" column="75" lean-forward="false" selection-start-line="24" selection-start-column="68" selection-end-line="24" selection-end-column="75" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
@@ -889,11 +955,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/annotate_bed.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="203" column="95" lean-forward="false" selection-start-line="203" selection-start-column="95" selection-end-line="203" selection-end-column="95" />
+        <state relative-caret-position="353">
+          <caret line="510" column="71" lean-forward="false" selection-start-line="510" selection-start-column="71" selection-end-line="510" selection-end-column="71" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
-            <element signature="e#10792#12201#0" expanded="false" />
           </folding>
         </state>
       </provider>

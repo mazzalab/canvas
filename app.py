@@ -27,10 +27,10 @@ ANNOT_CHOICES = [('all_beds','All'), ('circRNA','circRNA'), ('gene', 'Genes'),('
 
 GENELISTS = [('all_genelists','All'), ('ASD', 'ASD'), ('ID_a', 'ID a'), ('ID_b','ID b'), ('dosage_sensitive', 'Dosage sensitive'),
              ('epilessia', 'Epilepsy'), ('malformazioni', 'Malformations'), ('mendeliome', 'Mendeliome'),
-             ('onologhi', 'Onologs'), ('pubmed_autism_09-02-2018', 'PubMed Autism'),
-             ('pubmed_brain_malformations_09-02-2018', 'PubMed Brain Malformations'),
-             ('pubmed_epilepsy_or_seizures_09-02-2018', 'PubMed Epilepsy'),
-             ('pubmed_intellectual_disability_09-02-2018', 'PubMed Intellectual Disability')]
+             ('onologhi', 'Onologs'), ('pubmed_autism', 'PubMed Autism'),
+             ('pubmed_brain_malformations', 'PubMed Brain Malformations'),
+             ('pubmed_epilepsy_or_seizures', 'PubMed Epilepsy'),
+             ('pubmed_intellectual_disability', 'PubMed Intellectual Disability')]
 
 app.config['SECRET_KEY'] = 'AGATTAcanvas2018'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -201,8 +201,11 @@ def results():
         session['ann_choices'].remove('all_genelists')
         
     return render_template('results.html', json_out=re.sub('.xlsx', '.json', session['file_out']),
-                           file_out=session['file_out'], download_name=session['download_name'],
-                           choices=session['ann_choices'])
+                           file_out=session['file_out'],
+                           text_file_out=re.sub('.xlsx', '.csv', session['file_out']),
+                           download_name=session['download_name'],
+                           text_download_name=re.sub('.xlsx', '.csv', session['download_name']),
+                           choices=session['ann_choices'], genes_choices=session['genes_choices'])
 
 if __name__ == '__main__':
     app.run()

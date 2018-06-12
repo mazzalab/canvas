@@ -40,6 +40,8 @@ from pymongo import MongoClient
 import sys
 import os
 from io import StringIO
+import itertools
+from collections import OrderedDict
 
 
 class MainApp:
@@ -52,6 +54,7 @@ class MainApp:
         self.db_gl = self.connection['genelists']
         self.db_t = self.connection['targets']
         self.d = vars(self.args)
+        self.mirbase_dict = {}  #this stores the mirbase annotation that will be written as a separate json
         print(self.d)
         
     def process(self):
@@ -97,7 +100,10 @@ class MainApp:
                     self.add_annotation(arg)
                 else:
                     for target_db in self.db_t.collection_names():
-                        self.add_mirna_target(target=target_db, unique=True)
+                        self.mirbase_dict[target_db] = []  # initialized the target key (tarbase or targetscan) in the mirbase dict
+                        
+                        dict_inside, dict_cross, dict_distal = self.add_mirna_target(target=target_db, unique=True)
+                        self.mirbase_dict[target_db].extend((dict_inside, dict_cross, dict_distal))
         
         # Genelists annotation
         print("Adding genelists classifications...")
@@ -110,7 +116,7 @@ class MainApp:
             sys.stderr.write("WARNING: Could not add genelists annotation since --gene option was not included.\n")
         
         #Writing final file
-        write_file(self.out_dataframe, self.args.out)
+        write_file(self.out_dataframe, self.mirbase_dict, self.args.out)
         # return self.out_dataframe.reset_index().to_json(orient='records')
     
     def read_cnv_coordinates_file(self, cnv_file: str) -> DataFrame:
@@ -249,6 +255,8 @@ class MainApp:
             mirs_in_cnv)
         
         mature_mir_gene_names = []
+        mature_mir_gene_names_dict = OrderedDict()
+
         for (other, mi_name, mirna_name) in m_inside:
             if mi_name in mirbase_dict:
                 mature_mirna_names = mirbase_dict[mi_name]
@@ -261,8 +269,26 @@ class MainApp:
                 gene_targets = []
             
             mature_mir_gene_names = mature_mir_gene_names + gene_targets
-        
-        return mature_mir_gene_names if len(mature_mir_gene_names) > 0 else ["."]
+            if gene_targets:
+                mature_mir_gene_names_dict[mi_name] = gene_targets
+            else:
+                mature_mir_gene_names_dict[mi_name] = ['.']
+            # print(mature_mir_gene_names)
+            # print(mature_mir_gene_names_dict)
+            # print("now the tuples are", len(mature_mir_gene_names_dict))
+            # input()
+        # print(mature_mir_gene_names)
+        # print("this is what is going ^^")
+        # input()
+        # list()
+        # print(list(itertools.chain.from_iterable(list(mature_mir_gene_names_dict.values()))))
+        # print("these are the keys ^^^")
+        print(mature_mir_gene_names_dict)
+        # input()
+        # print(mature_mir_gene_names == list(itertools.chain.from_iterable(list(mature_mir_gene_names_dict.values()))))
+        # return mature_mir_gene_names_dict if len(mature_mir_gene_names) > 0 else ["."]
+
+        return mature_mir_gene_names_dict
 
     def add_mirna_target(self, target: str, unique: bool):
         """
@@ -317,24 +343,38 @@ class MainApp:
         distal_mature_mir_gene_names_count = []
         """: type : list[int] """
         
+        target_genes_dict_inside = {}
+        target_genes_dict_cross = {}
+        target_genes_dict_distal = {}
+        
         for row in self.out_dataframe.itertuples():
             miR_inside = row.mirna_inside
-            target_genes = self.__get_genetarget(miR_inside, mirbase_info, target_info)
-            target_genes = set(target_genes) if unique else target_genes
-            inside_mature_mir_gene_names.append(",".join(target_genes))
-            inside_mature_mir_gene_names_count.append(len(target_genes) if list(target_genes)[0] != "." else 0)
+            target_genes_dict_inside = self.__get_genetarget(miR_inside, mirbase_info, target_info)
+            target_genes_names = list(itertools.chain.from_iterable(list(target_genes_dict_inside.values())))
+            target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
+            if target_genes_names != ['.']:
+                target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
+                
+            inside_mature_mir_gene_names.append(",".join(target_genes_names))
+            inside_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
 
             miR_cross = row.mirna_cross
-            target_genes = self.__get_genetarget(miR_cross, mirbase_info, target_info)
-            target_genes = set(target_genes) if unique else target_genes
-            cross_mature_mir_gene_names.append(",".join(target_genes))
-            cross_mature_mir_gene_names_count.append(len(target_genes) if list(target_genes)[0] != "." else 0)
+            target_genes_dict_cross = self.__get_genetarget(miR_cross, mirbase_info, target_info)
+            target_genes_names = list(itertools.chain.from_iterable(list(target_genes_dict_cross.values())))
+            target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
+            if target_genes_names != ['.']:
+                target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
+            cross_mature_mir_gene_names.append(",".join(target_genes_names))
+            cross_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
 
             miR_distal = row.mirna_distal
-            target_genes = self.__get_genetarget(miR_distal, mirbase_info, target_info)
-            target_genes = set(target_genes) if unique else target_genes
-            distal_mature_mir_gene_names.append(",".join(target_genes))
-            distal_mature_mir_gene_names_count.append(len(target_genes) if list(target_genes)[0] != "." else 0)
+            target_genes_dict_distal = self.__get_genetarget(miR_distal, mirbase_info, target_info)
+            target_genes_names = list(itertools.chain.from_iterable(list(target_genes_dict_distal.values())))
+            target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
+            if target_genes_names != ['.']:
+                target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
+            distal_mature_mir_gene_names.append(",".join(target_genes_names))
+            distal_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
 
         self.out_dataframe.loc[:, target + '_inside'] = inside_mature_mir_gene_names
         self.out_dataframe.loc[:, target + '_inside_count'] = inside_mature_mir_gene_names_count
@@ -342,6 +382,8 @@ class MainApp:
         self.out_dataframe.loc[:, target + '_cross_count'] = cross_mature_mir_gene_names_count
         self.out_dataframe.loc[:, target + '_distal'] = distal_mature_mir_gene_names
         self.out_dataframe.loc[:, target + '_distal_count'] = distal_mature_mir_gene_names_count
+        
+        return target_genes_dict_inside, target_genes_dict_cross, target_genes_dict_distal
 
     def add_meta_gene(self, genelist):
         db = self.connection['genelists'][genelist]
@@ -375,21 +417,20 @@ class MainApp:
         self.out_dataframe.loc[:, genelist + '_distal_count'] = genes_distal_count
 
     
-def write_file(cnv_infolist: DataFrame, out_filename: str):
+def write_file(cnv_infolist: DataFrame, mirbase_dict: dict, out_filename: str):
     """
     Write a DataFrame to excel
     :param DataFrame cnv_infolist: Annotated pandas DataFrame to be written to xlsx file
     :param out_filename: File name of the final xlsx file
     """
     
+    # Writing Excel file
     writer = pd.ExcelWriter(out_filename, engine='xlsxwriter')
     cnv_infolist.to_excel(writer, sheet_name='Annotated CNV - ' + time.strftime("%d-%m-%Y"), startrow=1,
                           header=False, index=False)
     
     workbook = writer.book
     worksheet = writer.sheets['Annotated CNV - ' + time.strftime("%d-%m-%Y")]
-    # worksheet.set_column('A:D', 10)
-    # worksheet.set_column('E:ZZ', 15)
     worksheet.freeze_panes(1, 0)
     header_format = workbook.add_format({
         'bold': True,
@@ -403,12 +444,21 @@ def write_file(cnv_infolist: DataFrame, out_filename: str):
         worksheet.write(0, col_num, value, header_format)
     
     writer.save()
-
+    
+    # Writing JSON file
     json = cnv_infolist.reset_index().to_json(orient='records')
     with open(re.sub('.xlsx', '.json', out_filename), 'w') as f:
         f.write(json)
 
-
+    # Writing CSV file
+    cnv_infolist.to_csv(re.sub('.xlsx', '.csv', out_filename))
+    
+    #mirBase section (if --mirbase selected)
+    if mirbase_dict != {}:
+        with open(re.sub('.xlsx', '_mirbase.json', out_filename), 'w') as f:
+            import json
+            json.dump(mirbase_dict, f)
+    
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
@@ -429,7 +479,7 @@ if __name__ == '__main__':
     parser.add_argument("--pseudogene", action='store_true', required=False,
                         help="BED file of known pseudogenes from GENECODE")
     parser.add_argument("--mirbase", action='store_true', required=False, help="miRBase file")
-    parser.add_argument("--all", dest='all-beds', action='store_true', required=False,
+    parser.add_argument("--all", dest='all_beds', action='store_true', required=False,
                         help="Perform all available annotations")
     
     parser.add_argument("--all-genelists", action='store_true', required=False,
@@ -450,15 +500,15 @@ if __name__ == '__main__':
                         help="Perform mendeliome gene classification")
     parser.add_argument("--onologs-genelist", dest='onologhi_genelist', action='store_true', required=False,
                         help="Perform onologs gene classification")
-    parser.add_argument("--pubmed-autism-genelist", dest='pubmed_autism_09-02-2018_genelist', action='store_true', required=False,
+    parser.add_argument("--pubmed-autism-genelist", dest='pubmed_autism_genelist', action='store_true', required=False,
                         help="Perform pubmed autism gene classification")
-    parser.add_argument("--pubmed-brain-genelist", dest='pubmed_brain_malformations_09-02-2018_genelist',
+    parser.add_argument("--pubmed-brain-genelist", dest='pubmed_brain_malformations_genelist',
                         action='store_true', required=False,
                         help="Perform pubmed brain malformations gene classification")
-    parser.add_argument("--pubmed-epilepsy-genelist", dest='pubmed_epilepsy_or_seizures_09-02-2018_genelist',
+    parser.add_argument("--pubmed-epilepsy-genelist", dest='pubmed_epilepsy_or_seizures_genelist',
                         action='store_true', required=False,
                         help="Perform pubmed epilepsy gene classification")
-    parser.add_argument("--pubmed-ID-genelist", dest='pubmed_intellectual_disability_09-02-2018_genelist',
+    parser.add_argument("--pubmed-ID-genelist", dest='pubmed_intellectual_disability_genelist',
                         action='store_true', required=False,
                         help="Perform pubmed intellectual disability gene classification")
 

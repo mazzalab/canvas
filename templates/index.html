@@ -137,7 +137,7 @@
 													  </label>
 													</div>
 													<div style="margin-left:20px">
-											    	{{ form.line_input.label }}:{{ form.line_input(placeholder='E.g.: chr1:12345-23456', required=True, pattern='chr\d+:\d+-\d+$') }}
+											    	{{ form.line_input.label }}:{{ form.line_input(placeholder='E.g.: chr1:12345-23456', required=True, pattern='chr[\dXYM]+:\d+-\d+$') }}
 													</div>
 													<div class="radio">
 														<label style="margin-top: 25px;">
@@ -248,18 +248,6 @@
 									jQuery('ul#genes input').attr({'disabled':'disabled'});
 							}
 					});
-
-					// jQuery('ul#genes input').attr({'disabled':'disabled'})
-					// if ( document.getElementById('annot-2').checked){
-					//
-					// 	jQuery('ul#genes input').removeAttr('disabled');
-					// }else{
-					// 	jQuery('ul#genes input').attr({'disabled':'disabled'});
-					// }
-					//
-					// if ( $('#annot-2').attr({'unchecked':'unchecked'})){
-					// 	jQuery('ul#genes input').attr({'disabled':'disabled'})
-					// }
 			</script>
 
       </div>
