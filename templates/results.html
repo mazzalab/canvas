@@ -27,13 +27,29 @@
 
 <script id="json-reader">
 
+  console.log({{choices|tojson|safe}})
+  console.log({{choices|tojson|safe}}.includes('mirbase'))
   var jsonData;
+  var mirbase_jsonData
   $.ajax({
     dataType: "json",
     url: "{{ json_out }}",
     async: false,
     success: function(data){jsonData = data}
   });
+
+  if ({{choices|tojson|safe}}.includes('mirbase')){
+    $.ajax({
+      dataType: "json",
+      url: "{{ json_out }}".replace(".json", "_mirbase.json"),
+      async: false,
+      success: function(data){mirbase_jsonData = data}
+    });
+  }
+
+  console.log(jsonData)
+  console.log(mirbase_jsonData)
+
 
 </script>
 
@@ -87,65 +103,67 @@
     var cnvselection=-1;
     function updateGenes(cnvselection, jsonData) {
       {% for c in choices %}
-          $('#sel-{{c}}').empty();
-          // console.log("UPDATING "+ '#sel-{{c}}')
-          // console.log("CHOICE: "+cnvselection)
-          if (cnvselection==-1){
-            console.log("no choice")
-          }else{
-            enableWin("{{c}}")
-            var position = 'inside';
-            var radios = document.getElementsByName("radio-{{c}}");
-            for (var i = 0, length = radios.length; i < length; i++) {
-                if (radios[i].checked) {
-                    // do whatever you want with the checked radio
-                    position = radios[i].value;
-
-                    document.getElementById("radio-{{c}}-inside-label").innerHTML = 'inside ('+jsonData[cnvselection].{{c}}_inside_count+')';
-                    document.getElementById("radio-{{c}}-cross-label").innerHTML = 'cross ('+jsonData[cnvselection].{{c}}_cross_count+')';
-                    document.getElementById("radio-{{c}}-distal-label").innerHTML = 'distal ('+jsonData[cnvselection].{{c}}_distal_count+')';
-
-                    if(position == 'inside-{{c}}'){
-                      var splitgenes = jsonData[cnvselection].{{c}}_inside.split(',')
-                    }else if (position == 'cross-{{c}}') {
-                      var splitgenes = jsonData[cnvselection].{{c}}_cross.split(',')
-                    }else if (position == 'distal-{{c}}') {
-                      var splitgenes = jsonData[cnvselection].{{c}}_distal.split(',')
-                    }
-                    // only one radio can be logically checked, don't check the rest
-                    break;
-                }
-            }
-            // console.log("CORRECT CHOICE: ")
-            // console.log(jsonData[cnvselection])
-
-            for (i = 0; i < splitgenes.length; i++) {
-                // console.log(splitgenes[i])
-                if ('{{c}}' == 'mirna' && splitgenes[i]){
-                  // console.log("UPDATING MIRNA WITH")
-                  // console.log(splitgenes[i])
-                  var regexp = /"ID=(.*);Alias=(.*);Name=(.*)"/gm;
-                  var match = regexp.exec(splitgenes[i])
-                  if (match){
-                    genename = match[3]
-                    geneID = match[1]
-                  }else{
-                    genename = '.'
-                    geneID = '0'
-                  }
-
+          {% if c!='mirbase' %}
+                $('#sel-{{c}}').empty();
+                // console.log("UPDATING "+ '#sel-{{c}}')
+                // console.log("CHOICE: "+cnvselection)
+                if (cnvselection==-1){
+                  console.log("no choice")
                 }else{
-                  genename = splitgenes[i]
-                }
-                if(genename!='.'){
-                  if ('{{c}}' == 'mirna' && geneID){
-                    $('#sel-{{c}}').append($('<option></option>').attr('value', geneID).text(genename));
-                  }else{
-                    $('#sel-{{c}}').append($('<option></option>').attr('value', genename).text(genename));
+                  enableWin("{{c}}")
+                  var position = 'inside';
+                  var radios = document.getElementsByName("radio-{{c}}");
+                  for (var i = 0, length = radios.length; i < length; i++) {
+                      if (radios[i].checked) {
+                          // do whatever you want with the checked radio
+                          position = radios[i].value;
+
+                          document.getElementById("radio-{{c}}-inside-label").innerHTML = 'inside ('+jsonData[cnvselection].{{c}}_inside_count+')';
+                          document.getElementById("radio-{{c}}-cross-label").innerHTML = 'cross ('+jsonData[cnvselection].{{c}}_cross_count+')';
+                          document.getElementById("radio-{{c}}-distal-label").innerHTML = 'distal ('+jsonData[cnvselection].{{c}}_distal_count+')';
+
+                          if(position == 'inside-{{c}}'){
+                            var splitgenes = jsonData[cnvselection].{{c}}_inside.split(',')
+                          }else if (position == 'cross-{{c}}') {
+                            var splitgenes = jsonData[cnvselection].{{c}}_cross.split(',')
+                          }else if (position == 'distal-{{c}}') {
+                            var splitgenes = jsonData[cnvselection].{{c}}_distal.split(',')
+                          }
+                          // only one radio can be logically checked, don't check the rest
+                          break;
+                      }
                   }
+                  // console.log("CORRECT CHOICE: ")
+                  // console.log(jsonData[cnvselection])
+
+                  for (i = 0; i < splitgenes.length; i++) {
+                      // console.log(splitgenes[i])
+                      if ('{{c}}' == 'mirna' && splitgenes[i]){
+                        // console.log("UPDATING MIRNA WITH")
+                        // console.log(splitgenes[i])
+                        var regexp = /"ID=(.*);Alias=(.*);Name=(.*)"/gm;
+                        var match = regexp.exec(splitgenes[i])
+                        if (match){
+                          genename = match[3]
+                          geneID = match[1]
+                        }else{
+                          genename = '.'
+                          geneID = '0'
+                        }
+
+                      }else{
+                        genename = splitgenes[i]
+                      }
+                      if(genename!='.'){
+                        if ('{{c}}' == 'mirna' && geneID){
+                          $('#sel-{{c}}').append($('<option></option>').attr('value', geneID).text(geneID));
+                        }else{
+                          $('#sel-{{c}}').append($('<option></option>').attr('value', genename).text(genename));
+                        }
+                      }
+                    }
                 }
-              }
-          }
+          {% endif %}
       {% endfor %}
     };
 
@@ -275,18 +293,113 @@
   });
 </script>
 
+<script>
+  $(document).on("click", ".open-mirbaseDialog", function () {
+    $(".modal-dialog").draggable({
+      handle: ".modal-header"
+    });
+    $('.modal-content').resizable({
+      // alsoResize: ".modal-dialog",
+      // alsoResize: "#modal-sel",
+      // minHeight: 400,
+      minWidth: 300
+    });
+    $('#genesModal').on('show.bs.modal', function () {
+        $(this).find('.modal-body').css({
+            'max-height':'100%'
+        });
+    });
+
+    var cnvdrop = document.getElementById("cnv-dropdown");
+    cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+    var category = $(this).data('category');
+    var position = 'inside-mirna';
+    // var genelist_choices = {{genes_choices|tojson|safe}}
+    var radios = document.getElementsByName("radio-"+category);
+    for (var i = 0, length = radios.length; i < length; i++) {
+       if (radios[i].checked) {
+           // do whatever you want with the checked radio
+            position = radios[i].value;
+            position_index = i
+            break;
+        };
+    };
+
+
+    var mir_selects = [];
+
+    // If we want selects only:
+    //$.each($("#sel-mirna option:selected"), function(){
+    //   console.log("You have selected - " + $(this).text);
+    //   mir_selects.push($(this).val())
+    // });
+
+    // Else, on every miRNA:
+
+    var all_mirnas = document.getElementById("sel-mirna");
+    for (i = 0; i < all_mirnas.length; i++) {
+        mir_selects.push(all_mirnas[i].value);
+    }
+
+    console.log(position)
+    console.log(mir_selects)
+    document.getElementById("mirbasemodal-title").innerHTML = category + ' - ' + position.split('-')[0];
+    document.getElementById("mirbase-classification").innerHTML = "<thead><tr id=\"mirbaseheader-row\"></tr></thead><tbody id=\"mirbasetable-body\"></tbody>"
+
+    function updatemirbaseModal(){
+      document.getElementById("mirbaseheader-row").innerHTML = "<th>miRNA ID</th>"
+      for (var i = 0, length = Object.keys(mirbase_jsonData).length; i < length; i++){
+          document.getElementById("mirbaseheader-row").innerHTML += "<th>"+Object.keys(mirbase_jsonData)[i]+"</th>"
+      }
+
+      mirbase_tablehtml = ""
+
+      for (var i = 0, length = mir_selects.length; i < length; i++){
+        mirbase_tablehtml += "<tr><td>"+mir_selects[i]+"</td>"
+        for (var j = 0, length_targets = Object.keys(mirbase_jsonData).length; j < length_targets; j++){
+            console.log("Checking "+ mir_selects[i] + "in " + Object.keys(mirbase_jsonData)[j])
+            console.log(mirbase_jsonData[Object.keys(mirbase_jsonData)[j]][position_index][mir_selects[i]])
+            if (mirbase_jsonData[Object.keys(mirbase_jsonData)[j]][position_index][mir_selects[i]][0] != ["."]){
+              mirbase_tablehtml += "<td><img src=\"../static/img/smallcheck.png\" /><a href=\"\" style=\"vertical-align:middle\">&nbsp&nbspList</a></td>"
+            }else{
+              mirbase_tablehtml += "<td><img src=\"../static/img/smallcross.png\" /><span style=\"opacity:0\">N</span></td>"
+            }
+        }
+        mirbase_tablehtml += "</tr>"
+
+      }
+      document.getElementById("mirbasetable-body").innerHTML += mirbase_tablehtml
+      $('#mirbase-classification').DataTable().destroy();
+      $('#mirbase-classification').DataTable().draw();
+    };
+
+    updatemirbaseModal();
+
+  });
+</script>
+
+<!-- // $(document).ready(function() {
+//     $("#mirbasemodal-link").click(function(){
+//         $.each($("#sel-mirna option:selected"), function(){
+//           // window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val(), '_blank');
+//           // window.focus();
+//           console.log("You have selected - " + $(this).val());
+//         });
+//     });
+// }); -->
+
 
 <script>
     function enableWin(category) {
         document.getElementById("modal-link-"+category).disabled = false;
-        if (category == 'gene'){
+        if (category == 'gene' && document.getElementById("genesmodal-link")){
             document.getElementById("genesmodal-link").disabled = false;
         }
     }
 
     function disableWin(category) {
         document.getElementById("modal-link-"+category).disabled = true;
-        if (category == 'gene'){
+        if (category == 'gene' && document.getElementById("genesmodal-link")){
             document.getElementById("genesmodal-link").disabled = true;
         }
     }
@@ -304,7 +417,7 @@
         <img src="../static/img/dna2.png">
     </div>
 </div>
-<div class= "section section-gray section-clients" style="padding-top:10px">
+<div class= "section section-gray section-clients" style="padding-top:10px; height: -webkit-fill-available;">
   <div class="results-container container">
       <h2 style="margin-left:30px; margin-bottom: 40px; color: #307ba0;">Results</h2>
     <div style="display:-webkit-box; margin-left: 30px;">
@@ -347,124 +460,144 @@
     <br>
     <div class="row draggablePanelList" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
     {% for c in choices %}
-      <div class="col-sm-4">
-        <div class="panel panel-info">
-          <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">{{ c }}</div>
-          <div class="panel-body">
-            <form>
+      {% if c!='mirbase' %}
+            <div class="col-sm-4">
+              <div class="panel panel-info">
+                <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">{{ c }}</div>
+                <div class="panel-body">
+                  <form>
 
-              <div id="radios">
-                  <div class="radio-inline">
-                    <label class="form-check-label-{{c}}">
-                    <input type="radio" class="form-check-input" name="radio-{{c}}" id="inside-{{c}}" value="inside-{{c}}"
-                    checked><span id="radio-{{c}}-inside-label">inside (0)</span>
-                    </label>
-                  </div>
-                  <div class="radio-inline">
-                    <label class="form-check-label-{{c}}">
-                    <input type="radio" class="form-check-input" name="radio-{{c}}" id="cross-{{c}}" value="cross-{{c}}"
-                    unchecked><span id="radio-{{c}}-cross-label">cross (0)</span>
-                    </label>
-                  </div>
-                  <div class="radio-inline">
-                    <label class="form-check-label-{{c}}">
-                    <input type="radio" class="form-check-input" name="radio-{{c}}" id="distal-{{c}}" value="distal-{{c}}"
-                    unchecked><span id="radio-{{c}}-distal-label">distal (0)</span>
-                    </label>
-                  </div>
-                  <div class="help-tip">
-                    <p>You can select among three subsets of <b>{{ c }}</b>s:<br /><br />
-                      &nbsp;&nbsp;- <b>inside</b>:<br />
-                      &nbsp;&nbsp;- <b>cross</b>:<br />
-                      &nbsp;&nbsp;- <b>distal</b>:<br />
-                  </p>
-                  </div>
-              </div>
+                    <div id="radios">
+                        <div class="radio-inline">
+                          <label class="form-check-label-{{c}}">
+                          <input type="radio" class="form-check-input" name="radio-{{c}}" id="inside-{{c}}" value="inside-{{c}}"
+                          checked><span id="radio-{{c}}-inside-label">inside (0)</span>
+                          </label>
+                        </div>
+                        <div class="radio-inline">
+                          <label class="form-check-label-{{c}}">
+                          <input type="radio" class="form-check-input" name="radio-{{c}}" id="cross-{{c}}" value="cross-{{c}}"
+                          unchecked><span id="radio-{{c}}-cross-label">cross (0)</span>
+                          </label>
+                        </div>
+                        <div class="radio-inline">
+                          <label class="form-check-label-{{c}}">
+                          <input type="radio" class="form-check-input" name="radio-{{c}}" id="distal-{{c}}" value="distal-{{c}}"
+                          unchecked><span id="radio-{{c}}-distal-label">distal (0)</span>
+                          </label>
+                        </div>
+                        <div class="help-tip">
+                          <p>You can select among three subsets of <b>{{ c }}</b>s:<br /><br />
+                            &nbsp;&nbsp;- <b>inside</b>:<br />
+                            &nbsp;&nbsp;- <b>cross</b>:<br />
+                            &nbsp;&nbsp;- <b>distal</b>:<br />
+                        </p>
+                        </div>
+                    </div>
 
-              <select multiple class="form-control" id="sel-{{c}}"></select>
-              <div>
+                    <select multiple class="form-control" id="sel-{{c}}"></select>
+                    <div>
 
-              </div>
-              <div style="position:relative; margin-top:10px; min-height: 36px;">
+                    </div>
+                    <div style="position:relative; margin-top:10px; min-height: 36px;">
 
-              {% if c == 'gene' %}
-                  <button class="btn" type="button" id="getSelectsBtn-{{c}}"
-                  style="padding: 4px 8px; border-width: 1px;">
-                  <img src="../static/img/gc_small.png" style="max-width:100%" /></button>
-                  <script>
-                    $(document).ready(function() {
-                        $("#getSelectsBtn-{{c}}").click(function(){
-                            $.each($("#sel-{{c}} option:selected"), function(){
-                              window.open("https://www.genecards.org/cgi-bin/carddisp.pl?gene="+$(this).val(), '_blank');
-                              // window.focus();
-                              console.log("You have selected - " + $(this).val());
-                            });
-                        });
-                    });
-                    console.log({{genes_choices|tojson|safe}})
-                  </script>
-                  {% if genes_choices!=[] %}
-                      <a id="genesmodal-link" href="#genesModal" data-toggle="modal" data-category="{{c}}" data-position=""
-                      data-backdrop="false" title="Add this item" class="open-genesDialog new-win btn" style="position:relative">
-                      <!-- <a id="genesmodal-link" href="#genesModal" data-toggle="modal" data-category="{{c}}" data-position=""
-                      data-backdrop="false" title="Add this item" class="open-AddBookDialog new-win"> -->
-                      Classification
-                      <!-- </a> -->
-                      <!-- <script>
-                        $(document).ready(function() {
-                            $("#getSelectGenesBtn-{{c}}").click(function(){
-
-                            });
+                    {% if c == 'gene' %}
+                        <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                        style="padding: 4px 8px; border-width: 1px;">
+                        <img src="../static/img/gc_small.png" style="max-width:100%" /></button>
+                        <script>
+                          $(document).ready(function() {
+                              $("#getSelectsBtn-{{c}}").click(function(){
+                                  $.each($("#sel-{{c}} option:selected"), function(){
+                                    window.open("https://www.genecards.org/cgi-bin/carddisp.pl?gene="+$(this).val(), '_blank');
+                                    // window.focus();
+                                    console.log("You have selected - " + $(this).val());
+                                  });
+                              });
                           });
-                      </script> -->
-                      </a>
-                  {% endif %}
-              {% endif %}
+                        </script>
+                        {% if genes_choices!=[] %}
+                            <a id="genesmodal-link" href="#genesModal" data-toggle="modal" data-category="{{c}}" data-position=""
+                            data-backdrop="false" title="Add this item" class="open-genesDialog new-win btn" style="position:relative">
+                            <!-- <a id="genesmodal-link" href="#genesModal" data-toggle="modal" data-category="{{c}}" data-position=""
+                            data-backdrop="false" title="Add this item" class="open-AddBookDialog new-win"> -->
+                            Classification
+                            <!-- </a> -->
+                            <!-- <script>
+                              $(document).ready(function() {
+                                  $("#getSelectGenesBtn-{{c}}").click(function(){
 
-              {% if c == 'mirna' %}
-                  <button class="btn" type="button" id="getSelectsBtn-{{c}}"
-                  style="padding: 8px 8px; font-size:95%; font-weight: bold; color:#d60000; border-width: 1px;">miRBase
-                  </button>
-                  <script>
-                    $(document).ready(function() {
-                        $("#getSelectsBtn-{{c}}").click(function(){
-                            $.each($("#sel-{{c}} option:selected"), function(){
-                              window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val(), '_blank');
-                              // window.focus();
-                              console.log("You have selected - " + $(this).val());
-                            });
-                        });
-                    });
-                  </script>
-              {% endif %}
+                                  });
+                                });
+                            </script> -->
+                            </a>
+                        {% endif %}
+                    {% endif %}
 
-              {% if c == 'pseudogene' %}
-                  <button class="btn" type="button" id="getSelectsBtn-{{c}}"
-                  style="padding: 5px 8px 9px 8px; border-width: 1px;">
-                  <img src="../static/img/ensembl_small.png" style="max-width:100%" /></button>
-                  <script>
-                    $(document).ready(function() {
-                        $("#getSelectsBtn-{{c}}").click(function(){
-                            $.each($("#sel-{{c}} option:selected"), function(){
-                              window.open("https://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;t="+$(this).val(), '_blank');
-                              // window.focus();
-                              console.log("You have selected - " + $(this).val());
+                    {% if c == 'mirna' %}
+                        <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                        style="padding: 8px 8px; font-size:95%; font-weight: bold; color:#d60000; border-width: 1px;">miRBase
+                        </button>
+                        <script>
+                          $(document).ready(function() {
+                              $("#getSelectsBtn-{{c}}").click(function(){
+                                  $.each($("#sel-{{c}} option:selected"), function(){
+                                    window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val(), '_blank');
+                                    // window.focus();
+                                    console.log("You have selected - " + $(this).val());
+                                  });
+                              });
+                          });
+                        </script>
+
+                        {% if 'mirbase' in choices %}
+                          <a id="mirbasemodal-link" href="#mirbaseModal" data-toggle="modal" data-category="{{c}}" data-position=""
+                          data-backdrop="false" title="Add this item" class="open-mirbaseDialog new-win btn" style="position:relative">
+                          Classification
+                          </a>
+                          <!-- <script>
+                            $(document).ready(function() {
+                                $("#mirbasemodal-link").click(function(){
+                                    $.each($("#sel-mirna option:selected"), function(){
+                                      // window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val(), '_blank');
+                                      // window.focus();
+                                      console.log("You have selected - " + $(this).val());
+                                    });
+                                });
                             });
-                        });
-                    });
-                  </script>
-              {% endif %}
-              <a id="modal-link-{{c}}" href="#myModal" data-toggle="modal" data-category="{{c}}" data-position=""
-              data-backdrop="false" title="Add this item" class="open-AddBookDialog new-win">
-              <img src="../static/img/newwin.png"></a>
-              <script>
-                disableWin("{{c}}")
-              </script>
+                          </script> -->
+                        {% endif %}
+
+                    {% endif %}
+
+                    {% if c == 'pseudogene' %}
+                        <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                        style="padding: 5px 8px 9px 8px; border-width: 1px;">
+                        <img src="../static/img/ensembl_small.png" style="max-width:100%" /></button>
+                        <script>
+                          $(document).ready(function() {
+                              $("#getSelectsBtn-{{c}}").click(function(){
+                                  $.each($("#sel-{{c}} option:selected"), function(){
+                                    window.open("https://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;t="+$(this).val(), '_blank');
+                                    // window.focus();
+                                    console.log("You have selected - " + $(this).val());
+                                  });
+                              });
+                          });
+                        </script>
+                    {% endif %}
+                    <a id="modal-link-{{c}}" href="#myModal" data-toggle="modal" data-category="{{c}}" data-position=""
+                    data-backdrop="false" title="Add this item" class="open-AddBookDialog new-win">
+                    <img src="../static/img/newwin.png"></a>
+                    <script>
+                      disableWin("{{c}}")
+                    </script>
+                  </div>
+                  </form>
+                </div>
+              </div>
             </div>
-            </form>
-          </div>
-        </div>
-      </div>
+        {% endif %}
     {% endfor %}
     <script>
         var cnvdrop = document.getElementById("cnv-dropdown");
@@ -520,6 +653,30 @@
             </div>
             <div class="modal-body" style="height:calc(100% - 100px);">
                 <table id="classification" class="table table-striped table-bordered">
+                </table>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+                <!-- <button id="genesloadpage" type="button" class="btn btn-primary">Download selected</button> -->
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<div id="mirbaseModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="min-height:400px; height:fit-content ;width: fit-content;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title" id="mirbasemodal-title" style="text-transform:capitalize">Title</h4>
+
+            </div>
+            <div class="modal-body" style="height:calc(100% - 100px);">
+                <table id="mirbase-classification" class="table table-striped table-bordered">
                 </table>
             </div>
             <div class="modal-footer">

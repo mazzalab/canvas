@@ -222,7 +222,7 @@ padding: 5px;
        cursor: move;
    }
 
-#genesmodal-link {
+#genesmodal-link, #mirbasemodal-link{
     color: #7b2a2a;
     padding: 7px;
     position: relative;
@@ -613,7 +613,7 @@ vertical-align: middle;
 }
 
 .navbar-header {
-	padding: 10px 0;
+	padding: 0px 0;
 }
 
 .navbar {
@@ -968,7 +968,7 @@ vertical-align: middle;
 	font-weight: 700;
 }
 .logo-container{
-    margin-top: 10px;
+    margin-top: 0px;
 }
 .logo-container .logo img{
     width: 100%;
@@ -1513,7 +1513,7 @@ vertical-align: middle;
     max-width: unset !important;
   }
     .landing-page .navbar-top{
-        padding-top: 10px;
+        padding-top: 18px;
     }
 
     #fileupload{

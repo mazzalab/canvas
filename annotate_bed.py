@@ -283,7 +283,7 @@ class MainApp:
         # list()
         # print(list(itertools.chain.from_iterable(list(mature_mir_gene_names_dict.values()))))
         # print("these are the keys ^^^")
-        print(mature_mir_gene_names_dict)
+        # print(mature_mir_gene_names_dict)
         # input()
         # print(mature_mir_gene_names == list(itertools.chain.from_iterable(list(mature_mir_gene_names_dict.values()))))
         # return mature_mir_gene_names_dict if len(mature_mir_gene_names) > 0 else ["."]
