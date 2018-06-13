@@ -55,15 +55,18 @@ class MainApp:
         self.db_t = self.connection['targets']
         self.d = vars(self.args)
         self.mirbase_dict = {}  #this stores the mirbase annotation that will be written as a separate json
-        print(self.d)
+        # print(self.d)
         
+
     def process(self):
+    
+        # sys.stdout = sys.stderr = open(self.args.out.replace('.xlsx', '_log.txt'), 'wt')
         
         for arg in self.d:
             
             if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists'] and \
                     (self.d[arg] or self.d['all_beds']) and not arg.startswith('__'):
-                print("Checking presence of {}...".format(arg))
+                sys.stdout.write("Checking presence of {}...\n".format(arg))
                 
                 # Checking presence of required genelists and BEDs....
                 if 'genelist' in arg and not arg.replace('_genelist', '') in self.db_gl.collection_names():
@@ -92,10 +95,14 @@ class MainApp:
         self.out_dataframe = cnv_info
 
         # Annotation based on the options that were chosen
+        count = 0
         for arg in self.d:
             if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists'] and \
                     (self.d[arg] or self.d['all_beds']) and not arg.startswith('__') and not 'genelist' in arg:
-                print("Adding annotation for", arg)
+                count += 1
+                sys.stdout.write("Adding annotation for {}...\n".format(arg))
+                f = open(os.path.dirname(self.args.out)+'/'+str(count)+'_'+arg+'.progress', 'w')
+                f.close()
                 if arg != 'mirbase':
                     self.add_annotation(arg)
                 else:
@@ -106,11 +113,11 @@ class MainApp:
                         self.mirbase_dict[target_db].extend((dict_inside, dict_cross, dict_distal))
         
         # Genelists annotation
-        print("Adding genelists classifications...")
+        sys.stdout.write("Adding genelists classifications...\n")
         if self.d['gene'] or self.d['all_genelists']:
             for name in sorted(self.db_gl.collection_names()):
                 if self.d[name+'_genelist'] or self.d['all_genelists']:
-                    print("Adding {} gene classification...".format(name))
+                    sys.stdout.write("Adding {} gene classification...\n".format(name))
                     self.add_meta_gene(name)
         else:
             sys.stderr.write("WARNING: Could not add genelists annotation since --gene option was not included.\n")
@@ -118,6 +125,9 @@ class MainApp:
         #Writing final file
         write_file(self.out_dataframe, self.mirbase_dict, self.args.out)
         # return self.out_dataframe.reset_index().to_json(orient='records')
+
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
     
     def read_cnv_coordinates_file(self, cnv_file: str) -> DataFrame:
         """
@@ -160,7 +170,7 @@ class MainApp:
         :param str annotation_db: File path and name of the annotation BED file
         """
         db = self.connection['BED'][annotation_db]
-        print('Annotating', annotation_db)
+        sys.stdout.write('Annotating {}...\n'.format(annotation_db))
         distance_from_gene = self.args.distance
         
         inside_molecules = []

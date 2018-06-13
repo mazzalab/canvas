@@ -181,6 +181,15 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] {
   box-shadow: 0 0 4px 0 #f00;
 }
 
+#progress {
+  border-radius: 15px;
+  border-color: lightskyblue;
+    background-color: white;
+    padding: 34px;
+    line-height: 32px;
+    border-style: solid;
+    padding-left: 73px;
+}
 /* input[aria-invalid="false"], textarea[aria-invalid="false"] {
   border: 1px solid #3ebd00;
   box-shadow: 0 0 4px 0 #3ebd00;

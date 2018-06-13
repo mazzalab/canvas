@@ -11,6 +11,7 @@ from flask import url_for
 from flask_bootstrap import Bootstrap
 from multiprocessing.pool import ThreadPool
 import re
+import glob
 
 from pymongo import MongoClient
 
@@ -24,6 +25,10 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 ANNOT_CHOICES = [('all_beds','All'), ('circRNA','circRNA'), ('gene', 'Genes'),('coding_gene','Coding genes'),
                  ('longNC','Long non-coding'), ('mirna','miRNA'), ('mirbase','mirBase'),
                  ('noncoding_gene','Non-coding genes'),('pseudogene','Pseudogenes')]
+# annot_dict = {}
+# for a in ANNOT_CHOICES:
+#     annot_dict[a[0]] = a[1]
+
 
 GENELISTS = [('all_genelists','All'), ('ASD', 'ASD'), ('ID_a', 'ID a'), ('ID_b','ID b'), ('dosage_sensitive', 'Dosage sensitive'),
              ('epilessia', 'Epilepsy'), ('malformazioni', 'Malformations'), ('mendeliome', 'Mendeliome'),
@@ -187,8 +192,16 @@ def worker(args):
 @app.route('/status')
 def thread_status():
     global async_result
+    
     """ Return the status of the worker thread """
-    return jsonify(dict(status=('finished' if finished else 'running')))
+    # f_read = open(session['file_out'].replace('.xlsx','_log.txt'), "r").readlines()
+    # # st_results = os.stat(session['file_out'].replace('.xlsx','_log.txt'))
+    # # st_size = st_results[6]
+    # # f_read.seek(st_size)
+    progress = [re.sub("\d_","", os.path.basename(x).split('.')[0]) for x in glob.glob(os.path.dirname(session['file_out'])+'/*.progress')]
+    progress.sort()
+    
+    return jsonify(dict(status=('finished' if finished else progress)))
 
 @app.route('/results.html', methods=['GET', 'POST'])
 def results():

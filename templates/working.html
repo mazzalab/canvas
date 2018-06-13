@@ -3,7 +3,6 @@
 {% block title %}Working...{% endblock %}
 {% block head %}
 {{ super() }}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>
   $(document).ready(function() {
     var refresh_id = setInterval(function() {
@@ -13,10 +12,15 @@
             console.log(data);
             if (data.status == 'finished') {
               window.location.replace("{{ url_for('results') }}");
+            }else{
+              document.getElementById("progress").innerHTML = ''
+              for (var i = 0, length = data.status.length; i < length; i++){
+                document.getElementById("progress").innerHTML += "Calculating "+data.status[i].replace('_',' ')+"...<br />"
+              }
             }
           }
         )}
-      , 1000);
+      , 100);
   });
 </script>
 {% endblock %}
@@ -31,9 +35,15 @@
         <img src="../static/img/dna2.png">
     </div>
 </div>
-<div class= "section section-gray section-clients">
-  <p>
-    Working.....
-  </p>
+<div class="section section-gray section-clients" style="height: -webkit-fill-available;">
+  <div class= "container">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-5">
+      <div id="progress">
+        Working...
+      </div>
+    </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
