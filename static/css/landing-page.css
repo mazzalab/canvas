@@ -256,6 +256,7 @@ padding: 5px;
 .panel-body {
   height: 243px;
   padding: 13px 25px;
+
 }
 
 .navbar {
@@ -1354,19 +1355,24 @@ vertical-align: middle;
 @media (max-width: 767px){
 
   .container {
-    width:320px;
+    width:360px;
+    padding-bottom: 12px;
   }
   #annot-panel{
-    width:295px;
+    min-width: 330px !important;
   }
   #annot-panel-container{
-    padding-left: 0px;
+    padding-left: auto;
   }
   #bed-checklist{
     width: auto!important;
   }
   #genelist-checklist{
     width:auto!important;
+  }
+  .row {
+    margin-left: auto;
+    margin-right: auto;
   }
   .nav > li{
     text-align: center;
@@ -1376,6 +1382,9 @@ vertical-align: middle;
   }
   .navbar-toggle{
     padding: 16px 10px;
+  }
+  .navbar-header{
+    padding-top: 20px;
   }
   .logo-container .logo{
     margin-left: 20px;
@@ -1449,6 +1458,11 @@ vertical-align: middle;
 
   #hg-panel{
     height: 105px;
+    min-width: 330px !important;
+  }
+
+  #input-panel{
+    min-width: 330px !important;
   }
 
   #annot-panel{
@@ -1467,6 +1481,10 @@ vertical-align: middle;
   .results-container {
     max-width: unset !important;
     width: 100% !important;
+  }
+  #download-span{
+    display: inline-grid;
+    text-align: center;
   }
 }
 
@@ -1505,6 +1523,25 @@ vertical-align: middle;
   #modal-link-gene img {
     width: 13px;
   }
+  #genesmodal-link{
+    font-size: 80%;
+  }
+  #getSelectsBtn-mirna{
+    font-size: 70% !important;
+  }
+  #mirbasemodal-link{
+    font-size: 80%;
+  }
+
+  #getSelectsBtn-pseudogene{
+    height: 31px;
+    padding: 2px 3px 7px 3px !important;
+  }
+  #getSelectsBtn-pseudogene img{
+    width: 80%;
+  }
+
+
 }
 @media (max-width: 992px){
   .section-demo {
@@ -1514,6 +1551,12 @@ vertical-align: middle;
     height: 372px;
   }
 
+}
+
+@media (max-width: 992px) and (min-width:769px){
+  .col-sm-4 {
+    width: 50%;
+  }
 }
 
 @media (min-width: 768px){
@@ -1774,7 +1817,7 @@ ul.banner-social-buttons li {
 @media(max-width:582px) {
   #download-span {
     margin-top: 20px;
-    display: -webkit-inline-box;
+    display: inline-grid;
     margin-left: 0px !important  ;
   }
 }

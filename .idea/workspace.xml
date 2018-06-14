@@ -2,10 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="240b687c-d558-49db-b1ac-c8908ba7987b" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/meta_longNC.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/refseq_allgenes.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/refseq_coding_genes.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/refseq_noncoding_genes.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/ASD_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/ID_a_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/ID_b_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_1_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_2_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_3_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_4_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_5_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_6_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene-score_S_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/discarded_genscore_genelists/gene_noscore_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/epilessia_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/malformazioni_genelist.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/genelists/onologhi_genelist.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/annotate_bed.py" afterPath="$PROJECT_DIR$/annotate_bed.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/other scripts/make_meta_lnc.R" afterPath="$PROJECT_DIR$/other scripts/make_meta_lnc.R" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/BED/circRNA.txt" afterPath="$PROJECT_DIR$/resources/BED/circRNA.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/BED/coding_gene.txt" afterPath="$PROJECT_DIR$/resources/BED/coding_gene.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/BED/gene.txt" afterPath="$PROJECT_DIR$/resources/BED/gene.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/BED/longNC.txt" afterPath="$PROJECT_DIR$/resources/BED/longNC.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/BED/mirbase.txt" afterPath="$PROJECT_DIR$/resources/BED/mirbase.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/BED/noncoding_gene.txt" afterPath="$PROJECT_DIR$/resources/BED/noncoding_gene.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/BED/pseudogene.txt" afterPath="$PROJECT_DIR$/resources/BED/pseudogene.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/genelists/dosage_sensitive_genelist.txt" afterPath="$PROJECT_DIR$/resources/genelists/dosage_sensitive_genelist.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/genelists/mendeliome_genelist.txt" afterPath="$PROJECT_DIR$/resources/genelists/mendeliome_genelist.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/targets/tarbase.txt" afterPath="$PROJECT_DIR$/resources/targets/tarbase.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/targets/targetscan.txt" afterPath="$PROJECT_DIR$/resources/targets/targetscan.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/landing-page.css" afterPath="$PROJECT_DIR$/static/css/landing-page.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/results.html" afterPath="$PROJECT_DIR$/templates/results.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/working.html" afterPath="$PROJECT_DIR$/templates/working.html" />
     </list>
@@ -34,8 +66,8 @@
       <file leaf-file-name="annotate_bed.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/annotate_bed.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1751">
-              <caret line="103" column="81" lean-forward="false" selection-start-line="103" selection-start-column="81" selection-end-line="103" selection-end-column="81" />
+            <state relative-caret-position="-7079">
+              <caret line="127" column="39" lean-forward="false" selection-start-line="127" selection-start-column="39" selection-end-line="127" selection-end-column="39" />
               <folding>
                 <element signature="e#1224#1239#0" expanded="true" />
               </folding>
@@ -46,8 +78,8 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="2" selection-end-line="29" selection-end-column="29" />
+            <state relative-caret-position="334">
+              <caret line="177" column="37" lean-forward="true" selection-start-line="177" selection-start-column="37" selection-end-line="177" selection-end-column="37" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -58,8 +90,8 @@
       <file leaf-file-name="setup_mongo_collections.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
+            <state relative-caret-position="95">
+              <caret line="39" column="20" lean-forward="false" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -69,37 +101,40 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>distanc</find>
-      <find>cnv</find>
-      <find>read_cnv_coordinates_file</find>
-      <find>read_cnv_coordinates</find>
-      <find>radio</find>
-      <find>results</find>
-      <find>uploa</find>
-      <find>ann_</find>
-      <find>choices</find>
-      <find>rais</find>
-      <find>requi</find>
-      <find>args</find>
-      <find>print</find>
-      <find>mainapp</find>
-      <find>input</find>
-      <find>ann_cho</find>
-      <find>todo</find>
-      <find>ann</find>
-      <find>session['ann</find>
-      <find>session</find>
-      <find>file_ou</find>
-      <find>choic</find>
-      <find>all</find>
-      <find>pubmed</find>
       <find>pubme</find>
-      <find>input()</find>
       <find>stdout</find>
       <find>request</find>
       <find>check</find>
       <find>annotating</find>
+      <find>open</find>
+      <find>annot_</find>
+      <find>checkin</find>
+      <find>GENES:</find>
+      <find>return</find>
+      <find>annot_ch</find>
+      <find>string</find>
+      <find>bed</find>
+      <find>nameerr</find>
+      <find>meta</find>
+      <find>adding</find>
+      <find>pubm</find>
+      <find>genelists class</find>
+      <find>all_g</find>
+      <find>enhancers</find>
+      <find>c</find>
+      <find>ca</find>
+      <find>canc</find>
+      <find>can</find>
+      <find>canv</find>
+      <find>canva</find>
+      <find>canvas</find>
+      <find>input()</find>
+      <find>sort</find>
+      <find>HERE</find>
     </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -236,8 +271,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -531,23 +566,32 @@
       <option name="project" value="LOCAL" />
       <updated>1528896150724</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- bugfixes &amp; improvements">
+      <created>1528907454996</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1528907454996</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1079" y="840" width="1922" height="1049" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.2801494" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.2945571" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.49573106" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.46424758" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.4578442" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3276414" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.7198506" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16007653" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41163793" sideWeight="0.7054429" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15955175" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288201" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20793037" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -557,7 +601,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -950,16 +993,16 @@
     <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
     <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
+        <state relative-caret-position="95">
+          <caret line="39" column="20" lean-forward="false" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/annotate_bed.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1751">
-          <caret line="103" column="81" lean-forward="false" selection-start-line="103" selection-start-column="81" selection-end-line="103" selection-end-column="81" />
+        <state relative-caret-position="-7079">
+          <caret line="127" column="39" lean-forward="false" selection-start-line="127" selection-start-column="39" selection-end-line="127" selection-end-column="39" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
           </folding>
@@ -968,8 +1011,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="2" selection-end-line="29" selection-end-column="29" />
+        <state relative-caret-position="334">
+          <caret line="177" column="37" lean-forward="true" selection-start-line="177" selection-start-column="37" selection-end-line="177" selection-end-column="37" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>

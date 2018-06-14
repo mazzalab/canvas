@@ -19,6 +19,10 @@
 		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="../static/js/SmoothScroll.js"></script>
+		<script src="../static/js/bootstrap.js" type="text/javascript"></script>
+
+
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   {% endblock %}
 	<script type="text/javascript">
@@ -31,25 +35,21 @@
 <body class="landing-page">
 
 <nav class="navbar navbar-transparent navbar-top" role="navigation">
-    <div class="container" style="padding-left: 0px;">
+    <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
+		<div class="navbar-header">
       <button id="menu-toggle" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar bar1"></span>
         <span class="icon-bar bar2"></span>
         <span class="icon-bar bar3"></span>
       </button>
-      <a href="http://codedesign.elkind.net/">
-                   <div class="logo-container">
-                        <div class="logo">
-                            <!-- you logо img -->
-                        </div>
-                        <div class="brand">
-                         <img src="../static/img/incas_logo2.png" style="width: 315px;" />
-                        </div>
-                    </div>
-              </a>
+      <div>
+           <div class="logo-container">
+                    <!-- you logо img -->
+								<a href="http://incas.css-mendel.it"><img src="../static/img/incas_logo2.png" style="width: 280px;" /></a>
+            </div>
+      </div>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -57,7 +57,7 @@
       <ul class="nav navbar-nav navbar-right">
 
               <li>
-                  <a href="#">
+                  <a href="http://incas.css-mendel.it">
                       Home
                   </a>
               </li>
@@ -77,7 +77,7 @@
 				      </li>
               <li>
                   <a href="#">
-                      OTHEROPTION
+                      Help
                   </a>
               </li>
        </ul>
@@ -160,8 +160,8 @@
 										</div>
 										<div id="hg-panel" class="panel panel-info" style="min-width: 295px; border-radius: 10px;">
 											<div class="panel-heading reference-panel-heading"
-												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 10px; border-color: #307ba0">Reference</div>
-												<div class="panel-body" style="text-align: center;">
+												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 10px; border-color: #307ba0">Genome</div>
+												<div class="panel-body" style="text-align: center;height:fit-content">
 														<div class="radio-inline">
 							                <label>
 							                <input type="radio" class="form-check-input" name="radio-hg18" id="radio-hg18"
@@ -204,11 +204,11 @@
 										<div class="panel-body">
 												<div class="row">
 													<div id="bed-checklist" class="col-sm-6 ann-checkbox-group required" style="width:45%">
-														<label>BED</label>
+														<label>Track</label>
 														{{ form.annot }}
 													</div>
 													<div id="genelist-checklist" class="col-sm-6 genes-checkbox-group" style="width:55%">
-														<label>Gene Lists</label>
+														<label>Gene List</label>
 														{{ form.genes(required=True) }}
 													</div>
 												</div>
@@ -224,16 +224,26 @@
 				function checkBoxes(){
 
 						if($('div.ann-checkbox-group.required :checkbox:checked').length<=0){
-							alert("NOOOO!");
+							alert("Please select the annotation(s) in the right panel.");
 							return false;
 						}
+
 				};
 			</script>
 
 			<script>
+					function enable(boxID) {
+					  	 document.getElementById(boxID).disabled= false;
+					}
+
+					function disable(boxID) {
+							 console.log("HERE")
+					     document.getElementById(boxID).disabled= true;
+					}
+
 					jQuery('ul#genes input').attr({'disabled':'disabled'})
 
-					$('#annot-2').click(function(){
+					$('#annot-1').click(function(){
 					    if($(this).is(':checked')){
 					        jQuery('ul#genes input').removeAttr('disabled');
 					    } else {
@@ -248,6 +258,40 @@
 									jQuery('ul#genes input').attr({'disabled':'disabled'});
 							}
 					});
+
+					//This governs the All bedlists checkbox
+					$('#annot-0:checkbox').change(function ()  {
+							console.log("Changed!")
+							var boxes = document.getElementsByName("annot");
+							for (var i = 1, length = boxes.length; i < length; i++){
+								console.log(boxes[i].id)
+								boxes[i].checked = boxes[0].checked;
+								// if (boxes[0].checked == true){
+								// 	disable(boxes[i].id)
+								// }else{
+								// 	enable(boxes[i].id)
+								// }
+							}
+							// if($(this).attr("checked")) $('input:checkbox').attr('checked','checked');
+							// else $('input:checkbox').removeAttr('checked');
+					});
+
+					//This governs the All genelists checkbox
+					$('#genes-0:checkbox').change(function ()  {
+							console.log("Changed!")
+							var boxes = document.getElementsByName("genes");
+							for (var i = 1, length = boxes.length; i < length; i++){
+								console.log(boxes[i].id)
+								boxes[i].checked = boxes[0].checked;
+							}
+							// if($(this).attr("checked")) $('input:checkbox').attr('checked','checked');
+							// else $('input:checkbox').removeAttr('checked');
+					});
+
+					$('#genes-0:checkbox').checked = true;
+
+
+
 			</script>
 
       </div>
@@ -432,24 +476,20 @@
     <footer class="footer">
             <div class="container">
                 <nav class="pull-left copyright">
-                    &copy; 2015 <a href="http://codedesign.elkind.net/">You Company</a> We <i class="fa fa-heart"></i> <a href="http://codedesign.elkind.net">Code Design</a>
+                    &copy; 2018 <a href="http://www.css-mendel.it/">IRCCS Casa Sollievo della Sofferenza - Mendel</a>
                 </nav>
-                <div class="social-area pull-right">
+                <!-- <div class="social-area pull-right">
                         <a href="https://github.com/elkindnet" class="btn btn-social btn-simple"><i class="fa fa-github-alt fa-fw"></i> <span class="network-name"></span></a>
                         <a href="https://twitter.com/jenyelkind" class="btn btn-social btn-simple"><i class="fa fa-twitter fa-fw"></i> <span class="network-name"></span></a>
                         <a href="https://www.facebook.com/jenyelkind" class="btn btn-social btn-simple"><i class="fa fa-facebook fa-fw"></i> <span class="network-name"></span></a>
                         <a href="mailto:elkind@elkind.net" class="btn btn-social btn-simple"><i class="fa fa-envelope fa-fw"></i> <span class="network-name"></span></a>
                         <a href="https://plus.google.com/+JenyElkind/" class="btn btn-social btn-simple"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name"></span></a>
-                </div>
+                </div> -->
             </div>
 
         </footer>
 
 </body>
-<script src="../static/js/jquery-1.10.2.js" type="text/javascript"></script>
-<script src="../static/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
-
-<script src="../static/js/bootstrap.js" type="text/javascript"></script>
 
 <script type="text/javascript">
         var big_image;
@@ -495,7 +535,6 @@
             big_image.css('top',oVal);
         };
 </script>
-<script src="../static/js/SmoothScroll.js"></script>
 
 <!--
 Google Analitics
@@ -515,33 +554,9 @@ Change UA-XXXXXXX-X to be your site's ID
 
 
 <script>
-		$('#genes-0:checkbox').change(function ()  {
-				console.log("Changed!")
-				var boxes = document.getElementsByName("genes");
-				for (var i = 1, length = boxes.length; i < length; i++){
-					console.log(boxes[i].id)
-					boxes[i].checked = boxes[0].checked;
-				}
-				// if($(this).attr("checked")) $('input:checkbox').attr('checked','checked');
-				// else $('input:checkbox').removeAttr('checked');
-		});
-
-		$('#genes-0:checkbox').checked = true;
-
-</script>
 
 
-<script>
-		$('#annot-0:checkbox').change(function ()  {
-				console.log("Changed!")
-				var boxes = document.getElementsByName("annot");
-				for (var i = 1, length = boxes.length; i < length; i++){
-					console.log(boxes[i].id)
-					boxes[i].checked = boxes[0].checked;
-				}
-				// if($(this).attr("checked")) $('input:checkbox').attr('checked','checked');
-				// else $('input:checkbox').removeAttr('checked');
-		});
+
 </script>
 
 

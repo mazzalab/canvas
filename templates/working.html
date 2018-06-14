@@ -8,14 +8,25 @@
     var refresh_id = setInterval(function() {
         $.get(
           "{{ url_for('thread_status') }}",
-          function(data) {
+          function refresher(data) {
             console.log(data);
             if (data.status == 'finished') {
               window.location.replace("{{ url_for('results') }}");
+            }else if (data.status == 'problem'){
+                window.location.replace("{{ url_for('problem') }}");
+                // document.getElementById("progresscontainer").innerHTML = "<div style=\"padding:40px; background-color:#ffd7d9; border-radius:10px \"><img src=\"../static/img/smallcross.png\" />&nbsp&nbspThere was a problem with your input file.</div>"
+                // throw new Error("Something went badly wrong!");
+                // window.stop();
+                // return -1;
             }else{
               document.getElementById("progress").innerHTML = ''
               for (var i = 0, length = data.status.length; i < length; i++){
-                document.getElementById("progress").innerHTML += "Calculating "+data.status[i].replace('_',' ')+"...<br />"
+                if(i==length-1){
+
+                    document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating "+data.status[i].replace('_',' ')+"...<br />"
+                }else{
+                    document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallcheck.png\" />&nbsp&nbspCalculating "+data.status[i].replace('_',' ')+"...<br />"
+                }
               }
             }
           }
@@ -38,7 +49,7 @@
 <div class="section section-gray section-clients" style="height: -webkit-fill-available;">
   <div class= "container">
     <div class="row">
-      <div class="col-md-5 col-md-offset-5">
+      <div class="col-md-5 col-md-offset-5" id="progresscontainer">
       <div id="progress">
         Working...
       </div>

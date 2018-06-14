@@ -22,20 +22,18 @@ finished = False
 
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-ANNOT_CHOICES = [('all_beds','All'), ('circRNA','circRNA'), ('gene', 'Genes'),('coding_gene','Coding genes'),
-                 ('longNC','Long non-coding'), ('mirna','miRNA'), ('mirbase','mirBase'),
-                 ('noncoding_gene','Non-coding genes'),('pseudogene','Pseudogenes')]
+ANNOT_CHOICES = [('all_beds','All'),  ('gene', 'Genes'), ('coding_gene','Coding genes'),
+                 ('noncoding_gene','Non-coding genes'), ('longNC','Long non-coding'), ('mirna','miRNA'),
+                 ('pseudogene','Pseudogenes'), ('circRNA','circRNA'), ('enhancer','Enhancers'),
+                 ('ucr', 'UCR'), ('har', 'HAR')]
 # annot_dict = {}
 # for a in ANNOT_CHOICES:
 #     annot_dict[a[0]] = a[1]
 
 
-GENELISTS = [('all_genelists','All'), ('ASD', 'ASD'), ('ID_a', 'ID a'), ('ID_b','ID b'), ('dosage_sensitive', 'Dosage sensitive'),
-             ('epilessia', 'Epilepsy'), ('malformazioni', 'Malformations'), ('mendeliome', 'Mendeliome'),
-             ('onologhi', 'Onologs'), ('pubmed_autism', 'PubMed Autism'),
-             ('pubmed_brain_malformations', 'PubMed Brain Malformations'),
-             ('pubmed_epilepsy_or_seizures', 'PubMed Epilepsy'),
-             ('pubmed_intellectual_disability', 'PubMed Intellectual Disability')]
+GENELISTS = [('all_genelists','All'), ('ID', 'Intellectual Disability'), ('dosage_sensitive', 'Dosage sensitive'),
+             ('mendeliome', 'Mendeliome'),
+             ('ohnologs', 'Ohnologs'), ('imprinted', 'Imprinted')]
 
 app.config['SECRET_KEY'] = 'AGATTAcanvas2018'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -59,6 +57,16 @@ app.config['MAX_CONTENT_PATH'] = 5000
 #     return send_from_directory(app.config['UPLOAD_FOLDER'],
 #
 #          filename)
+
+def atoi(text):
+    return int(text) if text.isdigit() else text
+
+def natural_keys(text):
+    '''
+    alist.sort(key=natural_keys) sorts in human order
+    '''
+    return [ atoi(c) for c in re.split('(\d+)', text) ]
+
 def id_generator(size=8, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
@@ -76,7 +84,7 @@ class MultiCheckboxField(SelectMultipleField):
     option_widget = CheckboxInput()
     
 class MainForm(FlaskForm):
-    line_input = StringField(u'CNV string ', validators=[Length(max=50)])
+    line_input = StringField(u'Gernomic region ', validators=[Length(max=50)])
     upload = FileField('Input file', validators=[
         FileAllowed(['txt', 'csv', 'cnv'], 'Text only!')
     ])
@@ -124,9 +132,13 @@ def index():
 
         for elem in request.form.getlist('annot'):
                 session['ann_choices'].append(elem)
-
+        if 'mirna' in request.form.getlist('annot'):
+            session['ann_choices'].append('mirbase')
+        
+        print(request.form.getlist('genes'))
         for elem in request.form.getlist('genes'):
-                session['genes_choices'].append(elem+'_genelist')
+                if elem != "all_genelists":
+                    session['genes_choices'].append(elem+'_genelist')
             
         if 'distance' in request.form:
             session['distance'] = request.form['distance']
@@ -153,21 +165,20 @@ def working():
     args = Object
     setattrs(args, cnv_file=None, cnv_line=None, all_beds=False, circRNA=False,
              coding_gene=False, gene=False, longNC=False, mirna=False, mirbase=False,
-             noncoding_gene=False, pseudogene=False, all_genelists=False, ASD_genelist=False,
-             ID_a_genelist=False, ID_b_genelist=False, dosage_sensitive_genelist=False,
-             epilessia_genelist=False, malformazioni_genelist=False, mendeliome_genelist=False,
-             onologhi_genelist=False, pubmed_autism_genelist=False,
-             pubmed_brain_malformations_genelist=False, pubmed_epilepsy_or_seizures_genelist=False,
-             pubmed_intellectual_disability_genelist=False, distance=session['distance'],
+             noncoding_gene=False, pseudogene=False, ucr=False, har=False, enhancer=False,
+             all_genelists=False,
+             ID_genelist=False, dosage_sensitive_genelist=False, imprinted_genelist=False,
+             mendeliome_genelist=False,
+             ohnologs_genelist=False, distance=session['distance'],
              out=session['file_out'])
 
 
     if session['choice'] == 'file':
-        session['download_name'] = os.path.splitext(session['filename'])[0] + '_CANVAS.xlsx'
+        session['download_name'] = os.path.splitext(session['filename'])[0] + '_INCAS.xlsx'
         setattrs(args, cnv_line=None)
         setattrs(args, cnv_file=os.path.join(app.config['UPLOAD_FOLDER'], session['working_filename']))
     elif session['choice'] == 'line':
-        session['download_name'] = 'CANVAS_results.xlsx'
+        session['download_name'] = 'INCAS_results.xlsx'
         setattrs(args, cnv_line=session['cnv_line'])
         setattrs(args, cnv_file=None)
     
@@ -186,8 +197,11 @@ def working():
 
 def worker(args):
     global finished
-    result_db = MainApp(args).process()
-    finished = True
+    success = MainApp(args).process()
+    if success != 0:
+        finished = -1
+    else:
+        finished = True
     
 @app.route('/status')
 def thread_status():
@@ -198,10 +212,15 @@ def thread_status():
     # # st_results = os.stat(session['file_out'].replace('.xlsx','_log.txt'))
     # # st_size = st_results[6]
     # # f_read.seek(st_size)
-    progress = [re.sub("\d_","", os.path.basename(x).split('.')[0]) for x in glob.glob(os.path.dirname(session['file_out'])+'/*.progress')]
-    progress.sort()
+    progress = [os.path.basename(x).split('.')[0] for x in glob.glob(os.path.dirname(session['file_out'])+'/*.progress')]
+    progress.sort(key=natural_keys)
     
-    return jsonify(dict(status=('finished' if finished else progress)))
+    if finished == True:
+        return jsonify(dict(status='finished'))
+    elif finished == -1:
+        return jsonify(dict(status='problem'))
+    else:
+        return jsonify(dict(status=progress))
 
 @app.route('/results.html', methods=['GET', 'POST'])
 def results():
@@ -219,6 +238,10 @@ def results():
                            download_name=session['download_name'],
                            text_download_name=re.sub('.xlsx', '.csv', session['download_name']),
                            choices=session['ann_choices'], genes_choices=session['genes_choices'])
+
+@app.route('/error.html', methods=['GET', 'POST'])
+def problem():
+    return render_template('error.html', file=session['filename'])
 
 if __name__ == '__main__':
     app.run()

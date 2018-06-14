@@ -42,6 +42,7 @@ import os
 from io import StringIO
 import itertools
 from collections import OrderedDict
+import glob
 
 
 class MainApp:
@@ -55,12 +56,13 @@ class MainApp:
         self.db_t = self.connection['targets']
         self.d = vars(self.args)
         self.mirbase_dict = {}  #this stores the mirbase annotation that will be written as a separate json
-        # print(self.d)
+        print(self.d)
+        # input()
         
 
     def process(self):
     
-        # sys.stdout = sys.stderr = open(self.args.out.replace('.xlsx', '_log.txt'), 'wt')
+        sys.stdout = sys.stderr = open(self.args.out.replace('.xlsx', '_log.txt'), 'wt')
         
         for arg in self.d:
             
@@ -86,7 +88,10 @@ class MainApp:
         sys.stdout.write("Requested DBs are present. Proceeding to annotate...\n")
         if self.args.cnv_file:
             if os.path.exists(self.args.cnv_file):
-                cnv_info = self.read_cnv_coordinates_file(self.args.cnv_file)
+                try:
+                    cnv_info = self.read_cnv_coordinates_file(self.args.cnv_file)
+                except NameError:
+                    return -1
             else:
                 sys.exit("CNV file not found: {}".format(self.args.cnv_file))
         elif self.args.cnv_line:
@@ -114,10 +119,16 @@ class MainApp:
         
         # Genelists annotation
         sys.stdout.write("Adding genelists classifications...\n")
-        if self.d['gene'] or self.d['all_genelists']:
+        print(self.d)
+        print(self.d['gene'])
+        print(self.d['all_genelists'])
+        print(sorted(self.db_gl.collection_names()))
+        if self.d['gene']:
             for name in sorted(self.db_gl.collection_names()):
-                if self.d[name+'_genelist'] or self.d['all_genelists']:
-                    sys.stdout.write("Adding {} gene classification...\n".format(name))
+                print("checking ", name)
+                if self.d[name+'_genelist']:
+                    print(name+'_genelist', self.d[name+'_genelist'])
+                    print("Adding {} gene classification...\n".format(name))
                     self.add_meta_gene(name)
         else:
             sys.stderr.write("WARNING: Could not add genelists annotation since --gene option was not included.\n")
@@ -126,8 +137,14 @@ class MainApp:
         write_file(self.out_dataframe, self.mirbase_dict, self.args.out)
         # return self.out_dataframe.reset_index().to_json(orient='records')
 
+        #Cleaning
+        for f in glob.glob(os.path.dirname(self.args.out)+'/*.progress'):
+            os.remove(f)
+            
         sys.stdout = sys.__stdout__
         sys.stderr = sys.__stderr__
+        
+        return 0
     
     def read_cnv_coordinates_file(self, cnv_file: str) -> DataFrame:
         """
@@ -135,7 +152,6 @@ class MainApp:
         :param cnv_file: File path and name of the original CNV file to be annotated
         :return: A DataFrame containing the CNV to be annotate, one per line
         """
-        
         cnv_coords = pd.read_table(cnv_file, encoding='cp1252', sep='\t')
         cnv_coords.columns = map(str.upper, cnv_coords.columns)
         if not (hasattr(cnv_coords, 'START')):
@@ -190,9 +206,11 @@ class MainApp:
             chrom = row.CHR
             start = row.START
             end = row.END
+            print("finding inside")
             inside_molecule = db.find({"$and": [{"chr": chrom, "start": {"$gte": start},
                                                  "end": {"$lte": end}}]}).distinct('info')
-            
+            print("finding cross")
+
             cross_molecule = db.find(
                 {"$or": [
                     {"$and": [
@@ -209,6 +227,8 @@ class MainApp:
                 ]}
             ).distinct('info')
 
+            print("finding distal")
+
             distal_molecule = db.find(
                 {"$or": [
                     {"$and": [
@@ -222,28 +242,32 @@ class MainApp:
                 ]}
             ).distinct('info')
             
+            print("step2")
+            print(len(inside_molecule))
             if len(inside_molecule) > 0:
-                inside_molecules.append(",".join(inside_molecule))
+                inside_molecules.append(",".join(str(x) for x in inside_molecule))
                 inside_molecules_count.append(len(inside_molecule))
             else:
                 inside_molecules.append(".")
                 inside_molecules_count.append(0)
 
+            print(len(cross_molecule))
             if len(cross_molecule) > 0:
-                cross_molecules.append(",".join(cross_molecule))
+                cross_molecules.append(",".join(str(x) for x in cross_molecule))
                 cross_molecules_count.append(len(cross_molecule))
 
             else:
                 cross_molecules.append(".")
                 cross_molecules_count.append(0)
-
+                
+            print(len(distal_molecule))
             if len(distal_molecule) > 0:
-                distal_molecules.append(",".join(distal_molecule))
+                distal_molecules.append(",".join(str(x) for x in distal_molecule))
                 distal_molecules_count.append(len(distal_molecule))
             else:
                 distal_molecules.append(".")
                 distal_molecules_count.append(0)
-
+        print("final")
         self.out_dataframe.loc[:, annotation_db + '_inside'] = inside_molecules
         self.out_dataframe.loc[:, annotation_db + '_inside_count'] = inside_molecules_count
         self.out_dataframe.loc[:, annotation_db + '_cross'] = cross_molecules
@@ -489,38 +513,45 @@ if __name__ == '__main__':
     parser.add_argument("--pseudogene", action='store_true', required=False,
                         help="BED file of known pseudogenes from GENECODE")
     parser.add_argument("--mirbase", action='store_true', required=False, help="miRBase file")
+    parser.add_argument("--enhancer", action='store_true', required=False, help="miRBase file")
+
+    parser.add_argument("--ucr", action='store_true', required=False, help="Ultra Conserved regions")
+    parser.add_argument("--har", action='store_true', required=False, help="Hypervariable regions")
+
     parser.add_argument("--all", dest='all_beds', action='store_true', required=False,
                         help="Perform all available annotations")
     
     parser.add_argument("--all-genelists", action='store_true', required=False,
                         help="Perform all available gene classifications")
-    parser.add_argument("--ASD-genelist", dest='ASD_genelist', action='store_true', required=False,
-                        help="Perform ASD gene classification")
-    parser.add_argument("--IDa-genelist", dest='ID_a_genelist', action='store_true', required=False,
-                        help="Perform ID_a gene classification")
-    parser.add_argument("--IDb-genelist", dest='ID_b_genelist', action='store_true', required=False,
-                        help="Perform ID_b gene classification")
+    # parser.add_argument("--ASD-genelist", dest='ASD_genelist', action='store_true', required=False,
+    #                     help="Perform ASD gene classification")
+    parser.add_argument("--ID-genelist", dest='ID_genelist', action='store_true', required=False,
+                        help="Perform ID gene classification")
+    # parser.add_argument("--IDb-genelist", dest='ID_b_genelist', action='store_true', required=False,
+    #                     help="Perform ID_b gene classification")
     parser.add_argument("--dosage-sensitive-genelist", dest='dosage_sensitive_genelist', action='store_true', required=False,
                         help="Perform dosage-sensitive gene classification")
-    parser.add_argument("--epilepsy-genelist", dest='epilessia_genelist', action='store_true', required=False,
-                        help="Perform epilepsy gene classification")
-    parser.add_argument("--malformations-genelist", dest='malformazioni_genelist', action='store_true', required=False,
-                        help="Perform malformations gene classification")
+    # parser.add_argument("--epilepsy-genelist", dest='epilessia_genelist', action='store_true', required=False,
+    #                     help="Perform epilepsy gene classification")
+    # parser.add_argument("--malformations-genelist", dest='malformazioni_genelist', action='store_true', required=False,
+    #                     help="Perform malformations gene classification")
     parser.add_argument("--mendeliome-genelist", dest='mendeliome_genelist', action='store_true', required=False,
                         help="Perform mendeliome gene classification")
-    parser.add_argument("--onologs-genelist", dest='onologhi_genelist', action='store_true', required=False,
-                        help="Perform onologs gene classification")
-    parser.add_argument("--pubmed-autism-genelist", dest='pubmed_autism_genelist', action='store_true', required=False,
-                        help="Perform pubmed autism gene classification")
-    parser.add_argument("--pubmed-brain-genelist", dest='pubmed_brain_malformations_genelist',
-                        action='store_true', required=False,
-                        help="Perform pubmed brain malformations gene classification")
-    parser.add_argument("--pubmed-epilepsy-genelist", dest='pubmed_epilepsy_or_seizures_genelist',
-                        action='store_true', required=False,
-                        help="Perform pubmed epilepsy gene classification")
-    parser.add_argument("--pubmed-ID-genelist", dest='pubmed_intellectual_disability_genelist',
-                        action='store_true', required=False,
-                        help="Perform pubmed intellectual disability gene classification")
+    parser.add_argument("--ohnologs-genelist", dest='ohnologs_genelist', action='store_true', required=False,
+                        help="Perform ohnolog genes classification")
+    parser.add_argument("--imprinted-genelist", dest='imprinted_genelist', action='store_true', required=False,
+                        help="Perform imprinted genes classification")
+    # parser.add_argument("--pubmed-autism-genelist", dest='pubmed_autism_genelist', action='store_true', required=False,
+    #                     help="Perform pubmed autism gene classification")
+    # parser.add_argument("--pubmed-brain-genelist", dest='pubmed_brain_malformations_genelist',
+    #                     action='store_true', required=False,
+    #                     help="Perform pubmed brain malformations gene classification")
+    # parser.add_argument("--pubmed-epilepsy-genelist", dest='pubmed_epilepsy_or_seizures_genelist',
+    #                     action='store_true', required=False,
+    #                     help="Perform pubmed epilepsy gene classification")
+    # parser.add_argument("--pubmed-ID-genelist", dest='pubmed_intellectual_disability_genelist',
+    #                     action='store_true', required=False,
+    #                     help="Perform pubmed intellectual disability gene classification")
 
     parser.add_argument("-D", "--distance", type=int, default=1000000, required=False,
                         help="Distance from gene (Default 1Mb)")
@@ -531,4 +562,7 @@ if __name__ == '__main__':
                  "They cannot be specified together.")
     elif not (args.cnv_file or args.cnv_line):
         sys.exit("Please provide input as either --cnv_line or --cnv_file.")
-    MainApp(args).process()
+    success = MainApp(args).process()
+    if success == -1:
+        sys.stdout.write("There was a problem.")
+    print(success)

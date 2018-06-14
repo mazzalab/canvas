@@ -6776,7 +6776,7 @@ ERalpha	ERalpha	hsa-miR-22-3p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	
 ERalpha	ERalpha	hsa-miR-22-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 ERalpha	ERalpha	hsa-miR-27a-3p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	UP	NA
 ERalpha	ERalpha	hsa-miR-27a-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	UP	NA
-ER?Ä??	ER?Ä??	hsa-miR-335-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
+ER?\C4??	ER?\C4??	hsa-miR-335-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 ERK5	ERK5	hsa-miR-143-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 ERK5	ERK5	hsa-miR-143-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	NA	NA
 Ets-1	Ets-1	hsa-miR-155-5p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
@@ -6824,13 +6824,13 @@ H2AX	H2AX	hsa-miR-328-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	NA
 HCN2	HCN2	rno-miR-1-3p	Rattus norvegicus	NA	NA	NA	qPCR	NEGATIVE	INDIRECT	DOWN	NA
 HCN2	HCN2	rno-miR-1-3p	Rattus norvegicus	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 HIF-1beta	HIF-1beta	hsa-miR-107	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
-HIF-1?Ä??	HIF-1?Ä??	hsa-miR-21-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	UP	NA
+HIF-1?\C4??	HIF-1?\C4??	hsa-miR-21-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	UP	NA
 Hjv	Hjv	mmu-miR-122-5p	Mus musculus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
-HNF4?Ä??	HNF4?Ä??	hsa-miR-24-3p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
-HNF4?Ä??	HNF4?Ä??	hsa-miR-24-3p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
-HNF4?Ä??	HNF4?Ä??	hsa-miR-24-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
-HNF4?Ä??	HNF4?Ä??	hsa-miR-34a-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
-HNF4?Ä??	HNF4?Ä??	hsa-miR-34a-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
+HNF4?\C4??	HNF4?\C4??	hsa-miR-24-3p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
+HNF4?\C4??	HNF4?\C4??	hsa-miR-24-3p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
+HNF4?\C4??	HNF4?\C4??	hsa-miR-24-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
+HNF4?\C4??	HNF4?\C4??	hsa-miR-34a-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
+HNF4?\C4??	HNF4?\C4??	hsa-miR-34a-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 HO-1	HO-1	hsa-miR-122-5p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
 HO-1	HO-1	hsa-miR-122-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 HOX-C8	HOX-C8	hsa-miR-196a-5p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
@@ -6850,8 +6850,8 @@ HuD	HuD	mmu-miR-375-3p	Mus musculus	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN
 HuD	HuD	rno-miR-141-3p	Rattus norvegicus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	NA	NA
 HuD	HuD	rno-miR-21-5p	Rattus norvegicus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	NA	NA
 Hugl-1	Hugl-1	hsa-miR-196a-5p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	NA	NA
-?Ä??-actin	?Ä??-actin	mmu-miR-24-3p	Mus musculus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	UP	NA
-?Ä??-actin	?Ä??-actin	mmu-miR-24-3p	Mus musculus	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	UP	NA
+?\C4??-actin	?\C4??-actin	mmu-miR-24-3p	Mus musculus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	UP	NA
+?\C4??-actin	?\C4??-actin	mmu-miR-24-3p	Mus musculus	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	UP	NA
 IGF-1R	IGF-1R	hsa-miR-122-5p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	NA	NA
 IGF-1	IGF-1	rno-miR-320-3p	Rattus norvegicus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
 IGF-1	IGF-1	rno-miR-320-3p	Rattus norvegicus	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
@@ -6919,8 +6919,8 @@ Myogenin	Myogenin	mmu-miR-24-3p	Mus musculus	NA	NA	NA	Western Blot	POSITIVE	INDI
 N-cadherin(gga)	N-cadherin(gga)	gga-miR-221-3p	Gallus gallus	NA	NA	NA	Western Blot	NEGATIVE	INDIRECT	NA	NA
 N-cadherin	N-cadherin	hsa-miR-375	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
 N-cadherin	N-cadherin	hsa-miR-375	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
-NF-?Ä??B	NF-?Ä??B	hsa-miR-143-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
-NF-?Ä??B	NF-?Ä??B	hsa-miR-155-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
+NF-?\C4??B	NF-?\C4??B	hsa-miR-143-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
+NF-?\C4??B	NF-?\C4??B	hsa-miR-155-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 NIRF	NIRF	hsa-let-7a-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 NIS	NIS	hsa-let-7f-5p	Homo sapiens	NA	NA	NA	qPCR	NEGATIVE	INDIRECT	NA	NA
 NR2A	NR2A	rno-miR-132-3p	Rattus norvegicus	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	NA	NA
@@ -6968,18 +6968,18 @@ p63a	p63a	hsa-miR-203a-3p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
 p63a	p63a	hsa-miR-203a-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 p85beta	p85beta	hsa-miR-126-3p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
 p85beta	p85beta	hsa-miR-126-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
-p-eIF2?Ä??	p-eIF2?Ä??	hsa-miR-122-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	NA	NA
+p-eIF2?\C4??	p-eIF2?\C4??	hsa-miR-122-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	NA	NA
 PF-4	PF-4	hsa-miR-125b-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	UP	NA
 PGRN	PGRN	hsa-miR-29b-3p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
 PGRN	PGRN	hsa-miR-29b-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 PIG3	PIG3	hsa-miR-504-5p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
 PIO	PIO	hsa-miR-155-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
-p-IRE1?Ä??	p-IRE1?Ä??	hsa-miR-122-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	NA	NA
+p-IRE1?\C4??	p-IRE1?\C4??	hsa-miR-122-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	NA	NA
 PKIalpha	PKIalpha	hsa-miR-155-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 Pparbetadelta	Pparbetadelta	mmu-miR-122-5p	Mus musculus	NA	NA	NA	qPCR	NEGATIVE	INDIRECT	DOWN	NA
 Pparbetadelta	Pparbetadelta	mmu-miR-122-5p	Mus musculus	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
-PPAR?Ä??	PPAR?Ä??	hsa-miR-21-5p	Homo sapiens	NA	NA	NA	qPCR	NEGATIVE	INDIRECT	DOWN	NA
-PPAR?Ä??	PPAR?Ä??	hsa-miR-21-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
+PPAR?\C4??	PPAR?\C4??	hsa-miR-21-5p	Homo sapiens	NA	NA	NA	qPCR	NEGATIVE	INDIRECT	DOWN	NA
+PPAR?\C4??	PPAR?\C4??	hsa-miR-21-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 PRDXII	PRDXII	hsa-miR-122-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 PSD-95	PSD-95	hsa-miR-375	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
 PUMA	PUMA	hsa-miR-504-5p	Homo sapiens	NA	NA	NA	qPCR	NEGATIVE	INDIRECT	NA	NA
@@ -6997,22 +6997,22 @@ SM-MHC	SM-MHC	rno-miR-145-5p	Rattus norvegicus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	U
 SM-MHC	SM-MHC	rno-miR-145-5p	Rattus norvegicus	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	UP	NA
 Sox-9(gga)	Sox-9(gga)	gga-miR-221-3p	Gallus gallus	NA	NA	NA	Western Blot	NEGATIVE	INDIRECT	NA	NA
 Tfr1	Tfr1	mmu-miR-122-5p	Mus musculus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
-TGF-?Ä??1	TGF-?Ä??1	rno-miR-192-5p	Rattus norvegicus	NA	NA	NA	Other	POSITIVE	INDIRECT	UP	NA
-TGF-?Ä??	TGF-?Ä??	hsa-miR-21-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	UP	NA
+TGF-?\C4??1	TGF-?\C4??1	rno-miR-192-5p	Rattus norvegicus	NA	NA	NA	Other	POSITIVE	INDIRECT	UP	NA
+TGF-?\C4??	TGF-?\C4??	hsa-miR-21-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	UP	NA
 TH	TH	rno-let-7d-5p	Rattus norvegicus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
 THSZ3	THSZ3	hsa-miR-155-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
-T?Ä??RII	T?Ä??RII	hsa-miR-106b-5p	Homo sapiens	NA	NA	NA	qPCR	NEGATIVE	INDIRECT	DOWN	NA
-T?Ä??RII	T?Ä??RII	hsa-miR-106b-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
+T?\C4??RII	T?\C4??RII	hsa-miR-106b-5p	Homo sapiens	NA	NA	NA	qPCR	NEGATIVE	INDIRECT	DOWN	NA
+T?\C4??RII	T?\C4??RII	hsa-miR-106b-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
 TITF1	TITF1	hsa-let-7f-5p	Homo sapiens	NA	NA	NA	qPCR	POSITIVE	INDIRECT	UP	NA
 TLX	TLX	mmu-let-7b-5p	Mus musculus	NA	NA	NA	qPCR	POSITIVE	INDIRECT	DOWN	NA
 TLX	TLX	mmu-let-7b-5p	Mus musculus	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
-TNF-?Ä??	TNF-?Ä??	hsa-miR-125b-5p	Homo sapiens	NA	NA	NA	Other	NEGATIVE	INDIRECT	NA	NA
-TNF-?Ä??	TNF-?Ä??	hsa-miR-146a-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
-TNF-?Ä??	TNF-?Ä??	hsa-miR-155-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	NA	NA
-TNF-?Ä??	TNF-?Ä??	hsa-miR-19a-3p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
-TNF-?Ä??	TNF-?Ä??	hsa-miR-346	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
-TNF-?Ä??	TNF-?Ä??	hsa-miR-346	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
-TNF-?Ä??	TNF-?Ä??	hsa-miR-939-5p	Homo sapiens	NA	NA	NA	Other	NEGATIVE	INDIRECT	NA	NA
+TNF-?\C4??	TNF-?\C4??	hsa-miR-125b-5p	Homo sapiens	NA	NA	NA	Other	NEGATIVE	INDIRECT	NA	NA
+TNF-?\C4??	TNF-?\C4??	hsa-miR-146a-5p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
+TNF-?\C4??	TNF-?\C4??	hsa-miR-155-5p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	NA	NA
+TNF-?\C4??	TNF-?\C4??	hsa-miR-19a-3p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
+TNF-?\C4??	TNF-?\C4??	hsa-miR-346	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	DOWN	NA
+TNF-?\C4??	TNF-?\C4??	hsa-miR-346	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	DOWN	NA
+TNF-?\C4??	TNF-?\C4??	hsa-miR-939-5p	Homo sapiens	NA	NA	NA	Other	NEGATIVE	INDIRECT	NA	NA
 TROPT	TROPT	hsa-miR-27b-3p	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	NA	NA
 TROPT	TROPT	hsa-miR-27b-3p	Homo sapiens	NA	NA	NA	Western Blot	POSITIVE	INDIRECT	NA	NA
 TTP	TTP	hsa-miR-346	Homo sapiens	NA	NA	NA	Other	POSITIVE	INDIRECT	UP	NA
