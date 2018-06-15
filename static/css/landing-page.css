@@ -163,7 +163,8 @@ ul {
 
 #genes{
   list-style-type: none;
-  margin-left: -30px;
+  margin-left: 0px;
+  padding-left: 15px;
 }
 
 #genes li label{
@@ -1365,22 +1366,6 @@ vertical-align: middle;
 
 @media (max-width: 767px){
 
-  .container {
-    width:360px;
-    padding-bottom: 12px;
-  }
-  #annot-panel{
-    min-width: 330px !important;
-  }
-  #annot-panel-container{
-    padding-left: auto;
-  }
-  #bed-checklist{
-    width: auto!important;
-  }
-  #genelist-checklist{
-    width:auto!important;
-  }
   .row {
     margin-left: auto;
     margin-right: auto;
@@ -1404,10 +1389,10 @@ vertical-align: middle;
     text-align: center;
   }
   .landing-page .navbar-top{
-    background: rgba(0, 0, 0, 0.75);
+    background: #0f282f;
   }
   .landing-page .parallax {
-    height: 560px;
+    height: 470px;
     text-align: center;
   }
 
@@ -1435,7 +1420,7 @@ vertical-align: middle;
   }
 
   .landing-page .parallax .description{
-    padding-top: 100px;
+    padding-top: 20px;
   }
   .landing-page .parallax .buttons{
     margin: 20px 0;
@@ -1463,54 +1448,86 @@ vertical-align: middle;
     float: none !important;
   }
 
-  #submit-field{
-    margin-left: -42px;
-  }
-
-  #hg-panel{
-    height: 105px;
-    min-width: 330px !important;
-  }
-
-  #input-panel{
-    min-width: 330px !important;
-  }
-
-  #annot-panel{
-    height:570px;
-  }
-
-  #getSelectsBtn-gene img{
-    width: 100%;
-  }
-  /* .panel-info{
-    height: 315px;
-  } */
-  #modal-link-gene img {
-    width: 100%;
-  }
-  .results-container {
-    max-width: unset !important;
-    width: 100% !important;
-  }
-  #download-span{
-    display: inline-grid;
-    text-align: center;
-  }
-}
-
-
-@media (max-width:768px){
   .results-container {
     width: unset !important;
   }
+
+  #genes {
+    padding-left: 25px;
+  }
+  body {
+    margin-right:-80px
+  }
+
+    #submit-field{
+      margin-left: 0px;
+    }
+
+    #hg-panel{
+      height: 105px;
+      min-width: 330px !important;
+    }
+
+    #input-panel{
+      min-width: 330px !important;
+    }
+
+    #annot-panel{
+      height:610px;
+    }
+
+    #getSelectsBtn-gene img{
+      width: 100%;
+    }
+    /* .panel-info{
+      height: 315px;
+    } */
+    #modal-link-gene img {
+      width: 100%;
+    }
+    .results-container {
+      max-width: unset !important;
+      width: 100% !important;
+    }
+    #download-span{
+      display: inline-grid;
+      text-align: center;
+    }
+
+    .container {
+      width:360px;
+      padding-bottom: 12px;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+    .landing-page .navbar-top{
+        position: relative;
+        margin-bottom: 0px;
+    }
+
+    .container>.navbar-header{
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+    #annot-panel{
+      min-width: 330px !important;
+    }
+    #annot-panel-container{
+      padding-left: auto;
+    }
+    #bed-checklist{
+      width: auto!important;
+    }
+    #genelist-checklist{
+      width:auto!important;
+    }
 
 }
 
 @media (min-width:1200px){
   .results-container {
     max-width: unset !important;
-    width: 1200px;
+    width: 1300px;
   }
 }
 @media (max-width:1199px) and (min-width:769px){

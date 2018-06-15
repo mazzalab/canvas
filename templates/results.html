@@ -118,8 +118,8 @@
                           // do whatever you want with the checked radio
                           position = radios[i].value;
 
-                          document.getElementById("radio-{{c}}-inside-label").innerHTML = 'inside ('+jsonData[cnvselection].{{c}}_inside_count+')';
-                          document.getElementById("radio-{{c}}-cross-label").innerHTML = 'cross ('+jsonData[cnvselection].{{c}}_cross_count+')';
+                          document.getElementById("radio-{{c}}-inside-label").innerHTML = 'included ('+jsonData[cnvselection].{{c}}_inside_count+')';
+                          document.getElementById("radio-{{c}}-cross-label").innerHTML = 'broken ('+jsonData[cnvselection].{{c}}_cross_count+')';
                           document.getElementById("radio-{{c}}-distal-label").innerHTML = 'distal ('+jsonData[cnvselection].{{c}}_distal_count+')';
 
                           if(position == 'inside-{{c}}'){
@@ -470,7 +470,7 @@
             <div class="col-sm-4">
               <div class="panel panel-info">
                 <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">
-                      {{ c | replace("_", " ")| capitalize | replace("Longnc", "Long NC") | replace("Mirna", "miRNA") | replace("Circrna", "circRNA")}}
+                      {{ c | replace("_", " ")| capitalize | replace("Longnc", "Long NC") | replace("Mirna", "miRNA") | replace("Circrna", "circRNA")}}s
                       <div class="help-tip" style="background-color: #ffd400">
                         <p>{{ info[c] }}
                       </p>
@@ -484,13 +484,13 @@
                         <div class="radio-inline">
                           <label class="form-check-label-{{c}}">
                           <input type="radio" class="form-check-input" name="radio-{{c}}" id="inside-{{c}}" value="inside-{{c}}"
-                          checked><span id="radio-{{c}}-inside-label">inside (0)</span>
+                          checked><span id="radio-{{c}}-inside-label">included (0)</span>
                           </label>
                         </div>
                         <div class="radio-inline">
                           <label class="form-check-label-{{c}}">
                           <input type="radio" class="form-check-input" name="radio-{{c}}" id="cross-{{c}}" value="cross-{{c}}"
-                          unchecked><span id="radio-{{c}}-cross-label">cross (0)</span>
+                          unchecked><span id="radio-{{c}}-cross-label">broken (0)</span>
                           </label>
                         </div>
                         <div class="radio-inline">

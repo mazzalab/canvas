@@ -23,9 +23,9 @@ finished = False
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 ANNOT_CHOICES = [('all_beds','All'),  ('gene', 'Genes'), ('coding_gene','Coding genes'),
-                 ('noncoding_gene','Non-coding genes'), ('longNC','Long non-coding'), ('mirna','miRNA'),
-                 ('pseudogene','Pseudogenes'), ('circRNA','circRNA'), ('enhancer','Enhancers'),
-                 ('ucr', 'UCR'), ('har', 'HAR')]
+                 ('noncoding_gene','Non-coding genes'), ('longNC','Long non-coding'), ('mirna','MicroRNAs (miRNAs)'),
+                 ('pseudogene','Pseudogenes'), ('circRNA','CircularRNAs (circRNAs)'), ('enhancer','Enhancers'),
+                 ('ucr', 'Ultra Conserved Regions (UCRs)'), ('har', 'Human Accelerated Regions (HARs)')]
 
 EXPLANATIONS = {"gene": "All RefSeq genes reported in UCSC genome browser.",
                 "coding_gene": "RefSeq protein-coding genes (labelled as NM_*) reported in UCSC genome browser.",
@@ -44,7 +44,7 @@ EXPLANATIONS = {"gene": "All RefSeq genes reported in UCSC genome browser.",
 
 
 GENELISTS = [('all_genelists','All'), ('ID', 'Intellectual Disability'), ('dosage_sensitive', 'Dosage sensitive'),
-             ('mendeliome', 'Mendeliome'),
+             ('mendeliome', 'Mendeliome panel'),
              ('ohnologs', 'Ohnologs'), ('imprinted', 'Imprinted')]
 
 app.config['SECRET_KEY'] = 'AGATTAcanvas2018'
@@ -131,6 +131,7 @@ def index():
             ))
         elif 'radio1' in request.form:
             session['choice'] = 'line'
+            session['filename'] = 'line input'
             session['working_filename'] = os.path.join(session['task_id'], session['task_id']+'.csv')
             session['cnv_line'] = request.form['line_input']
         
@@ -233,6 +234,7 @@ def thread_status():
         return jsonify(dict(status='problem'))
     else:
         return jsonify(dict(status=progress))
+
 
 @app.route('/results.html', methods=['GET', 'POST'])
 def results():

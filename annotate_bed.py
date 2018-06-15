@@ -56,7 +56,7 @@ class MainApp:
         self.db_t = self.connection['targets']
         self.d = vars(self.args)
         self.mirbase_dict = {}  #this stores the mirbase annotation that will be written as a separate json
-        print(self.d)
+        # print(self.d)
         # input()
         
 
@@ -112,10 +112,11 @@ class MainApp:
                     self.add_annotation(arg)
                 else:
                     for target_db in self.db_t.collection_names():
-                        self.mirbase_dict[target_db] = []  # initialized the target key (tarbase or targetscan) in the mirbase dict
-                        
-                        dict_inside, dict_cross, dict_distal = self.add_mirna_target(target=target_db, unique=True)
-                        self.mirbase_dict[target_db].extend((dict_inside, dict_cross, dict_distal))
+                        if target_db != 'system.indexes':
+                            self.mirbase_dict[target_db] = []  # initialized the target key (tarbase or targetscan) in the mirbase dict
+                            
+                            dict_inside, dict_cross, dict_distal = self.add_mirna_target(target=target_db, unique=True)
+                            self.mirbase_dict[target_db].extend((dict_inside, dict_cross, dict_distal))
         
         # Genelists annotation
         sys.stdout.write("Adding genelists classifications...\n")
@@ -125,11 +126,12 @@ class MainApp:
         print(sorted(self.db_gl.collection_names()))
         if self.d['gene']:
             for name in sorted(self.db_gl.collection_names()):
-                print("checking ", name)
-                if self.d[name+'_genelist']:
-                    print(name+'_genelist', self.d[name+'_genelist'])
-                    print("Adding {} gene classification...\n".format(name))
-                    self.add_meta_gene(name)
+                if name != 'system.indexes':
+                    print("checking ", name)
+                    if self.d[name+'_genelist'] or self.d['all_genelists']:
+                        print(name+'_genelist', self.d[name+'_genelist'])
+                        print("Adding {} gene classification...\n".format(name))
+                        self.add_meta_gene(name)
         else:
             sys.stderr.write("WARNING: Could not add genelists annotation since --gene option was not included.\n")
         
@@ -355,9 +357,10 @@ class MainApp:
             else:
                 mirbase_info[m.group('mi')].append(m.group('mirna_name'))
         
+        # print(target)
         db_target = self.connection['targets'][target]
         target_info = {}
-        
+        # print(list(db_target.find()))
         for entry in list(db_target.find()):
             if entry['mirna'] not in target_info:
                 target_info[entry['mirna']] = [entry['geneName']]
