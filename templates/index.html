@@ -30,6 +30,8 @@
 	</script>
 
 
+
+
 </head>
 
 <body class="landing-page">
@@ -100,9 +102,9 @@
                     <div class="description">
                         <h2>Welcome to InCAS</h2>
                         <br>
-                        <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus, quam eget
-													malesuada aliquet, tellus tellus vestibulum nisl, eget elementum dui sapien commodo ligula.
-													Duis vitae mi quis metus vestibulum finibus.</h5>
+                        <h5><b>InCAS</b> (<b>I</b>ntegrated <b>C</b>opy number <b>A</b>nnotation <b>S</b>ystem) is a tool for the automated functional annotation of human Copy
+														Number Variants using information about protein-coding and -noncoding
+														genes and regulatory regions.</h5>
                     </div>
                     <div class="buttons">
                         <a href="http://codedesign.elkind.net/themes/bootstrap-theme-basic-app/">
@@ -150,7 +152,7 @@
 													<div id="fileupload" style="margin-left:20px;">
 															{{ form.upload.label }}: {{ form.upload(disabled=True, required=True) }}
 													</div>
-													<div style="margin-top: 35px;">
+													<div style="margin-top: 25px;">
 															<span style="color: #006da0; font-weight:bold">Window (bp): </span>{{ form.window(size=6, required=True, pattern='\d+') }}
 													</div>
 													<br>
@@ -205,7 +207,18 @@
 												<div class="row">
 													<div id="bed-checklist" class="col-sm-6 ann-checkbox-group required" style="width:45%">
 														<label>Track</label>
-														{{ form.annot }}
+														<ul id="annot">
+															{% for elem in form.annot %}
+																<li id="{{elem.id}}-li">
+																	{{elem()}}
+																	{{elem.label}}
+
+																</li>
+															{% endfor %}
+
+														</ul>
+
+														<!-- {{ form.annot }} -->
 													</div>
 													<div id="genelist-checklist" class="col-sm-6 genes-checkbox-group" style="width:55%">
 														<label>Gene List</label>
@@ -231,6 +244,7 @@
 				};
 			</script>
 
+
 			<script>
 					function enable(boxID) {
 					  	 document.getElementById(boxID).disabled= false;
@@ -251,6 +265,62 @@
 					    }
 					});
 
+					$('#annot-1').mouseover(function(){
+					// var test = document.getElementById("annot-1");
+									var target_list = document.getElementById("genes");
+									var target_self = document.getElementById("annot-1-li")
+									// target_self.label="#fff2b3";
+									target_self.style.background="#fff2b3";
+									target_list.style.background="#fff2b3";
+					});
+
+					$("#annot-1-li").mouseover(function(){
+					// var test = document.getElementById("annot-1");
+									var target_list = document.getElementById("genes");
+									var target_self = document.getElementById("annot-1-li")
+									// target_self.label="#fff2b3";
+									target_self.style.background="#fff2b3";
+									target_list.style.background="#fff2b3";
+					});
+
+					$("#genes").mouseover(function(){
+					// var test = document.getElementById("annot-1");
+									var target_list = document.getElementById("genes");
+									var target_self = document.getElementById("annot-1-li")
+									// target_self.label="#fff2b3";
+									target_self.style.background="#fff2b3";
+									target_list.style.background="#fff2b3";
+					});
+
+					$('#annot-1').mouseout(function(){
+					// var test = document.getElementById("annot-1");
+									var target_list = document.getElementById("genes");
+									var target_self = document.getElementById("annot-1-li")
+									// target_self.label="#fff2b3";
+									target_self.style.background="#ffffff";
+									target_list.style.background="#ffffff";
+					});
+
+					$('#annot-1-li').mouseout(function(){
+					// var test = document.getElementById("annot-1");
+									var target_list = document.getElementById("genes");
+									var target_self = document.getElementById("annot-1-li")
+									// target_self.label="#fff2b3";
+									target_self.style.background="#ffffff";
+									target_list.style.background="#ffffff";
+					});
+
+					$('#genes').mouseout(function(){
+					// var test = document.getElementById("annot-1");
+									var target_list = document.getElementById("genes");
+									var target_self = document.getElementById("annot-1-li")
+									// target_self.label="#fff2b3";
+									target_self.style.background="#ffffff";
+									target_list.style.background="#ffffff";
+					});
+
+
+
 					$('#annot-0').click(function(){
 							if($(this).is(':checked')){
 									jQuery('ul#genes input').removeAttr('disabled');
@@ -266,15 +336,18 @@
 							for (var i = 1, length = boxes.length; i < length; i++){
 								console.log(boxes[i].id)
 								boxes[i].checked = boxes[0].checked;
-								// if (boxes[0].checked == true){
-								// 	disable(boxes[i].id)
-								// }else{
-								// 	enable(boxes[i].id)
-								// }
 							}
-							// if($(this).attr("checked")) $('input:checkbox').attr('checked','checked');
-							// else $('input:checkbox').removeAttr('checked');
 					});
+
+					$('.ann-checkbox-group input[type=checkbox]').change(function() { // while you're at it listen for change rather than click, this is in case something else modifies the checkbox
+								var boxes = document.getElementsByName("annot");
+								for (var i = 1, length = boxes.length; i < length; i++){
+									if (boxes[i].checked == false){
+										boxes[0].checked = false;
+									}
+								}
+					});
+
 
 					//This governs the All genelists checkbox
 					$('#genes-0:checkbox').change(function ()  {
@@ -288,7 +361,14 @@
 							// else $('input:checkbox').removeAttr('checked');
 					});
 
-					$('#genes-0:checkbox').checked = true;
+					$('.genes-checkbox-group input[type=checkbox]').change(function() { // while you're at it listen for change rather than click, this is in case something else modifies the checkbox
+								var boxes = document.getElementsByName("genes");
+								for (var i = 1, length = boxes.length; i < length; i++){
+									if (boxes[i].checked == false){
+										boxes[0].checked = false;
+									}
+								}
+					});
 
 
 

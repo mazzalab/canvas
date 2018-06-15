@@ -156,7 +156,7 @@
                       }
                       if(genename!='.'){
                         if ('{{c}}' == 'mirna' && geneID){
-                          $('#sel-{{c}}').append($('<option></option>').attr('value', geneID).text(geneID));
+                          $('#sel-{{c}}').append($('<option></option>').attr('value', geneID).text(genename));
                         }else{
                           $('#sel-{{c}}').append($('<option></option>').attr('value', genename).text(genename));
                         }
@@ -469,7 +469,14 @@
       {% if c!='mirbase' %}
             <div class="col-sm-4">
               <div class="panel panel-info">
-                <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">{{ c }}</div>
+                <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">
+                      {{ c | replace("_", " ")| capitalize | replace("Longnc", "Long NC") | replace("Mirna", "miRNA") | replace("Circrna", "circRNA")}}
+                      <div class="help-tip" style="background-color: #ffd400">
+                        <p>{{ info[c] }}
+                      </p>
+                      </div>
+                </div>
+
                 <div class="panel-body">
                   <form>
 
@@ -494,10 +501,10 @@
                         </div>
                         <div class="help-tip">
                           <p>You can select among three subsets of <b>{{ c }}</b>s:<br /><br />
-                            &nbsp;&nbsp;- <b>inside</b>:<br />
-                            &nbsp;&nbsp;- <b>cross</b>:<br />
-                            &nbsp;&nbsp;- <b>distal</b>:<br />
-                        </p>
+                            &nbsp;&nbsp;- <b>inside</b>: completely overlapping with the CNV<br />
+                            &nbsp;&nbsp;- <b>cross</b>: including the CNV breakpoints<br />
+                            &nbsp;&nbsp;- <b>distal</b>: lying within a user-defined genomic window from the CNV boundaries<br />
+                          </p>
                         </div>
                     </div>
 

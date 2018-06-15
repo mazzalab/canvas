@@ -26,6 +26,18 @@ ANNOT_CHOICES = [('all_beds','All'),  ('gene', 'Genes'), ('coding_gene','Coding 
                  ('noncoding_gene','Non-coding genes'), ('longNC','Long non-coding'), ('mirna','miRNA'),
                  ('pseudogene','Pseudogenes'), ('circRNA','circRNA'), ('enhancer','Enhancers'),
                  ('ucr', 'UCR'), ('har', 'HAR')]
+
+EXPLANATIONS = {"gene": "All RefSeq genes reported in UCSC genome browser.",
+                "coding_gene": "RefSeq protein-coding genes (labelled as NM_*) reported in UCSC genome browser.",
+                "noncoding_gene": "RefSeq non-protein-coding genes (labelled as NR_*) reported in UCSC genome browser.",
+                "longNC": "Long non-coding RNAs reported in LNCipedia.",
+                "mirna": "microRNAs, reported in miRBase, and microRNA targets, reported in DIANA-TarBase and "
+                        "in TargetScan.",
+                "circRNA": "Circular RNAs reported in circBase.", "pseudogene": "Pseudogenes reported in psiDR.",
+                "ucr": "Ultraconserved elements (UCRs) reported in UCbase.",
+                "har": "Human Accelerated Regions (HARs).",
+                "enhancer": "Enhancers reported in Human Enhancer Disease Database (HEDD)."}
+
 # annot_dict = {}
 # for a in ANNOT_CHOICES:
 #     annot_dict[a[0]] = a[1]
@@ -84,7 +96,7 @@ class MultiCheckboxField(SelectMultipleField):
     option_widget = CheckboxInput()
     
 class MainForm(FlaskForm):
-    line_input = StringField(u'Gernomic region ', validators=[Length(max=50)])
+    line_input = StringField(u'Genomic region ', validators=[Length(max=50)])
     upload = FileField('Input file', validators=[
         FileAllowed(['txt', 'csv', 'cnv'], 'Text only!')
     ])
@@ -191,7 +203,7 @@ def working():
   
     async_result = pool.apply_async(worker, (args,))
     
-    return render_template('working.html')
+    return render_template('working.html', file=session['filename'])
     # return render_template('results.html', file_out=file_out, download_name=download_name, result_db=result_db)
 
 
@@ -237,7 +249,8 @@ def results():
                            text_file_out=re.sub('.xlsx', '.csv', session['file_out']),
                            download_name=session['download_name'],
                            text_download_name=re.sub('.xlsx', '.csv', session['download_name']),
-                           choices=session['ann_choices'], genes_choices=session['genes_choices'])
+                           choices=session['ann_choices'], genes_choices=session['genes_choices'],
+                           info=EXPLANATIONS)
 
 @app.route('/error.html', methods=['GET', 'POST'])
 def problem():

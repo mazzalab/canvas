@@ -140,14 +140,25 @@ select[multiple], select[size] {
     border-color: #1d8a00;
 }
 
+ul {
+    padding-bottom: 8px;
+    padding-top: 8px;
+    border-radius: 10px;
+}
 #annot{
   list-style-type: none;
-  margin-left: -30px;
+  margin-left: -35px;
 }
 
 #annot li label{
   font-weight: normal;
   vertical-align: top;
+}
+
+#annot li{
+  padding-left:5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 #genes{
@@ -1466,7 +1477,7 @@ vertical-align: middle;
   }
 
   #annot-panel{
-    height:690px;
+    height:570px;
   }
 
   #getSelectsBtn-gene img{
@@ -1499,6 +1510,7 @@ vertical-align: middle;
 @media (min-width:1200px){
   .results-container {
     max-width: unset !important;
+    width: 1200px;
   }
 }
 @media (max-width:1199px) and (min-width:769px){
