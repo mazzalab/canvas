@@ -62,7 +62,7 @@ class MainApp:
 
     def process(self):
     
-        sys.stdout = sys.stderr = open(self.args.out.replace('.xlsx', '_log.txt'), 'wt')
+        # sys.stdout = sys.stderr = open(self.args.out.replace('.xlsx', '_log.txt'), 'wt')
         
         for arg in self.d:
             
@@ -117,14 +117,12 @@ class MainApp:
                             
                             dict_inside, dict_cross, dict_distal = self.add_mirna_target(target=target_db, unique=True)
                             self.mirbase_dict[target_db].extend((dict_inside, dict_cross, dict_distal))
+                            from pprint import pprint
+                            # pprint(self.mirbase_dict)
         
         # Genelists annotation
         sys.stdout.write("Adding genelists classifications...\n")
-        print(self.d)
-        print(self.d['gene'])
-        print(self.d['all_genelists'])
-        print(sorted(self.db_gl.collection_names()))
-        if self.d['gene']:
+        if self.d['gene'] or self.d['all_beds']:
             for name in sorted(self.db_gl.collection_names()):
                 if name != 'system.indexes':
                     print("checking ", name)
@@ -133,7 +131,7 @@ class MainApp:
                         print("Adding {} gene classification...\n".format(name))
                         self.add_meta_gene(name)
         else:
-            sys.stderr.write("WARNING: Could not add genelists annotation since --gene option was not included.\n")
+            sys.stderr.write("WARNING: genelists not added since --gene option was not included.\n")
         
         #Writing final file
         write_file(self.out_dataframe, self.mirbase_dict, self.args.out)
@@ -175,8 +173,9 @@ class MainApp:
         :param cnv_file: File path and name of the original CNV file to be annotated
         :return: A DataFrame containing the CNV to be annotate, one per line
         """
-        
-        m = re.match(r'(?P<chr>chr[0-9]+):(?P<start>\d+)-(?P<end>\d+)', cnv_line)
+        print("LINE")
+        print(cnv_line)
+        m = re.match(r'(?P<chr>chr[\dXYM]+):(?P<start>\d+)-(?P<end>\d+)', cnv_line)
         parsed_line = StringIO("""CHR\tSTART\tEND\n{0}\t{1}\t{2}""".format(m.group('chr'), m.group('start'),
                                                                            m.group('end')))
         cnv_coords = pd.read_csv(parsed_line, sep='\t')
@@ -193,13 +192,19 @@ class MainApp:
         
         inside_molecules = []
         """:type : list[str]"""
+        inside_molecules_coords = []
+        """:type : list[str]"""
         inside_molecules_count = []
         """:type : list[int]"""
         cross_molecules = []
         """:type : list[str]"""
+        cross_molecules_coords = []
+        """:type : list[str]"""
         cross_molecules_count = []
         """:type : list[int]"""
         distal_molecules = []
+        """:type : list[str]"""
+        distal_molecules_coords = []
         """:type : list[str]"""
         distal_molecules_count = []
         """:type : list[int]"""
@@ -209,11 +214,18 @@ class MainApp:
             start = row.START
             end = row.END
             print("finding inside")
-            inside_molecule = db.find({"$and": [{"chr": chrom, "start": {"$gte": start},
-                                                 "end": {"$lte": end}}]}).distinct('info')
+            inside_molecule_data = db.find({"$and": [{"chr": chrom, "start": {"$gte": start},
+                                                 "end": {"$lte": end}}]}, {'info': 1})
+            
+            inside_molecule = inside_molecule_data.distinct('info')
+            # find the coordinates of these DISTINCT genes
+            distinct_inside_genes_data = list(
+                db.find({"info": {"$in": inside_molecule}}, {'start': 1, 'end': 1}))
+            inside_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_inside_genes_data)
+
             print("finding cross")
 
-            cross_molecule = db.find(
+            cross_molecule_data = db.find(
                 {"$or": [
                     {"$and": [
                         {"chr": chrom, "start": {"$gte": start, "$lte": end}, "end": {"$gt": end}}
@@ -226,12 +238,19 @@ class MainApp:
                         {"start": {"$lt": end}}, {"end": {"$gt": end}}
                     ]}
 
-                ]}
-            ).distinct('info')
+                ]},
+                {'info': 1}
+            )
+            cross_molecule = cross_molecule_data.distinct('info')
+            # find the coordinates of these DISTINCT genes
+            distinct_cross_genes_data = list(
+                db.find({"info": {"$in": cross_molecule}}, {'start': 1, 'end': 1}))
+            cross_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_cross_genes_data)
+
 
             print("finding distal")
 
-            distal_molecule = db.find(
+            distal_molecule_data = db.find(
                 {"$or": [
                     {"$and": [
                         {"chr": chrom}, {"start": {"$gt": end}}, {"start": {"$lt": distance_from_gene+end}},
@@ -241,41 +260,62 @@ class MainApp:
                         {"chr": chrom}, {"end": {"$lt": start}}, {"end": {"$gt": start-distance_from_gene}},
                         {"start": {"$gt": start - distance_from_gene}}, {"start": {"$lt": start}}
                     ]}
-                ]}
-            ).distinct('info')
+                ]
+                }, {'info': 1})
+                
+            distal_molecule = distal_molecule_data.distinct('info')
+            # find the coordinates of these DISTINCT genes
+            distinct_distal_genes_data = list(db.find({"info":{"$in":distal_molecule}}, {'start': 1, 'end': 1}))
+            distal_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_distal_genes_data)
             
             print("step2")
             print(len(inside_molecule))
             if len(inside_molecule) > 0:
-                inside_molecules.append(",".join(str(x) for x in inside_molecule))
+                inside_molecules.append(";".join(str(x) for x in inside_molecule))
                 inside_molecules_count.append(len(inside_molecule))
+                inside_molecules_coords.append(";".join(str(x) for x in inside_molecule_coords))
             else:
                 inside_molecules.append(".")
                 inside_molecules_count.append(0)
+                inside_molecules_coords.append(".")
 
             print(len(cross_molecule))
             if len(cross_molecule) > 0:
-                cross_molecules.append(",".join(str(x) for x in cross_molecule))
+                cross_molecules.append(";".join(str(x) for x in cross_molecule))
                 cross_molecules_count.append(len(cross_molecule))
+                cross_molecules_coords.append(";".join(str(x) for x in cross_molecule_coords))
 
             else:
                 cross_molecules.append(".")
                 cross_molecules_count.append(0)
+                cross_molecules_coords.append(".")
                 
             print(len(distal_molecule))
             if len(distal_molecule) > 0:
-                distal_molecules.append(",".join(str(x) for x in distal_molecule))
+                distal_molecules.append(";".join(str(x) for x in distal_molecule))
                 distal_molecules_count.append(len(distal_molecule))
+                distal_molecules_coords.append(";".join(str(x) for x in distal_molecule_coords))
             else:
                 distal_molecules.append(".")
                 distal_molecules_count.append(0)
+                distal_molecules_coords.append(".")
+
+                
         print("final")
         self.out_dataframe.loc[:, annotation_db + '_inside'] = inside_molecules
+        self.out_dataframe.loc[:, annotation_db + '_inside_coords'] = inside_molecules_coords
         self.out_dataframe.loc[:, annotation_db + '_inside_count'] = inside_molecules_count
+        print("Inside", len(inside_molecules[0].split(';')), len(inside_molecules_coords[0].split(';')), inside_molecules_count)
+        
         self.out_dataframe.loc[:, annotation_db + '_cross'] = cross_molecules
+        self.out_dataframe.loc[:, annotation_db + '_cross_coords'] = cross_molecules_coords
         self.out_dataframe.loc[:, annotation_db + '_cross_count'] = cross_molecules_count
+        print("cross", len(cross_molecules[0].split(';')), len(cross_molecules_coords[0].split(';')), cross_molecules_count)
+
         self.out_dataframe.loc[:, annotation_db + '_distal'] = distal_molecules
+        self.out_dataframe.loc[:, annotation_db + '_distal_coords'] = distal_molecules_coords
         self.out_dataframe.loc[:, annotation_db + '_distal_count'] = distal_molecules_count
+        print("distal", len(distal_molecules[0].split(';')), len(distal_molecules_coords[0].split(';')), distal_molecules_count)
         
     def __get_genetarget(self, mirs_in_cnv: str, mirbase_dict: dict, target_dict: dict) -> list:
         """
@@ -306,9 +346,9 @@ class MainApp:
             
             mature_mir_gene_names = mature_mir_gene_names + gene_targets
             if gene_targets:
-                mature_mir_gene_names_dict[mi_name] = gene_targets
+                mature_mir_gene_names_dict[mirna_name+';'+mi_name] = gene_targets
             else:
-                mature_mir_gene_names_dict[mi_name] = ['.']
+                mature_mir_gene_names_dict[mirna_name+';'+mi_name] = ['.']
             # print(mature_mir_gene_names)
             # print(mature_mir_gene_names_dict)
             # print("now the tuples are", len(mature_mir_gene_names_dict))
@@ -392,7 +432,7 @@ class MainApp:
             if target_genes_names != ['.']:
                 target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
                 
-            inside_mature_mir_gene_names.append(",".join(target_genes_names))
+            inside_mature_mir_gene_names.append(";".join(target_genes_names))
             inside_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
 
             miR_cross = row.mirna_cross
@@ -401,7 +441,7 @@ class MainApp:
             target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
             if target_genes_names != ['.']:
                 target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
-            cross_mature_mir_gene_names.append(",".join(target_genes_names))
+            cross_mature_mir_gene_names.append(";".join(target_genes_names))
             cross_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
 
             miR_distal = row.mirna_distal
@@ -410,7 +450,7 @@ class MainApp:
             target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
             if target_genes_names != ['.']:
                 target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
-            distal_mature_mir_gene_names.append(",".join(target_genes_names))
+            distal_mature_mir_gene_names.append(";".join(target_genes_names))
             distal_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
 
         self.out_dataframe.loc[:, target + '_inside'] = inside_mature_mir_gene_names
@@ -434,17 +474,17 @@ class MainApp:
         genes_distal_count = []
         
         for row in self.out_dataframe.itertuples():
-            inside = ','.join(list(set(row.gene_inside.split(',')) & genelist_l))
+            inside = ';'.join(list(set(row.gene_inside.split(';')) & genelist_l))
             genes_inside.append(inside) if inside else genes_inside.append('.')
-            genes_inside_count.append(str(len(inside.split(',')))) if inside else genes_inside_count.append('0')
+            genes_inside_count.append(str(len(inside.split(';')))) if inside else genes_inside_count.append('0')
 
-            cross = ','.join(list(set(row.gene_cross.split(',')) & genelist_l))
+            cross = ';'.join(list(set(row.gene_cross.split(';')) & genelist_l))
             genes_cross.append(cross) if cross else genes_cross.append('.')
-            genes_cross_count.append(str(len(cross.split(',')))) if cross else genes_cross_count.append('0')
+            genes_cross_count.append(str(len(cross.split(';')))) if cross else genes_cross_count.append('0')
 
-            distal = ','.join(list(set(row.gene_distal.split(',')) & genelist_l))
+            distal = ';'.join(list(set(row.gene_distal.split(';')) & genelist_l))
             genes_distal.append(distal) if distal else genes_distal.append('.')
-            genes_distal_count.append(str(len(distal.split(',')))) if distal else genes_distal_count.append('0')
+            genes_distal_count.append(str(len(distal.split(';')))) if distal else genes_distal_count.append('0')
             
         self.out_dataframe.loc[:, genelist + '_inside'] = genes_inside
         self.out_dataframe.loc[:, genelist + '_inside_count'] = genes_inside_count
@@ -460,7 +500,7 @@ def write_file(cnv_infolist: DataFrame, mirbase_dict: dict, out_filename: str):
     :param DataFrame cnv_infolist: Annotated pandas DataFrame to be written to xlsx file
     :param out_filename: File name of the final xlsx file
     """
-    
+    print(cnv_infolist)
     # Writing Excel file
     writer = pd.ExcelWriter(out_filename, engine='xlsxwriter')
     cnv_infolist.to_excel(writer, sheet_name='Annotated CNV - ' + time.strftime("%d-%m-%Y"), startrow=1,

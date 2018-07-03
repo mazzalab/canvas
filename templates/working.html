@@ -4,34 +4,38 @@
 {% block head %}
 {{ super() }}
 <script>
-  $(document).ready(function() {
-    var refresh_id = setInterval(function() {
-        $.get(
-          "{{ url_for('thread_status') }}",
-          function refresher(data) {
-            console.log(data);
-            if (data.status == 'finished') {
-              window.location.replace("{{ url_for('results') }}");
-            }else if (data.status == 'problem'){
-                window.location.replace("{{ url_for('problem') }}");
-                // document.getElementById("progresscontainer").innerHTML = "<div style=\"padding:40px; background-color:#ffd7d9; border-radius:10px \"><img src=\"../static/img/smallcross.png\" />&nbsp&nbspThere was a problem with your input file.</div>"
-                // throw new Error("Something went badly wrong!");
-                // window.stop();
-                // return -1;
-            }else{
-              document.getElementById("progress").innerHTML = ''
-              for (var i = 0, length = data.status.length; i < length; i++){
-                if(i==length-1){
+  var int00;
 
-                    document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating "+data.status[i].replace(/\d+_/g,'')+"...<br />"
-                }else{
-                    document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallcheck.png\" />&nbsp&nbspCalculating "+data.status[i].replace(/\d+_/g,'')+"...<br />"
-                }
+  $(document).ready(function() {
+
+    int00 = int00 || setInterval(update, 100);
+    function update() {
+      $.get(
+        "{{ url_for('thread_status') }}",
+        function refresher(data) {
+          console.log(data);
+          if (data.status == 'finished') {
+            window.location = "{{ url_for('results') }}";
+            int00 = undefined;
+          }else if (data.status == 'problem'){
+              window.location.replace("{{ url_for('problem') }}");
+              // document.getElementById("progresscontainer").innerHTML = "<div style=\"padding:40px; background-color:#ffd7d9; border-radius:10px \"><img src=\"../static/img/smallcross.png\" />&nbsp&nbspThere was a problem with your input file.</div>"
+              // throw new Error("Something went badly wrong!");
+              // window.stop();
+              // return -1;
+          }else{
+            document.getElementById("progress").innerHTML = ''
+            for (var i = 0, length = data.status.length; i < length; i++){
+              if(i==length-1){
+
+                  document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating "+data.status[i].replace(/\d+_/g,'')+"...<br />"
+              }else{
+                  document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallcheck.png\" />&nbsp&nbspCalculating "+data.status[i].replace(/\d+_/g,'')+"...<br />"
               }
             }
           }
-        )}
-      , 100);
+        })
+      }
   });
 </script>
 {% endblock %}
@@ -41,7 +45,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="parallax filter-gradient blue" data-color="blue" style="height:100px !important;">
+<div class="parallax filter-gradient blue" data-color="blue" style="height:135px !important;">
     <div class="parallax-background">
         <img src="../static/img/dna2.png">
     </div>
@@ -49,7 +53,7 @@
 <div class="section section-gray section-clients" style="height: -webkit-fill-available;">
   <div class= "container">
     <div class="row">
-      <div class="col-md-5 col-md-offset-5" id="progresscontainer">
+      <div class="col-md-5 col-md-offset-3" id="progresscontainer">
       <div id="progress">
         Working...
       </div>

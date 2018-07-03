@@ -2,6 +2,14 @@
 {% extends 'base.html' %}
 {% block head %}
 {{ super() }}
+<link href="../static/css/arrow.css" rel="stylesheet"/>
+
+<script>
+    $(document).on("click", function () {
+        document.getElementById("arrow").style.display = "none";
+    });
+</script>
+
 <style>
   label{
     font-weight: normal!important;
@@ -26,9 +34,6 @@
 </script>
 
 <script id="json-reader">
-
-  console.log({{choices|tojson|safe}})
-  console.log({{choices|tojson|safe}}.includes('mirbase'))
   var jsonData;
   var mirbase_jsonData
   $.ajax({
@@ -47,8 +52,6 @@
     });
   }
 
-  console.log(jsonData)
-  console.log(mirbase_jsonData)
 
 
 </script>
@@ -59,8 +62,6 @@
 
       // set fso = CreateObject("Scripting.FileSystemObject");
       // set s = fso.CreateTextFile("\test.txt", True);
-      console.log("downloading")
-      console.log(values)
       var element = document.createElement('a');
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(values.join("\n")));
       element.setAttribute('download', "selected_genes.txt");
@@ -103,14 +104,17 @@
     var cnvselection=-1;
     function updateGenes(cnvselection, jsonData) {
       {% for c in choices %}
+          var splitchar = ';';
           {% if c!='mirbase' %}
                 $('#sel-{{c}}').empty();
-                // console.log("UPDATING "+ '#sel-{{c}}')
-                // console.log("CHOICE: "+cnvselection)
                 if (cnvselection==-1){
                   console.log("no choice")
                 }else{
+
                   enableWin("{{c}}")
+                  if('{{c}}' == 'mirna'){
+                    splitchar = '";"'
+                  }
                   var position = 'inside';
                   var radios = document.getElementsByName("radio-{{c}}");
                   for (var i = 0, length = radios.length; i < length; i++) {
@@ -123,28 +127,24 @@
                           document.getElementById("radio-{{c}}-distal-label").innerHTML = 'distal ('+jsonData[cnvselection].{{c}}_distal_count+')';
 
                           if(position == 'inside-{{c}}'){
-                            var splitgenes = jsonData[cnvselection].{{c}}_inside.split(',')
+                            var splitgenes = jsonData[cnvselection].{{c}}_inside.split(splitchar)
                           }else if (position == 'cross-{{c}}') {
-                            var splitgenes = jsonData[cnvselection].{{c}}_cross.split(',')
+                            var splitgenes = jsonData[cnvselection].{{c}}_cross.split(splitchar)
                           }else if (position == 'distal-{{c}}') {
-                            var splitgenes = jsonData[cnvselection].{{c}}_distal.split(',')
+                            var splitgenes = jsonData[cnvselection].{{c}}_distal.split(splitchar)
                           }
                           // only one radio can be logically checked, don't check the rest
                           break;
                       }
                   }
-                  // console.log("CORRECT CHOICE: ")
-                  // console.log(jsonData[cnvselection])
 
                   for (i = 0; i < splitgenes.length; i++) {
-                      // console.log(splitgenes[i])
                       if ('{{c}}' == 'mirna' && splitgenes[i]){
-                        // console.log("UPDATING MIRNA WITH")
-                        // console.log(splitgenes[i])
-                        var regexp = /"ID=(.*);Alias=(.*);Name=(.*)"/gm;
+                        console.log(splitgenes[i])
+                        var regexp = /ID=(.*);Alias=(.*);Name=(.*)[^"]*/gm;
                         var match = regexp.exec(splitgenes[i])
                         if (match){
-                          genename = match[3]
+                          genename = match[3].replace('"','')
                           geneID = match[1]
                         }else{
                           genename = '.'
@@ -156,7 +156,7 @@
                       }
                       if(genename!='.'){
                         if ('{{c}}' == 'mirna' && geneID){
-                          $('#sel-{{c}}').append($('<option></option>').attr('value', geneID).text(genename));
+                          $('#sel-{{c}}').append($('<option></option>').attr('value', genename+';'+geneID).text(genename+' ('+geneID+')'));
                         }else{
                           $('#sel-{{c}}').append($('<option></option>').attr('value', genename).text(genename));
                         }
@@ -179,6 +179,7 @@
       // alsoResize: "#modal-sel",
       // minHeight: 400,
       minWidth: 300
+
     });
     $('#myModal').on('show.bs.modal', function () {
         $(this).find('.modal-body').css({
@@ -240,7 +241,6 @@
         };
     };
 
-    console.log(position)
     document.getElementById("genesmodal-title").innerHTML = category + ' - ' + position.split('-')[0];
     document.getElementById("classification").innerHTML = "<thead><tr id=\"header-row\"></tr></thead><tbody id=\"genestable-body\"></tbody>"
 
@@ -252,20 +252,17 @@
       }
 
       if(position == 'inside-gene'){
-        var splitgenes = jsonData[cnvselection].gene_inside.split(',')
+        var splitgenes = jsonData[cnvselection].gene_inside.split(';')
       }else if (position == 'cross-gene') {
-        var splitgenes = jsonData[cnvselection].gene_cross.split(',')
+        var splitgenes = jsonData[cnvselection].gene_cross.split(';')
       }else if (position == 'distal-gene') {
-        var splitgenes = jsonData[cnvselection].gene_distal.split(',')
+        var splitgenes = jsonData[cnvselection].gene_distal.split(';')
       }
 
       var tablehtml = ""
       for (var i = 0, length = splitgenes.length; i < length; i++){
-        console.log(splitgenes[i])
         tablehtml += "<tr><td>"+splitgenes[i]+"</td>"
-        console.log(genelist_choices.length)
         for (var j = 0, lengthj = genelist_choices.length; j < lengthj; j++){
-          console.log(genelist_choices)
           genelist_position = position.replace("-gene", "")
           choice_name = genelist_choices[j].replace("genelist", genelist_position)
           if (jsonData[cnvselection][choice_name].includes(splitgenes[i])){
@@ -277,6 +274,7 @@
         tablehtml += "</tr>"
       }
       document.getElementById("genestable-body").innerHTML += tablehtml
+
       $('#classification').DataTable().destroy();
       $('#classification').DataTable().draw();
 
@@ -341,13 +339,11 @@
         mir_selects.push(all_mirnas[i].value);
     }
 
-    console.log(position)
-    console.log(mir_selects)
     document.getElementById("mirbasemodal-title").innerHTML = category + ' - ' + position.split('-')[0];
     document.getElementById("mirbase-classification").innerHTML = "<thead><tr id=\"mirbaseheader-row\"></tr></thead><tbody id=\"mirbasetable-body\"></tbody>"
 
     function updatemirbaseModal(){
-      document.getElementById("mirbaseheader-row").innerHTML = "<th>miRNA ID</th>"
+      document.getElementById("mirbaseheader-row").innerHTML = "<th>miRNA name</th><th>miRNA ID</th>"
       for (var i = 0, length = Object.keys(mirbase_jsonData).length; i < length; i++){
           document.getElementById("mirbaseheader-row").innerHTML += "<th>"+Object.keys(mirbase_jsonData)[i]+"</th>"
       }
@@ -355,15 +351,13 @@
       mirbase_tablehtml = ""
 
       for (var i = 0, length = mir_selects.length; i < length; i++){
-        mirbase_tablehtml += "<tr><td>"+mir_selects[i]+"</td>"
+        mirbase_tablehtml += "<tr><td>"+mir_selects[i].split(';')[1]+"</td>"+"<td>"+mir_selects[i].split(';')[0]+"</td>"
         for (var j = 0, length_targets = Object.keys(mirbase_jsonData).length; j < length_targets; j++){
-            console.log("Checking "+ mir_selects[i] + "in " + Object.keys(mirbase_jsonData)[j])
             mir_entry = mirbase_jsonData[Object.keys(mirbase_jsonData)[j]][position_index][mir_selects[i]]
-            console.log(mir_entry)
             // The mirnas are taken from the window: they could or could not be in inside,cross,distal. Must be checked.
             if (mir_entry){
                 if (mir_entry[0] != ["."]){
-                  mirbase_tablehtml += "<td><img src=\"../static/img/smallcheck.png\" /><a href=\"\" style=\"vertical-align:middle\">&nbsp&nbspList</a></td>"
+                  mirbase_tablehtml += `<td><img src=\"../static/img/smallcheck.png\" /><a id=\"listlink\" href=\"#\" onclick=\"openlist('${mir_selects[i]}', '${position_index}', '${Object.keys(mirbase_jsonData)[j]}');return false;\" style=\"vertical-align:middle\">&nbsp&nbspList</a></td>`
                 }else{
                   mirbase_tablehtml += "<td><img src=\"../static/img/smallcross.png\" /><span style=\"opacity:0\">N</span></td>"
                 }
@@ -384,20 +378,11 @@
   });
 </script>
 
-<!-- // $(document).ready(function() {
-//     $("#mirbasemodal-link").click(function(){
-//         $.each($("#sel-mirna option:selected"), function(){
-//           // window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val(), '_blank');
-//           // window.focus();
-//           console.log("You have selected - " + $(this).val());
-//         });
-//     });
-// }); -->
-
 
 <script>
     function enableWin(category) {
         document.getElementById("modal-link-"+category).disabled = false;
+        document.getElementById("checkbox-plot-"+category).disabled = false;
         if (category == 'gene' && document.getElementById("genesmodal-link")){
             document.getElementById("genesmodal-link").disabled = false;
         }
@@ -405,11 +390,63 @@
 
     function disableWin(category) {
         document.getElementById("modal-link-"+category).disabled = true;
+        document.getElementById("checkbox-plot-"+category).disabled = true;
         if (category == 'gene' && document.getElementById("genesmodal-link")){
             document.getElementById("genesmodal-link").disabled = true;
         }
     }
 </script>
+
+<script>
+  function openlist(entry, position, db) {
+    // Fixes dual-screen position                         Most browsers      Firefox
+    var w = 300;
+    var h = 700;
+    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var newWindow = window.open('about:blank', 'Genes', 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+    newWindow.document.title = "Genes";
+    // Puts focus on the newWindow
+    if (window.focus) {
+        newWindow.focus();
+    }
+
+    newWindow.document.write("<script>function downloadFile() {var a = document.createElement(\"a\"); a.download = \""+entry.split(';')[0]+"_"+db+"_genes.txt\"; a.href = \"data:text/html,\" + document.getElementById(\"mirna-genes\").innerText; document.body.appendChild(a); a.click();}<\/script><title>"+entry.split(';')[0]+" in "+db+"<\/title><div><p>Genes for "+entry.split(';')[0]+" in "+ db + " (<a href=\"#\" onclick=downloadFile()>Download</a>):</p></div><div id=\"mirna-genes\"></div>");
+
+    // function downloadList(){
+    //     document.location =
+    //         'data:text/attachment;,' +
+    //         document.getElementById('mirna-genes').innerHTML;
+    // };
+
+    var genes = mirbase_jsonData[db][position][entry];
+    var uniquegenes = [];
+    $.each(genes, function(i, el){
+        if($.inArray(el, uniquegenes) === -1) uniquegenes.push(el);
+    });
+    for(var i = 0; i < uniquegenes.length; i++) {
+      newWindow.document.getElementById("mirna-genes").innerHTML += uniquegenes[i]+"<br />"
+    }
+  }
+</script>
+
+<script>
+  function get_genome_position(){
+    var cnvdrop = document.getElementById("cnv-dropdown");
+    cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+    cnvtext = cnvdrop.options[cnvdrop.selectedIndex].text
+
+    var cnvregexp = /chr([XYM\d]+):\s(\d+)\s-\s(\d+)/gm;
+    return cnvregexp.exec(cnvtext)
+  }
+</script>
+
 {% endblock %}
 
 {% block title %}Results{% endblock %}
@@ -418,7 +455,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="parallax filter-gradient blue" data-color="blue" style="height:100px !important;">
+<div class="parallax filter-gradient blue" data-color="blue" style="height:135px !important;">
     <div class="parallax-background">
         <img src="../static/img/dna2.png">
     </div>
@@ -446,11 +483,18 @@
             });
 
             document.getElementById('cnv-dropdown').addEventListener('change',function(){
-              var cnvdrop = document.getElementById("cnv-dropdown");
-              cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+              var match = get_genome_position()
+              chr = match[1]
+              start = match[2]
+              end = match[3]
+              updatebrowser(chr, start, end);
               updateGenes(cnvselection, jsonData);
             });
         </script>
+        </div>
+        <div id="arrow" class="red-arrow animate-flicker">
+          <p>
+          </p>
         </div>
         <span id="download-span" style="vertical-align:-webkit-baseline-middle; margin-left:20px;">
           or download results as an &nbsp
@@ -464,17 +508,52 @@
     </div>
 
     <br>
+    <!-- Genoverse -->
+
+    <div id="genoverse-wrap">
+      <div id="genoverse"></div>
+    </div>
+
+    <!-- Panels -->
     <div class="row draggablePanelList" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
     {% for c in choices %}
       {% if c!='mirbase' %}
             <div class="col-sm-4">
               <div class="panel panel-info">
                 <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">
-                      {{ c | replace("_", " ")| capitalize | replace("Longnc", "Long NC") | replace("Mirna", "miRNA") | replace("Circrna", "circRNA")}}s
+                      {{nice_names[c]}}
+
                       <div class="help-tip" style="background-color: #ffd400">
                         <p>{{ info[c] }}
                       </p>
                       </div>
+
+                        <input type="checkbox" class="ios8-switch ios8-switch-sm" id="checkbox-plot-{{c}}">
+                        <label for="checkbox-plot-{{c}}">Add track</label>
+                        <script>
+                            var plot_switches = {}
+                            $(document).ready(function() {
+                              $("#checkbox-plot-{{c}}").click(function(){
+                                    for(var p = 0; p < {{choices|tojson|safe}}.length; p++) {
+                                      category = {{choices|tojson|safe}}[p]
+                                      plot_switches[category] = $('#checkbox-plot-'+category).is(':checked')
+                                    }
+
+                                    var match = get_genome_position()
+                                    chr = match[1]
+                                    start = match[2]
+                                    end = match[3]
+                                    updatebrowser(chr, start, end, plot_switches);
+                                    // console.log(all_coords)
+                                    // for(var i = 0; i < .length; i++) {
+                                      // $('form.bc-details1').show();
+                                  // } else {
+                                  //     $('form.bc-details1').hide();
+                              });
+                            });
+                        </script>
+
+
                 </div>
 
                 <div class="panel-body">
@@ -555,7 +634,7 @@
                           $(document).ready(function() {
                               $("#getSelectsBtn-{{c}}").click(function(){
                                   $.each($("#sel-{{c}} option:selected"), function(){
-                                    window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val(), '_blank');
+                                    window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val().split(';')[0], '_blank');
                                     // window.focus();
                                     console.log("You have selected - " + $(this).val());
                                   });
@@ -568,17 +647,6 @@
                           data-backdrop="false" title="Add this item" class="open-mirbaseDialog new-win btn" style="position:relative">
                           Classification
                           </a>
-                          <!-- <script>
-                            $(document).ready(function() {
-                                $("#mirbasemodal-link").click(function(){
-                                    $.each($("#sel-mirna option:selected"), function(){
-                                      // window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val(), '_blank');
-                                      // window.focus();
-                                      console.log("You have selected - " + $(this).val());
-                                    });
-                                });
-                            });
-                          </script> -->
                         {% endif %}
 
                     {% endif %}
@@ -629,6 +697,7 @@
 
   </div>
 
+
 </div>
 <!-- Trigger/Open The Modal -->
 
@@ -658,7 +727,7 @@
 
 <div id="genesModal" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content" style="min-height:400px; height:fit-content ;width: fit-content;">
+        <div class="modal-content" style="min-height:400px; height:fit-content ;width: fit-content; min-width:605px;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                  <h4 class="modal-title" id="genesmodal-title" style="text-transform:capitalize">Title</h4>
@@ -682,7 +751,7 @@
 
 <div id="mirbaseModal" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content" style="min-height:400px; height:fit-content ;width: fit-content;">
+        <div class="modal-content" style="min-height:400px; height:fit-content ;width: fit-content; min-width:585px;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                  <h4 class="modal-title" id="mirbasemodal-title" style="text-transform:capitalize">Title</h4>
@@ -701,6 +770,281 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+  <!-- <script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/lib/Base.js"></script>
+  <script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/Genoverse.js"></script>
+  <script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/Track/Controller.js"></script> -->
+  <!-- <script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/Track/Model.js"></script>
+  <script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/Track/View.js"></script> -->
+  <!-- <script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/Track/Controller/Sequence.js"></script>
+  <script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/Track.js"></script> -->
+  <script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/genoverse.min.js"></script>
+  <script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/genomes/grch37.js"></script>
+
+
+  <script>
+        function updatebrowser(chr, start, end, tracks=[]){
+
+            document.getElementById("genoverse").innerHTML = '';
+            var colorsdict = {"gene": "#16a086",
+                "coding_gene": "#27ae61",
+                "noncoding_gene": "#34495e",
+                "longNC": "#2a80b9",
+                "mirna": "#c1392b",
+                "circRNA": "#d25400",
+                "pseudogene": "#7e8c8d",
+                "ucr": "#8f44ad",
+                "har": "#9b58b5",
+                "enhancer": "#5d562e"}
+            ext_start = parseInt(start) - {{distance}}
+            ext_end = parseInt(end) + {{distance}}
+            var genoverseConfig = {
+              container : '#genoverse', // Where to inject Genoverse (css/jQuery selector/DOM element)
+              // If no genome supplied, it must have at least chromosomeSize, e.g.:
+              // chromosomeSize : 249250621, // chromosome 1, human
+              genome    : 'grch37', // see js/genomes/
+              chr       : chr,
+              start     : ext_start-500000,
+              end       : ext_end,
+              plugins   : [ 'controlPanel', 'karyotype', 'trackControls', 'resizer', 'focusRegion', 'fullscreen', 'tooltips', 'fileDrop' ],
+              tracks    : [
+                Genoverse.Track.Scalebar,
+                Genoverse.Track.extend({
+                  name       : 'Sequence',
+                  url        : 'http://grch37.rest.ensembl.org/sequence/region/human/__CHR__:__START__-__END__?content-type=text/plain',
+                  controller : Genoverse.Track.Controller.Sequence,
+                  model      : Genoverse.Track.Model.Sequence.Ensembl,
+                  view       : Genoverse.Track.View.Sequence,
+                  100000     : false,
+                  resizable  : 'auto'
+                }),
+
+                Genoverse.Track.extend({
+                  name            : 'CNV',
+                  resizable       : 'auto',
+                  subFeatureJoinStyle : 'line',
+                  labels : 'overlay',
+                  fontColor: 'white',
+                  fontWeight: 'bold',
+                  subFeatureJoinLineWidth : 15,
+                  featureMargin: {
+                    top:10,
+                    right:1,
+                    bottom:1,
+                    left:0
+                  },
+                  data:[{
+                              chr: chr,
+                              start: ext_start,
+                              end: ext_end,
+                              color: '#CC0000'
+                            }],
+                  parseData: function (data, chr) {
+                    var feature = data[0];
+                    var subfeatures = [];
+                    var leftlimit =  {
+                      start: start - {{distance}},
+                      end: start,
+                      color: '#004C99',
+                    }
+                    subfeatures.push(leftlimit);
+
+                    var rightlimit =  {
+                      start: end,
+                      end: parseInt(end) + parseInt({{distance}}),
+                      color: '#004C99'
+                    }
+                    subfeatures.push(rightlimit);
+
+                    feature.subFeatures = subfeatures;
+                    feature.id = 'CNV '+start+'-'+end;
+                    feature.label = 'CNV';
+                    this.insertFeature(feature);
+
+                  }
+                }),
+
+                // Genoverse.Track.Gene37,
+                // Genoverse.Track.Gene,
+                // Genoverse.Track.Gene.extend({
+                //   name       : 'Genes',
+                //   url        : 'http://grch37.rest.ensembl.org/overlap/region/human/__CHR__:__START__-__END__?feature=gene;content-type=application/json',
+                //   parseData: function (data, chr) {
+                //     for (var i = 0; i < data.length; i++) {
+                //       var feature = data[i];
+                //
+                //       if (feature.feature_type === 'gene' && !this.featuresById[feature.id]) {
+                //         feature.chr         = feature.chr || chr;
+                //         feature.label       = parseInt(feature.strand, 10) === 1 ? (feature.external_name || feature.id) + ' >' : '< ' + (feature.external_name || feature.id);
+                //         feature.transcripts = [];
+                //
+                //         this.insertFeature(feature);
+                //       }
+                //     }
+                //   }
+                // }),
+                // Genoverse.Track.extend({
+                //   name            : 'Regulatory Features',
+                //   url             : 'http://rest.ensembl.org/overlap/region/human/__CHR__:__START__-__END__?feature=regulatory;content-type=application/json',
+                //   resizable       : 'auto',
+                //   model           : Genoverse.Track.Model.extend({ dataRequestLimit : 5000000 }),
+                //   setFeatureColor : function (f) { f.color = '#AAA'; }
+                // }),
+                // Genoverse.Track.extend({
+                //   name            : 'Genes37',
+                //   url             : 'http://grch37.rest.ensembl.org/overlap/region/human/__CHR__:__START__-__END__?feature=gene;content-type=application/json',
+                //   resizable       : 'auto',
+                //   model           : Genoverse.Track.Model.extend({ dataRequestLimit : 5000000 }),
+                //   setFeatureColor : function (f) { f.color = '#AAA'; }
+                // }),
+              ]
+            };
+            for (var t = 0; t < Object.keys(tracks).length; t++) {
+              var splitchar = ';';
+              cat = Object.keys(tracks)[t]
+
+              var newtrack = {};
+              var all_keys = []
+              if(tracks[cat] == true){
+                if (cat == "mirna"){
+                  splitchar = '";'
+                }
+
+                for (var n =0; n<jsonData[0][cat+"_inside"].split(splitchar).length; n++){
+                  feature_name = jsonData[0][cat+"_inside"].split(splitchar)[n].replace('"','');
+                  if (cat == "mirna" && feature_name!='.'){
+                    feature_name = feature_name.split('Name=')[1]
+                  }
+                  if(feature_name!='.'){
+                    newtrack[feature_name] = {
+                      chr: chr,
+                      start: jsonData[0][cat+"_inside_coords"].split(';')[n].split('-')[0],
+                      end: jsonData[0][cat+"_inside_coords"].split(';')[n].split('-')[1],
+                      color: colorsdict[cat],
+                      assembly_name: "GRCh37",
+                      biotype: "gene",
+                      description: "",
+                      external_name: feature_name,
+                      feature_type: "gene",
+                      gene_id: feature_name,
+                      id: feature_name,
+                      logic_name: '',
+                      strand: 1,
+                      version:11
+                    }
+                  }
+                }
+
+                for (var n =0; n<jsonData[0][cat+"_cross"].split(splitchar).length; n++){
+                  feature_name = jsonData[0][cat+"_cross"].split(splitchar)[n].replace('"','');
+                  if (cat == "mirna" && feature_name!='.'){
+                    feature_name = feature_name.split('Name=')[1]
+                  }
+                  if(feature_name!='.'){
+                    newtrack[feature_name] = {
+                      chr: chr,
+                      start: jsonData[0][cat+"_cross_coords"].split(';')[n].split('-')[0],
+                      end: jsonData[0][cat+"_cross_coords"].split(';')[n].split('-')[1],
+                      color: colorsdict[cat],
+                      assembly_name: "GRCh37",
+                      biotype: "gene",
+                      description: "",
+                      external_name: feature_name,
+                      feature_type: "gene",
+                      gene_id: feature_name,
+                      id: feature_name,
+                      logic_name: '',
+                      strand: 1,
+                      version:11
+                    }
+                  }
+
+                }
+
+                for (var n =0; n<jsonData[0][cat+"_distal"].split(splitchar).length; n++){
+                  feature_name = jsonData[0][cat+"_distal"].split(splitchar)[n].replace('"','');
+                  if (cat == "mirna" && feature_name!='.'){
+                    feature_name = feature_name.split('Name=')[1]
+                  }
+                  if(feature_name!='.'){
+                    newtrack[feature_name] = {
+                      chr: chr,
+                      start: jsonData[0][cat+"_distal_coords"].split(';')[n].split('-')[0],
+                      end: jsonData[0][cat+"_distal_coords"].split(';')[n].split('-')[1],
+                      color: colorsdict[cat],
+                      assembly_name: "GRCh37",
+                      biotype: "gene",
+                      description: "",
+                      external_name: feature_name,
+                      feature_type: "gene",
+                      gene_id: feature_name,
+                      id: feature_name,
+                      logic_name: '',
+                      strand: 1,
+                      version:11
+                    }
+                  }
+                }
+
+
+
+                trackconfig = Genoverse.Track.Gene.extend({
+                  name:    {{nice_names|tojson|safe}}[cat],
+                  resizable       : 'auto',
+                  subFeatureJoinStyle : 'line',
+                  model      : Genoverse.Track.Model.Gene,
+                  view       : Genoverse.Track.View.Gene,
+                  labels : 'overlay',
+                  fontColor: colorsdict[cat],
+                  subFeatureJoinLineWidth : 15,
+                  featureHeight:    6,
+                  featureMargin: {
+                    top:10,
+                    right:1,
+                    bottom:1,
+                    left:0
+                  },
+                  data: Object.values(newtrack),
+                  parseData: function (data, chr) {
+                    for (var i = 0; i < data.length; i++) {
+                      var feature = data[i];
+
+                      if (feature.feature_type === 'gene') {
+                        feature.chr         = feature.chr || chr;
+                        feature.label       = (feature.external_name || feature.id);
+                        feature.transcripts = [];
+
+                        this.insertFeature(feature);
+                      }
+                    }
+                  }
+
+                });
+
+              genoverseConfig.tracks.push(trackconfig);
+
+            }
+
+            }
+
+            new Genoverse(genoverseConfig);
+
+        };
+  </script>
+<!-- <genoverse genome="genome" chromosome="chromosome" start="start" end="end" example-locations="exampleLocations">
+    <genoverse-track name="'Sequence'" model="Genoverse.Track.Model.Sequence.Ensembl" view="Genoverse.Track.View.Sequence" controller="Genoverse.Track.Controller.Sequence" url="urls.sequence" resizable="'auto'" auto-height="true" extra="{100000: false}"></genoverse-track>
+    <genoverse-track name="'Genes'" labels="true" info="'Ensembl API genes'" model="Genoverse.Track.Model.Gene.Ensembl" view="Genoverse.Track.View.Gene.Ensembl" url="urls.genes" resizable="'auto'" auto-height="true"></genoverse-track>
+    <genoverse-track name="'Transcripts'" labels="true" info="'Ensembl API transcripts'" model="Genoverse.Track.Model.Transcript.Ensembl" view="Genoverse.Track.View.Transcript.Ensembl" url="urls.transcripts" resizable="'auto'" auto-height="true"></genoverse-track>
+</genoverse> -->
+<script>
+  console.log("Full JSON")
+  console.log(jsonData)
+  console.log("mirna JSON")
+  console.log(mirbase_jsonData)
+</script>
+
+
+
 <!-- /.modal -->
 
 {% endblock %}

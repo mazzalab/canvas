@@ -10,16 +10,20 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="../static/css/landing-page.css" rel="stylesheet"/>
         <link href="../static/css/tips.css" rel="stylesheet"/>
-        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <script src="http://code.interactjs.io/v1.3.4/interact.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-        <!-- <script src="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"></script> -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <!-- Genoverse -->
+        <!-- <script src="../static/angularjs-genoverse/dist/angularjs-genoverse.all.js"></script>
+        <script src="../static/angularjs-genoverse/lib/Genoverse/js/genoverse.min.js"></script>
+        <script src="../static/angularjs-genoverse/lib/Genoverse/js/Genoverse.js"></script>
+        <script src="../static/angularjs-genoverse/lib/Genoverse/js/genomes/grch38.js"></script>
+ -->
 
         <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<title>{% block title %}{% endblock %} - InCAS</title>
@@ -84,4 +88,21 @@
 
 {% block content %}
 {% endblock %}
+<footer class="footer">
+        <div class="container">
+            <nav class="pull-left copyright">
+                &copy; 2018 <a href="http://www.css-mendel.it/">IRCCS Casa Sollievo della Sofferenza - Mendel</a>
+            </nav>
+            <!-- <div class="social-area pull-right">
+                    <a href="https://github.com/elkindnet" class="btn btn-social btn-simple"><i class="fa fa-github-alt fa-fw"></i> <span class="network-name"></span></a>
+                    <a href="https://twitter.com/jenyelkind" class="btn btn-social btn-simple"><i class="fa fa-twitter fa-fw"></i> <span class="network-name"></span></a>
+                    <a href="https://www.facebook.com/jenyelkind" class="btn btn-social btn-simple"><i class="fa fa-facebook fa-fw"></i> <span class="network-name"></span></a>
+                    <a href="mailto:elkind@elkind.net" class="btn btn-social btn-simple"><i class="fa fa-envelope fa-fw"></i> <span class="network-name"></span></a>
+                    <a href="https://plus.google.com/+JenyElkind/" class="btn btn-social btn-simple"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name"></span></a>
+            </div> -->
+        </div>
+
+</footer>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 </body></html>

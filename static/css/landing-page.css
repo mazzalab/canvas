@@ -140,6 +140,10 @@ select[multiple], select[size] {
     border-color: #1d8a00;
 }
 
+.row {
+  margin-left: -7px;
+}
+
 ul {
     padding-bottom: 8px;
     padding-top: 8px;
@@ -213,13 +217,161 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] {
 /* input:valid {
   border: 2px solid green;
 } */
+.radio-inline{
+  margin-left: 3px !important;
+}
+
+.radio-inline input[type=radio] {
+  margin-left: -16px !important;
+}
+
+#genoverse-wrap {
+  text-align:-webkit-center;
+  margin:0;
+  padding-top: 50px;
+}
+#genoverse {
+  width:95% !important;
+}
+.gv-canvas-container {
+  width:100% !important;
+}
+
+.gv-control-panel-plugin .gv-panel-right {
+  background-image: -webkit-linear-gradient(left, #307ba0, #307ba0) !important;
+}
+
+.gv-control-panel-plugin .gv-panel-left {
+  background-image: -webkit-linear-gradient(right, #307ba0, #307ba0) !important;
+}
+
+.gv-control-panel-plugin .gv-panel button {
+  color: #ffffff !important;
+  text-shadow: unset !important;
+}
+
+.gv-label-container li .gv-name {
+  color: #ffffff !important;
+  text-shadow: unset !important;
+}
+
+#toggles{
+    width:60px;
+    margin:50px auto;
+    text-align:center;
+}
+
+input[type="checkbox"].ios8-switch {
+    position: absolute;
+    margin: 8px 0 0 16px;
+}
+input[type="checkbox"].ios8-switch + label {
+    position: relative;
+    padding: 5px 0 0 50px;
+    line-height: 2.0em;
+}
+input[type="checkbox"].ios8-switch + label:before {
+    content: "";
+    position: absolute;
+    display: block;
+    left: 0;
+    top: 0;
+    width: 40px; /* x*5 */
+    height: 24px; /* x*3 */
+    border-radius: 16px; /* x*2 */
+    background: #c3c3c3;
+    border: 1px solid #d9d9d9;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+input[type="checkbox"].ios8-switch + label:after {
+    content: "";
+    position: absolute;
+    display: block;
+    left: 0px;
+    top: 0px;
+    width: 24px; /* x*3 */
+    height: 24px; /* x*3 */
+    border-radius: 16px; /* x*2 */
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+input[type="checkbox"].ios8-switch + label:hover:after {
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+input[type="checkbox"].ios8-switch:checked + label:after {
+    margin-left: 16px;
+}
+input[type="checkbox"].ios8-switch:checked + label:before {
+    background: #55D069;
+}
+
+/* SMALL */
+
+input[type="checkbox"].ios8-switch-sm {
+    right: 107px;
+    margin: 5px 0 0 10px;
+}
+input[type="checkbox"].ios8-switch-sm + label {
+    right: 32px;
+    top: 14px;
+    position: absolute;
+    padding: 0 0 0 32px;
+    line-height: 1.3em;
+}
+input[type="checkbox"].ios8-switch-sm + label:before {
+    width: 25px; /* x*5 */
+    height: 15px; /* x*3 */
+    border-radius: 10px; /* x*2 */
+}
+input[type="checkbox"].ios8-switch-sm + label:after {
+    width: 15px; /* x*3 */
+    height: 15px; /* x*3 */
+    border-radius: 10px; /* x*2 */
+}
+input[type="checkbox"].ios8-switch-sm + label:hover:after {
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+}
+input[type="checkbox"].ios8-switch-sm:checked + label:after {
+    margin-left: 10px; /* x*2 */
+}
+
+/* LARGE */
+
+input[type="checkbox"].ios8-switch-lg {
+    margin: 10px 0 0 20px;
+}
+input[type="checkbox"].ios8-switch-lg + label {
+    position: relative;
+    padding: 7px 0 0 60px;
+    line-height: 2.3em;
+}
+input[type="checkbox"].ios8-switch-lg + label:before {
+    width: 50px; /* x*5 */
+    height: 30px; /* x*3 */
+    border-radius: 20px; /* x*2 */
+}
+input[type="checkbox"].ios8-switch-lg + label:after {
+    width: 30px; /* x*3 */
+    height: 30px; /* x*3 */
+    border-radius: 20px; /* x*2 */
+}
+input[type="checkbox"].ios8-switch-lg + label:hover:after {
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+input[type="checkbox"].ios8-switch-lg:checked + label:after {
+    margin-left: 20px; /* x*2 */
+}
+
 
 option {
-  -webkit-appearance: none;
--moz-appearance: none;
-appearance: none;
-padding: 5px;
-  background-color: white;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 5px;
+    background-color: white;
     color: #1f526b;
     /* padding: 3px 1.5rem; */
     clear: both;
@@ -249,6 +401,7 @@ padding: 5px;
     position: relative;
     border-width: 1px;
 }
+
 .panel-heading {
   color: #ffffff !important;
   background-color: #307ba0!important;
@@ -1016,12 +1169,13 @@ vertical-align: middle;
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1030;
+  z-index: 10;
 }
 
 .landing-page .parallax {
+  margin-top: -20px;
   width: 100%;
-  height: 435px;
+  height: 455px;
   overflow: hidden;
   display: block;
   background-size: 100%;
@@ -1106,7 +1260,7 @@ vertical-align: middle;
 }
 
 .landing-page .parallax .description{
-  padding-top: 90px;
+  padding-top: 115px;
   color: white;
 }
 
@@ -1530,7 +1684,7 @@ vertical-align: middle;
     width: 1300px;
   }
 }
-@media (max-width:1199px) and (min-width:769px){
+@media (max-width:1199px) and (min-width:768px){
 
   .results-container {
     max-width: 1165px !important;
@@ -1582,7 +1736,7 @@ vertical-align: middle;
 
 }
 
-@media (max-width: 992px) and (min-width:769px){
+@media (max-width: 992px) and (min-width:768px){
   .col-sm-4 {
     width: 50%;
   }
@@ -1594,7 +1748,7 @@ vertical-align: middle;
     max-width: unset !important;
   }
     .landing-page .navbar-top{
-        padding-top: 18px;
+      padding-top: 45px;
     }
 
     #fileupload{
@@ -1861,7 +2015,35 @@ ul.banner-social-buttons li {
 
   }
 
+  /* ----------- iPad Pro ----------- */
+  /* Portrait and Landscape */
+  /* @media only screen
+    and (min-device-width: 1024px)
+    and (max-device-width: 1366px)
+    and (-webkit-min-device-pixel-ratio: 1.5) {
 
+  } */
+
+  /* Portrait */
+  @media only screen
+    and (min-device-width: 834px)
+    and (max-device-width: 834px)
+    and (orientation: portrait)
+    and (-webkit-min-device-pixel-ratio: 2) {
+      .panel-info {
+          height: 315px;
+          min-width: 254px;
+      }
+  }
+
+  /* Landscape */
+  @media only screen
+    and (min-width: 1112px)
+    and (max-width: 1112px)
+    and (orientation: landscape)
+    and (-webkit-min-device-pixel-ratio: 2) {
+
+  }
   /* .ui-resizable { position: relative;}
   .ui-resizable-handle { position: absolute;font-size: 0.1px; display: block; }
   .ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }

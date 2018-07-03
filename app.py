@@ -19,7 +19,6 @@ app = Flask(__name__)
 bootstrap = Bootstrap(app)
 pool = ThreadPool(processes=1)
 finished = False
-
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 ANNOT_CHOICES = [('all_beds','All'),  ('gene', 'Genes'), ('coding_gene','Coding genes'),
@@ -38,6 +37,16 @@ EXPLANATIONS = {"gene": "All RefSeq genes reported in UCSC genome browser.",
                 "har": "Human Accelerated Regions (HARs).",
                 "enhancer": "Enhancers reported in Human Enhancer Disease Database (HEDD)."}
 
+NICE_NAMES = {"gene": "Genes",
+                "coding_gene": "Coding genes",
+                "noncoding_gene": "Non-coding genes",
+                "longNC": "Long NC",
+                "mirna": "MiRNAs",
+                "circRNA": "CircRNAs",
+                "pseudogene": "Pseudogenes",
+                "ucr": "UCRs",
+                "har": "HARs",
+                "enhancer": "Enhancers"}
 # annot_dict = {}
 # for a in ANNOT_CHOICES:
 #     annot_dict[a[0]] = a[1]
@@ -115,6 +124,16 @@ class MainForm(FlaskForm):
 def index():
     session['ann_choices'] = []
     session['genes_choices'] = []
+    session['choice'] = ''
+    session['cnv_line'] = None
+    session['filename'] = ''
+    session['working_filename'] = ''
+    session['task_id'] = ''
+    session['distance'] = []
+    session['file_out'] = ''
+    print("SESSIONE")
+    print(session['cnv_line'])
+    print(session['task_id'])
     form = MainForm()
 
     if form.validate_on_submit():
@@ -134,6 +153,7 @@ def index():
             session['filename'] = 'line input'
             session['working_filename'] = os.path.join(session['task_id'], session['task_id']+'.csv')
             session['cnv_line'] = request.form['line_input']
+
         
         if 'radio-hg19' in request.form:
             session['hg'] = 'hg19'
@@ -148,7 +168,6 @@ def index():
         if 'mirna' in request.form.getlist('annot'):
             session['ann_choices'].append('mirbase')
         
-        print(request.form.getlist('genes'))
         for elem in request.form.getlist('genes'):
                 if elem != "all_genelists":
                     session['genes_choices'].append(elem+'_genelist')
@@ -171,7 +190,7 @@ def working():
     global async_result
     global finished
     finished = False
-
+    
     session['file_out'] = os.path.join(app.config['UPLOAD_FOLDER'], "{}.xlsx".format(
         os.path.splitext(session['working_filename'])[0]))
     
@@ -184,8 +203,9 @@ def working():
              mendeliome_genelist=False,
              ohnologs_genelist=False, distance=session['distance'],
              out=session['file_out'])
-
-
+    
+    print("GLI ARGOMENTI")
+    print(args)
     if session['choice'] == 'file':
         session['download_name'] = os.path.splitext(session['filename'])[0] + '_INCAS.xlsx'
         setattrs(args, cnv_line=None)
@@ -200,11 +220,11 @@ def working():
     
     for elem in session['genes_choices']:
         setattr(args, elem, True)
-        
   
     async_result = pool.apply_async(worker, (args,))
     
-    return render_template('working.html', file=session['filename'])
+    print("FINISHED the working")
+    return render_template('working.html', file=session['filename'], nice_names=NICE_NAMES)
     # return render_template('results.html', file_out=file_out, download_name=download_name, result_db=result_db)
 
 
@@ -227,7 +247,8 @@ def thread_status():
     # # f_read.seek(st_size)
     progress = [os.path.basename(x).split('.')[0] for x in glob.glob(os.path.dirname(session['file_out'])+'/*.progress')]
     progress.sort(key=natural_keys)
-    
+    print("STATUS")
+    print(progress)
     if finished == True:
         return jsonify(dict(status='finished'))
     elif finished == -1:
@@ -238,6 +259,7 @@ def thread_status():
 
 @app.route('/results.html', methods=['GET', 'POST'])
 def results():
+    print("IN RESULTS")
     if 'all_beds' in session['ann_choices']:
         print(session)
         print(session['ann_choices'])
@@ -252,11 +274,17 @@ def results():
                            download_name=session['download_name'],
                            text_download_name=re.sub('.xlsx', '.csv', session['download_name']),
                            choices=session['ann_choices'], genes_choices=session['genes_choices'],
-                           info=EXPLANATIONS)
+                           distance=session['distance'],
+                           info=EXPLANATIONS, nice_names = NICE_NAMES)
+
 
 @app.route('/error.html', methods=['GET', 'POST'])
 def problem():
     return render_template('error.html', file=session['filename'])
 
+@app.route('/privacy-and-cookie-policy.html')
+def privacy():
+    return render_template('privacy-and-cookie-policy.html')
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
