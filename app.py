@@ -21,8 +21,9 @@ pool = ThreadPool(processes=1)
 finished = False
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-ANNOT_CHOICES = [('all_beds','All'),  ('gene', 'Genes'), ('coding_gene','Coding genes'),
-                 ('noncoding_gene','Non-coding genes'), ('longNC','Long non-coding'), ('mirna','MicroRNAs (miRNAs)'),
+ANNOT_CHOICES = [('all_beds','All'), ('coding_gene','Coding genes'),
+                 ('noncoding_gene','Non-coding genes'), ('gene', 'Gene lists'), ('longNC','Long non-coding'),
+                 ('mirna','MicroRNAs (miRNAs)'),
                  ('pseudogene','Pseudogenes'), ('circRNA','CircularRNAs (circRNAs)'), ('enhancer','Enhancers'),
                  ('ucr', 'Ultra Conserved Regions (UCRs)'), ('har', 'Human Accelerated Regions (HARs)')]
 
@@ -37,11 +38,12 @@ EXPLANATIONS = {"gene": "All RefSeq genes reported in UCSC genome browser.",
                 "har": "Human Accelerated Regions (HARs).",
                 "enhancer": "Enhancers reported in Human Enhancer Disease Database (HEDD)."}
 
-NICE_NAMES = {"gene": "Genes",
+NICE_NAMES = {"gene": "Gene lists",
                 "coding_gene": "Coding genes",
                 "noncoding_gene": "Non-coding genes",
                 "longNC": "Long NC",
                 "mirna": "MiRNAs",
+                "mirbase": "mirRBase",
                 "circRNA": "CircRNAs",
                 "pseudogene": "Pseudogenes",
                 "ucr": "UCRs",
@@ -88,7 +90,7 @@ def natural_keys(text):
     '''
     return [ atoi(c) for c in re.split('(\d+)', text) ]
 
-def id_generator(size=8, chars=string.ascii_lowercase + string.digits):
+def id_generator(size=12, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
@@ -131,6 +133,7 @@ def index():
     session['task_id'] = ''
     session['distance'] = []
     session['file_out'] = ''
+    session['ref'] = ''
     print("SESSIONE")
     print(session['cnv_line'])
     print(session['task_id'])
@@ -156,12 +159,12 @@ def index():
 
         
         if 'radio-hg19' in request.form:
-            session['hg'] = 'hg19'
+            session['ref'] = 'hg19'
         elif 'radio-hg18' in request.form:
-            session['hg'] = 'hg18'
+            session['ref'] = 'hg18'
         elif 'radio-hg38' in request.form:
-            session['hg'] = 'hg38'
-        print("REF:", session['hg'])
+            session['ref'] = 'hg38'
+        print("REF:", session['ref'])
 
         for elem in request.form.getlist('annot'):
                 session['ann_choices'].append(elem)
@@ -201,7 +204,7 @@ def working():
              all_genelists=False,
              ID_genelist=False, dosage_sensitive_genelist=False, imprinted_genelist=False,
              mendeliome_genelist=False,
-             ohnologs_genelist=False, distance=session['distance'],
+             ohnologs_genelist=False, distance=session['distance'], reference='hg19',
              out=session['file_out'])
     
     print("GLI ARGOMENTI")
@@ -215,6 +218,9 @@ def working():
         setattrs(args, cnv_line=session['cnv_line'])
         setattrs(args, cnv_file=None)
     
+    if session['ref'] != 'hg19':
+        setattr(args, 'reference', session['ref'])
+        
     for elem in session['ann_choices']:
         setattr(args, elem, True)
     
@@ -275,7 +281,7 @@ def results():
                            text_download_name=re.sub('.xlsx', '.csv', session['download_name']),
                            choices=session['ann_choices'], genes_choices=session['genes_choices'],
                            distance=session['distance'],
-                           info=EXPLANATIONS, nice_names = NICE_NAMES)
+                           info=EXPLANATIONS, nice_names=NICE_NAMES)
 
 
 @app.route('/error.html', methods=['GET', 'POST'])

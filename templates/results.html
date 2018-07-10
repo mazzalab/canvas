@@ -447,6 +447,19 @@
   }
 </script>
 
+
+<script>
+  function onchange_dropdown(){
+    var match = get_genome_position()
+    chr = match[1]
+    start = match[2]
+    end = match[3]
+    updatebrowser(chr, start, end);
+    updateGenes(cnvselection, jsonData);
+  }
+
+</script>
+
 {% endblock %}
 
 {% block title %}Results{% endblock %}
@@ -464,7 +477,7 @@
   <div class="results-container container">
       <h2 style="margin-left:30px; margin-bottom: 40px; color: #307ba0;">Results</h2>
     <div style="display:-webkit-box; margin-left: 30px;">
-        <div style="display: -webkit-inline-box; vertical-align: -webkit-baseline-middle;">
+        <div id="dropdown-div" style="display: -webkit-inline-box; vertical-align: -webkit-baseline-middle;">
 
         <select data-style="btn-new" id="cnv-dropdown" name="CNVs"></select>
         <script>
@@ -472,39 +485,46 @@
 
             // dropdown.empty();
 
-            dropdown.append('<option selected="true" value="-1" disabled>Choose CNV</option>');
-            dropdown.prop('selectedIndex', 0);
-
             // Populate dropdown with list of CNVs
             $.getJSON("{{ json_out }}", function (data) {
-            $.each(data, function (key, entry) {
-              dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+": "+entry.START+" - "+entry.END));
-            })
+                $.each(data, function (key, entry) {
+                  console.log("KEY")
+                  console.log(key)
+                  if(key==0){
+                    console.log("ENTRY INDEX")
+                    console.log(entry.index)
+                    dropdown.append($('<option></option>').attr('value', entry.index).attr('selected', true).text(entry.CHR+": "+entry.START+" - "+entry.END));
+                  }else{
+                    dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+": "+entry.START+" - "+entry.END));
+                  }
+                  dropdown.prop('selectedIndex', 0);
+
+                })
             });
 
-            document.getElementById('cnv-dropdown').addEventListener('change',function(){
-              var match = get_genome_position()
-              chr = match[1]
-              start = match[2]
-              end = match[3]
-              updatebrowser(chr, start, end);
-              updateGenes(cnvselection, jsonData);
+            $( "#cnv-dropdown").change(function(){
+              onchange_dropdown()
             });
+
         </script>
         </div>
         <div id="arrow" class="red-arrow animate-flicker">
           <p>
           </p>
         </div>
-        <span id="download-span" style="vertical-align:-webkit-baseline-middle; margin-left:20px;">
-          or download results as an &nbsp
-          <a class="btn btn-success btn-lg active" href="{{file_out}}" download="{{download_name}}"
-          style="margin-left: 10px; font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #16821f; color: #ffffff;border-color: #34aa3a;"
-          role="button" aria-pressed="true">
-          Excel File</a> &nbsp or <a class="btn btn-success btn-lg active" href="{{text_file_out}}" download="{{text_download_name}}"
-          style="margin-left: 10px; font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #ea7900; color: #ffffff;border-color: #ffba58;"
-          role="button" aria-pressed="true">CSV File</a>
-        </span>
+        <div id="download-div">
+            <span id="download-span">
+              or download results as an</span>
+            <div id="down-buttons">
+                  <a class="btn btn-success btn-lg active" href="{{file_out}}" download="{{download_name}}"
+                  style="font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #16821f; color: #ffffff;border-color: #34aa3a;"
+                  role="button" aria-pressed="true">
+                  Excel File</a>&nbsp or &nbsp<a class="btn btn-success btn-lg active" href="{{text_file_out}}" download="{{text_download_name}}"
+                  style="font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #ea7900; color: #ffffff;border-color: #ffba58;"
+                  role="button" aria-pressed="true">CSV File</a>
+            </div>
+
+        </div>
     </div>
 
     <br>
@@ -578,10 +598,10 @@
                           unchecked><span id="radio-{{c}}-distal-label">distal (0)</span>
                           </label>
                         </div>
-                        <div class="help-tip">
-                          <p>You can select among three subsets of <b>{{ c }}</b>s:<br /><br />
-                            &nbsp;&nbsp;- <b>inside</b>: completely overlapping with the CNV<br />
-                            &nbsp;&nbsp;- <b>cross</b>: including the CNV breakpoints<br />
+                        <div class="help-tip-blue">
+                          <p>You can select among three subsets of <b>{{nice_names[c]}}:</b><br /><br />
+                            &nbsp;&nbsp;- <b>included</b>: completely overlapping with the CNV<br />
+                            &nbsp;&nbsp;- <b>broken</b>: including the CNV breakpoints<br />
                             &nbsp;&nbsp;- <b>distal</b>: lying within a user-defined genomic window from the CNV boundaries<br />
                           </p>
                         </div>
@@ -611,17 +631,7 @@
                         {% if genes_choices!=[] %}
                             <a id="genesmodal-link" href="#genesModal" data-toggle="modal" data-category="{{c}}" data-position=""
                             data-backdrop="false" title="Add this item" class="open-genesDialog new-win btn" style="position:relative">
-                            <!-- <a id="genesmodal-link" href="#genesModal" data-toggle="modal" data-category="{{c}}" data-position=""
-                            data-backdrop="false" title="Add this item" class="open-AddBookDialog new-win"> -->
                             Classification
-                            <!-- </a> -->
-                            <!-- <script>
-                              $(document).ready(function() {
-                                  $("#getSelectGenesBtn-{{c}}").click(function(){
-
-                                  });
-                                });
-                            </script> -->
                             </a>
                         {% endif %}
                     {% endif %}
@@ -682,16 +692,22 @@
     {% endfor %}
     <script>
         var cnvdrop = document.getElementById("cnv-dropdown");
-        cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
-        {% for c in choices %}
-        var radios = document.getElementsByName("radio-{{c}}");
-        var prev = null;
-        for(var i = 0; i < radios.length; i++) {
-            radios[i].onclick = function() {
-                updateGenes(cnvselection, jsonData)
-            };
+
+        console.log("Selected index")
+        console.log(cnvdrop.selectedIndex)
+        if(cnvdrop.selectedIndex!=-1){
+          cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+          {% for c in choices %}
+          var radios = document.getElementsByName("radio-{{c}}");
+          var prev = null;
+          for(var i = 0; i < radios.length; i++) {
+              radios[i].onclick = function() {
+                  updateGenes(cnvselection, jsonData)
+              };
+          }
+          {% endfor %}
         }
-        {% endfor %}
+
     </script>
     </div>
 
@@ -1041,6 +1057,9 @@
   console.log(jsonData)
   console.log("mirna JSON")
   console.log(mirbase_jsonData)
+  window.onload = function(){
+    onchange_dropdown();
+  }
 </script>
 
 

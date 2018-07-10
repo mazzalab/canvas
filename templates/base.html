@@ -4,6 +4,13 @@
     {% block head %}
 	<meta charset="utf-8" />
 	<!-- <link rel="icon" type="image/png" href="../static/img/favicon.ico"> -->
+  <meta name="description" content="InCAS (Integrated Copy number Annotation System) is a tool for the automated
+  functional annotation of human Copy Number Variants using information about protein coding and protein non-coding
+  genes and regulatory regions.">
+  <meta name="author" content="Mauro Truglio">
+  <link rel="icon" type="image/png" href="../static/img/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="../static/img/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="../static/img/favicon-96x96.png" sizes="96x96">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
         <meta name="viewport" content="width=device-width" />
@@ -26,7 +33,7 @@
  -->
 
         <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	<title>{% block title %}{% endblock %} - InCAS</title>
+	<title>{% block title %}{% endblock %} - InCAS v1.0</title>
     {% endblock %}
 </head>
 
@@ -89,10 +96,29 @@
 {% block content %}
 {% endblock %}
 <footer class="footer">
-        <div class="container">
-            <nav class="pull-left copyright">
+        <div class="container" style="min-width: 410px;">
+          <div class="row hidden-xs visible-lg visible-md visible-sm" style="float:left; display:block !important; width:100%">
+                <div class="col-sm-6 col-lg-6 col-md-6" style="width:fit-content; display:block !important">
+                    <img src="../static/img/logocss.png" class="img-responsive" align="left" width="150">
+                </div>
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <address>
+                        <strong>Laboratory of Bioinformatics</strong><br>
+                        <!--i class="glyphicon glyphicon-home"></i-->
+                        IRCCS Casa Sollievo della Sofferenza - Mendel<br>
+                        Viale Regina Margherita, 261<br>
+                        Rome, Italy 00198<br>
+                        <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><abbr title="Phone"> </abbr>
+                        (+39) 06-44160515<br>
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><abbr title="E-mail"> </abbr>
+                        bioinformatics@css-mendel.it
+                    </address>
+                </div>
+          </div>
+
+            <!-- <nav class="pull-left copyright">
                 &copy; 2018 <a href="http://www.css-mendel.it/">IRCCS Casa Sollievo della Sofferenza - Mendel</a>
-            </nav>
+            </nav> -->
             <!-- <div class="social-area pull-right">
                     <a href="https://github.com/elkindnet" class="btn btn-social btn-simple"><i class="fa fa-github-alt fa-fw"></i> <span class="network-name"></span></a>
                     <a href="https://twitter.com/jenyelkind" class="btn btn-social btn-simple"><i class="fa fa-twitter fa-fw"></i> <span class="network-name"></span></a>
@@ -102,7 +128,7 @@
             </div> -->
         </div>
 
-</footer>
+  </footer>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 </body></html>

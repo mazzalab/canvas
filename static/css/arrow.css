@@ -1,0 +1,66 @@
+.red-arrow{
+  position: absolute;
+  content:url("/static/img/red-arrow.png");
+  width:220px;
+  height: 220px;
+  z-index: 1000;
+
+
+}
+
+.red-arrow::after{
+  position: absolute;
+  margin-top: -25px;
+  content:url("/static/img/red-arrow.png");
+  width:220px;
+  height: 220px;
+  z-index: 1000;
+  -webkit-animation: fadeIn 0.5s ease-in-out;
+  -moz-animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn 0.5s ease-in-out;
+  -moz-animation
+
+}
+
+/* CSS animation */
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:1;
+        transform: scale(0.6);
+    }
+    50% {
+        opacity:0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity:1;
+        transform: scale(1);
+    }
+}
+
+@-moz-keyframes fadeIn{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+
+@-o-keyframes fadeIn{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+
+@keyframes fadeIn {
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+
+.animate-flicker {
+    opacity:1;
+    -webkit-animation: fadeIn 1s 2;
+    -moz-animation: fadeIn 0.5s linear 2;
+    animation: fadeIn 1s 2;
+
+}

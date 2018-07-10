@@ -1,0 +1,28 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% block title %}Working...{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block navbar %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="parallax filter-gradient blue" data-color="blue" style="height:135px !important;">
+    <div class="parallax-background">
+        <img src="../static/img/dna2.png">
+    </div>
+</div>
+<div class="section section-gray section-clients" style="height: -webkit-fill-available;">
+  <div class= "container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-4" id="progresscontainer">
+      <div style="padding:40px; background-color:#ffd7d9; border-radius:10px; text-align: center">
+        <img src="../static/img/smallcross.png" />&nbsp&nbspThere was a problem with your input file "{{file}}"</div>
+    </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

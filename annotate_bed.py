@@ -42,6 +42,7 @@ import os
 from io import StringIO
 import itertools
 from collections import OrderedDict
+from subprocess import call, Popen, PIPE
 import glob
 
 
@@ -56,7 +57,7 @@ class MainApp:
         self.db_t = self.connection['targets']
         self.d = vars(self.args)
         self.mirbase_dict = {}  #this stores the mirbase annotation that will be written as a separate json
-        # print(self.d)
+        print(self.d)
         # input()
         
 
@@ -66,7 +67,7 @@ class MainApp:
         
         for arg in self.d:
             
-            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists'] and \
+            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists', 'reference'] and \
                     (self.d[arg] or self.d['all_beds']) and not arg.startswith('__'):
                 sys.stdout.write("Checking presence of {}...\n".format(arg))
                 
@@ -86,23 +87,73 @@ class MainApp:
                                  'Please include this option as well.')
                         
         sys.stdout.write("Requested DBs are present. Proceeding to annotate...\n")
+        
+        # In case the input is a file...
         if self.args.cnv_file:
             if os.path.exists(self.args.cnv_file):
                 try:
                     cnv_info = self.read_cnv_coordinates_file(self.args.cnv_file)
                 except NameError:
                     return -1
+
             else:
                 sys.exit("CNV file not found: {}".format(self.args.cnv_file))
+                
+        # Alternatively, with a text line input..
         elif self.args.cnv_line:
             cnv_info = self.read_cnv_coordinates_line(self.args.cnv_line)
-        
+
+        if self.args.reference != 'hg19':
+            # Testing presence of CrossMap executable in PATH
+            test = Popen(['resources/liftover_files/crossmap'], stdout=PIPE, stderr=PIPE)
+            out, err = test.communicate()
+    
+            if not err.decode('ascii').strip().startswith('liftOver - Move'):
+                sys.exit('crossmap not found in system PATH, or not executable.')
+    
+            print("Chosen reference is", self.args.reference)
+            chainfile = os.path.join("resources/liftover_files/chains",
+                                     "{}ToHg19.over.chain".format(self.args.reference))
+            print(cnv_info)
+    
+            # For the conversion, it is necessary to save a temporary file
+            # and run CrossMap on it.
+            tempfile = os.path.join(os.path.dirname(self.args.out), 'tempfile.tsv')
+            tempfile_converted = tempfile.replace(".tsv", "_converted.tsv")
+            tempfile_unmapped = tempfile.replace(".tsv", "_unmapped.tsv")
+            cnv_info.to_csv(tempfile, sep='\t',
+                            columns=['CHR', 'START', 'END'], index=False, header=False)
+    
+            call(["resources/liftover_files/crossmap", tempfile, chainfile,
+                  tempfile_converted, tempfile_unmapped])
+            cnv_info_converted = pd.read_table(tempfile_converted, encoding='cp1252', sep='\t', header=None,
+                                               names=["CHR", "START", "END"])
+    
+            # if no cnv was split during liftover, any possible extra column will be preserved.
+            # otherwise, only CHR, START, END will be retained.
+    
+            if len(cnv_info_converted) == len(cnv_info):
+                print("Conversion successful. Re-adding additional input fields if present.")
+                cnv_info["CHR"] = cnv_info_converted["CHR"]
+                cnv_info["START"] = cnv_info_converted["START"]
+                cnv_info["END"] = cnv_info_converted["END"]
+            else:
+                print("One or more CNVs were split during liftover from {0} to hg19. If the input"
+                      "file contained extra columns besides CHR, START, END, they will be "
+                      "discarded.".format(self.args.reference))
+                cnv_info = cnv_info_converted
+            print("Converted:")
+            print(cnv_info)
+            # Cleaning
+            for f in glob.glob(os.path.dirname(self.args.out) + '/tempfile*.tsv'):
+                os.remove(f)
+                
         self.out_dataframe = cnv_info
 
         # Annotation based on the options that were chosen
         count = 0
         for arg in self.d:
-            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists'] and \
+            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists', 'reference'] and \
                     (self.d[arg] or self.d['all_beds']) and not arg.startswith('__') and not 'genelist' in arg:
                 count += 1
                 sys.stdout.write("Adding annotation for {}...\n".format(arg))
@@ -213,7 +264,7 @@ class MainApp:
             chrom = row.CHR
             start = row.START
             end = row.END
-            print("finding inside")
+            # print("finding inside")
             inside_molecule_data = db.find({"$and": [{"chr": chrom, "start": {"$gte": start},
                                                  "end": {"$lte": end}}]}, {'info': 1})
             
@@ -223,7 +274,7 @@ class MainApp:
                 db.find({"info": {"$in": inside_molecule}}, {'start': 1, 'end': 1}))
             inside_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_inside_genes_data)
 
-            print("finding cross")
+            # print("finding cross")
 
             cross_molecule_data = db.find(
                 {"$or": [
@@ -248,7 +299,7 @@ class MainApp:
             cross_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_cross_genes_data)
 
 
-            print("finding distal")
+            # print("finding distal")
 
             distal_molecule_data = db.find(
                 {"$or": [
@@ -268,8 +319,8 @@ class MainApp:
             distinct_distal_genes_data = list(db.find({"info":{"$in":distal_molecule}}, {'start': 1, 'end': 1}))
             distal_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_distal_genes_data)
             
-            print("step2")
-            print(len(inside_molecule))
+            # print("step2")
+            # print(len(inside_molecule))
             if len(inside_molecule) > 0:
                 inside_molecules.append(";".join(str(x) for x in inside_molecule))
                 inside_molecules_count.append(len(inside_molecule))
@@ -279,7 +330,7 @@ class MainApp:
                 inside_molecules_count.append(0)
                 inside_molecules_coords.append(".")
 
-            print(len(cross_molecule))
+            # print(len(cross_molecule))
             if len(cross_molecule) > 0:
                 cross_molecules.append(";".join(str(x) for x in cross_molecule))
                 cross_molecules_count.append(len(cross_molecule))
@@ -290,7 +341,7 @@ class MainApp:
                 cross_molecules_count.append(0)
                 cross_molecules_coords.append(".")
                 
-            print(len(distal_molecule))
+            # print(len(distal_molecule))
             if len(distal_molecule) > 0:
                 distal_molecules.append(";".join(str(x) for x in distal_molecule))
                 distal_molecules_count.append(len(distal_molecule))
@@ -301,21 +352,21 @@ class MainApp:
                 distal_molecules_coords.append(".")
 
                 
-        print("final")
+        # print("final")
         self.out_dataframe.loc[:, annotation_db + '_inside'] = inside_molecules
         self.out_dataframe.loc[:, annotation_db + '_inside_coords'] = inside_molecules_coords
         self.out_dataframe.loc[:, annotation_db + '_inside_count'] = inside_molecules_count
-        print("Inside", len(inside_molecules[0].split(';')), len(inside_molecules_coords[0].split(';')), inside_molecules_count)
+        # print("Inside", len(inside_molecules[0].split(';')), len(inside_molecules_coords[0].split(';')), inside_molecules_count)
         
         self.out_dataframe.loc[:, annotation_db + '_cross'] = cross_molecules
         self.out_dataframe.loc[:, annotation_db + '_cross_coords'] = cross_molecules_coords
         self.out_dataframe.loc[:, annotation_db + '_cross_count'] = cross_molecules_count
-        print("cross", len(cross_molecules[0].split(';')), len(cross_molecules_coords[0].split(';')), cross_molecules_count)
+        # print("cross", len(cross_molecules[0].split(';')), len(cross_molecules_coords[0].split(';')), cross_molecules_count)
 
         self.out_dataframe.loc[:, annotation_db + '_distal'] = distal_molecules
         self.out_dataframe.loc[:, annotation_db + '_distal_coords'] = distal_molecules_coords
         self.out_dataframe.loc[:, annotation_db + '_distal_count'] = distal_molecules_count
-        print("distal", len(distal_molecules[0].split(';')), len(distal_molecules_coords[0].split(';')), distal_molecules_count)
+        # print("distal", len(distal_molecules[0].split(';')), len(distal_molecules_coords[0].split(';')), distal_molecules_count)
         
     def __get_genetarget(self, mirs_in_cnv: str, mirbase_dict: dict, target_dict: dict) -> list:
         """
@@ -542,6 +593,7 @@ if __name__ == '__main__':
     parser.add_argument("--cnv-file", help="CNV file to be annotated")
     parser.add_argument("--out", required=True, help="Annotated file")
     parser.add_argument("--cnv-line", help="Single CNV to be annotated (E.g.: 'chr1:11110-11150'")
+    
     parser.add_argument("--gene", action='store_true', required=False,
                         help="BED file of all RefSeq genes")
     parser.add_argument("--coding_gene", action='store_true', required=False,
@@ -598,7 +650,8 @@ if __name__ == '__main__':
 
     parser.add_argument("-D", "--distance", type=int, default=1000000, required=False,
                         help="Distance from gene (Default 1Mb)")
-        
+    parser.add_argument("-r", "--reference", default='hg19', required=False,
+                        help="Reference genome", choices=['hg19', 'hg18', 'hg38']) #hg38 coming soon
     args = parser.parse_args()
     if args.cnv_file and args.cnv_line:
         sys.exit("Input line(s) can be provided as --cnv_line OR --cnv_file. "

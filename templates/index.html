@@ -15,10 +15,17 @@
 	<!-- <link rel="icon" type="image/png" href="../static/img/favicon.ico"> -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>InCAS: Integrated Copy number Annotation System</title>
+	<title>InCAS v.1.0 - Integrated Copy number Annotation System</title>
 
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta name="viewport" content="width=device-width" />
+		<meta name="description" content="InCAS (Integrated Copy number Annotation System) is a tool for the automated
+		functional annotation of human Copy Number Variants using information about protein coding and protein non-coding
+		genes and regulatory regions.">
+		<meta name="author" content="Mauro Truglio">
+		<link rel="icon" type="image/png" href="../static/img/favicon-16x16.png" sizes="16x16">
+		<link rel="icon" type="image/png" href="../static/img/favicon-32x32.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="../static/img/favicon-96x96.png" sizes="96x96">
     <link href="../static/css/bootstrap.css" rel="stylesheet" />
     <link href="../static/css/landing-page.css" rel="stylesheet"/>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -41,6 +48,19 @@
             $('#footer_id').load("footer.html");
         });
     </script>
+
+		<script>
+				$(document).ready(function(){
+				// Add smooth scrolling to all links
+						$("#radio-hg18").on('click', function(event){
+								alert("The coordinates of your CNV(s) will be converted from hg18 to hg19.");
+						});
+						$("#radio-hg38").on('click', function(event){
+								alert("The coordinates of your CNV(s) will be converted from hg38 to hg19.");
+						});
+				});
+		</script>
+
 		<script>
 				$(document).ready(function(){
 		// Add smooth scrolling to all links
@@ -209,12 +229,12 @@
 										</div>
 										<div id="hg-panel" class="panel panel-info" style="min-width: 295px; border-radius: 10px;">
 											<div class="panel-heading reference-panel-heading"
-												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 10px; border-color: #307ba0">Genome</div>
+												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 10px; border-color: #307ba0">Input Reference Genome</div>
 												<div class="panel-body" style="text-align: center;height:fit-content">
 														<div class="radio-inline">
 							                <label>
 							                <input type="radio" class="form-check-input" name="radio-hg18" id="radio-hg18"
-															value="hg18" disabled unchecked
+															value="hg18" unchecked
 															onclick="document.getElementById('radio-hg19').checked = false;
 															document.getElementById('radio-hg38').checked = false;">
 															<span id="span-hg18">hg18</span>
@@ -232,7 +252,7 @@
 														<div class="radio-inline">
 							                <label>
 							                <input type="radio" class="form-check-input" name="radio-hg38" id="radio-hg38"
-															value="hg38" disabled unchecked
+															value="hg38" unchecked
 															onclick="document.getElementById('radio-hg18').checked = false;
 															document.getElementById('radio-hg19').checked = false;">
 															<span id="span-hg38">hg38</span>
@@ -268,7 +288,7 @@
 														<!-- {{ form.annot }} -->
 													</div>
 													<div id="genelist-checklist" class="col-sm-6 genes-checkbox-group" style="width:50%; padding-left:0px">
-														<label>Gene List</label>
+														<label>Gene Lists</label>
 														{{ form.genes(required=True) }}
 													</div>
 												</div>
@@ -304,7 +324,7 @@
 
 					jQuery('ul#genes input').attr({'disabled':'disabled'})
 
-					$('#annot-1').click(function(){
+					$('#annot-3').click(function(){
 					    if($(this).is(':checked')){
 					        jQuery('ul#genes input').removeAttr('disabled');
 					    } else {
@@ -312,19 +332,19 @@
 					    }
 					});
 
-					$('#annot-1').mouseover(function(){
+					$('#annot-3').mouseover(function(){
 					// var test = document.getElementById("annot-1");
 									var target_list = document.getElementById("genes");
-									var target_self = document.getElementById("annot-1-li")
+									var target_self = document.getElementById("annot-3-li")
 									// target_self.label="#fff2b3";
 									target_self.style.background="#fff2b3";
 									target_list.style.background="#fff2b3";
 					});
 
-					$("#annot-1-li").mouseover(function(){
+					$("#annot-3-li").mouseover(function(){
 					// var test = document.getElementById("annot-1");
 									var target_list = document.getElementById("genes");
-									var target_self = document.getElementById("annot-1-li")
+									var target_self = document.getElementById("annot-3-li")
 									// target_self.label="#fff2b3";
 									target_self.style.background="#fff2b3";
 									target_list.style.background="#fff2b3";
@@ -333,25 +353,25 @@
 					$("#genes").mouseover(function(){
 					// var test = document.getElementById("annot-1");
 									var target_list = document.getElementById("genes");
-									var target_self = document.getElementById("annot-1-li")
+									var target_self = document.getElementById("annot-3-li")
 									// target_self.label="#fff2b3";
 									target_self.style.background="#fff2b3";
 									target_list.style.background="#fff2b3";
 					});
 
-					$('#annot-1').mouseout(function(){
+					$('#annot-3').mouseout(function(){
 					// var test = document.getElementById("annot-1");
 									var target_list = document.getElementById("genes");
-									var target_self = document.getElementById("annot-1-li")
+									var target_self = document.getElementById("annot-3-li")
 									// target_self.label="#fff2b3";
 									target_self.style.background="#ffffff";
 									target_list.style.background="#ffffff";
 					});
 
-					$('#annot-1-li').mouseout(function(){
+					$('#annot-3-li').mouseout(function(){
 					// var test = document.getElementById("annot-1");
 									var target_list = document.getElementById("genes");
-									var target_self = document.getElementById("annot-1-li")
+									var target_self = document.getElementById("annot-3-li")
 									// target_self.label="#fff2b3";
 									target_self.style.background="#ffffff";
 									target_list.style.background="#ffffff";
@@ -360,7 +380,7 @@
 					$('#genes').mouseout(function(){
 					// var test = document.getElementById("annot-1");
 									var target_list = document.getElementById("genes");
-									var target_self = document.getElementById("annot-1-li")
+									var target_self = document.getElementById("annot-3-li")
 									// target_self.label="#fff2b3";
 									target_self.style.background="#ffffff";
 									target_list.style.background="#ffffff";
@@ -601,10 +621,29 @@
 </div> -->
 
     <footer class="footer">
-            <div class="container">
-                <nav class="pull-left copyright">
+            <div class="container" style="min-width: 410px;">
+							<div class="row hidden-xs visible-lg visible-md visible-sm" style="float:left; display:block !important; width:100%">
+										<div class="col-sm-6 col-lg-6 col-md-6" style="width:fit-content; display:block !important">
+												<img src="../static/img/logocss.png" class="img-responsive" align="left" width="150">
+										</div>
+								    <div class="col-sm-6 col-lg-6 col-md-6">
+								        <address>
+								            <strong>Laboratory of Bioinformatics</strong><br>
+								            <!--i class="glyphicon glyphicon-home"></i-->
+								            IRCCS Casa Sollievo della Sofferenza - Mendel<br>
+								            Viale Regina Margherita, 261<br>
+								            Rome, Italy 00198<br>
+								            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><abbr title="Phone"> </abbr>
+								            (+39) 06-44160515<br>
+								            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><abbr title="E-mail"> </abbr>
+								            bioinformatics@css-mendel.it
+								        </address>
+								    </div>
+							</div>
+
+                <!-- <nav class="pull-left copyright">
                     &copy; 2018 <a href="http://www.css-mendel.it/">IRCCS Casa Sollievo della Sofferenza - Mendel</a>
-                </nav>
+                </nav> -->
                 <!-- <div class="social-area pull-right">
                         <a href="https://github.com/elkindnet" class="btn btn-social btn-simple"><i class="fa fa-github-alt fa-fw"></i> <span class="network-name"></span></a>
                         <a href="https://twitter.com/jenyelkind" class="btn btn-social btn-simple"><i class="fa fa-twitter fa-fw"></i> <span class="network-name"></span></a>

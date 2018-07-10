@@ -27,10 +27,12 @@
             document.getElementById("progress").innerHTML = ''
             for (var i = 0, length = data.status.length; i < length; i++){
               if(i==length-1){
-
-                  document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating "+data.status[i].replace(/\d+_/g,'')+"...<br />"
+                console.log(data.status[i])
+                  document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating "+{{nice_names|tojson|safe}}[data.status[i].replace(/\d+_/g,'')]+"...<br />"
               }else{
-                  document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallcheck.png\" />&nbsp&nbspCalculating "+data.status[i].replace(/\d+_/g,'')+"...<br />"
+                console.log(data.status[i])
+                
+                  document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallcheck.png\" />&nbsp&nbspCalculating "+{{nice_names|tojson|safe}}[data.status[i].replace(/\d+_/g,'')]+"...<br />"
               }
             }
           }
