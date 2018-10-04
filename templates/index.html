@@ -1,21 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121740015-1"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
 
-	  gtag('config', 'UA-121740015-1');
-	</script>​
-	{% block head %}
+
 	<meta charset="utf-8" />
 	<!-- <link rel="icon" type="image/png" href="../static/img/favicon.ico"> -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>InCAS v.1.0 - Integrated Copy number Annotation System</title>
+	<title>InCAS v.1.1 - Integrated Copy number Annotation System</title>
 
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta name="viewport" content="width=device-width" />
@@ -48,6 +40,36 @@
             $('#footer_id').load("footer.html");
         });
     </script>
+
+		<script>
+		  function cleanform(dirtyform){
+				if (dirtyform == 'annot'){
+						var cbarray = document.getElementsByName('annot');
+						for(var i = 0; i < cbarray.length; i++){
+							cbarray[i].checked = false;
+						}
+						var cbarray = document.getElementsByName('genes');
+						for(var i = 0; i < cbarray.length; i++){
+							cbarray[i].checked = false;
+						}
+						document.getElementById('hidden_overlapradio').checked = true;
+						document.getElementById('hidden_annotradio').checked = false;
+
+
+				}else if (dirtyform == 'overlap') {
+					document.getElementById( 'file-upload-filename' ).textContent = '';
+					document.getElementById('radio_intraset').checked = true;
+					document.getElementById('radio_interset').checked = false;
+					document.getElementById('overlapselect').selectedIndex = 0;
+					document.getElementById('overlapselect').disabled = true;
+
+					document.getElementById('hidden_annotradio').checked = true;
+					document.getElementById('hidden_overlapradio').checked = false;
+				}
+
+			}
+
+		</script>
 
 		<script>
 				$(document).ready(function(){
@@ -87,12 +109,20 @@
 		});
 		});
 </script>
-  {% endblock %}
+
 	<script type="text/javascript">
 		onload=function(){document.forms['mainform'].reset()}
 	</script>
 
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121740015-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
 
+	  gtag('config', 'UA-121740015-1');
+	</script>​
 
 
 </head>
@@ -182,7 +212,7 @@
     </div>
 
     <div class="section section-gray section-clients">
-        <div class="container">
+        <div class="container" style="padding-bottom: 40px;padding-top: 30px;">
 						<div class="alert alert-warning" role="alert">
 							Warning: This is a beta version of the InCAS website, which is still undergoing final testing
 							before its official release; therefore, small bugs or lack of functionality may be encountered.
@@ -190,6 +220,16 @@
 					<form id="mainform" class="needs-validation" action="/" name="mainform" method="post"
 					enctype="multipart/form-data" onsubmit="return checkBoxes();">
 						{{ form.csrf_token }}
+
+						<div class="radio">
+						  <label><input id="hidden_annotradio" type="radio" name="annotradio"
+								onclick="document.getElementById('hidden_overlapradio').checked = false;" checked>Annot</label>
+						</div>
+						<div class="radio">
+						  <label><input type="radio" class="hidden_overlapradio" id="hidden_overlapradio" name="ovlradio"
+								onclick="document.getElementById('hidden_annotradio').checked = false;">Overlap</label>
+						</div>
+
 					<div class="row">
 						<div class="col-md-6 col-sm-6" style="width:42%">
 							<div class="row">
@@ -198,7 +238,7 @@
 											style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 10px; border-color: #307ba0">Input</div>
 					          	<div class="panel-body">
 													<div class="radio">
-														<label>
+														<label style="margin-top: 25px;">
 													  <input id="radio1" name="radio1" onclick="document.getElementById('line_input').disabled = false;
 														document.getElementById('radio2').checked = false;
 														document.getElementById('upload').disabled = true;"
@@ -209,19 +249,17 @@
 											    	{{ form.line_input.label }}:{{ form.line_input(placeholder='E.g.: chr1:12345-23456', required=True, pattern='chr[\dXYM]+:\d+-\d+$') }}
 													</div>
 													<div class="radio">
-														<label style="margin-top: 25px;">
+														<label style="margin-top: 35px;">
 													  <input id="radio2" name="radio2" onclick="document.getElementById('line_input').disabled = true;
 														document.getElementById('radio1').checked = false;
 														document.getElementById('upload').disabled = false;"
-														type="radio"> Batch annotation from file
+														type="radio"> Multiple CNV annotation from file
 													  </label>
 													</div>
 													<div id="fileupload" style="margin-left:20px;">
 															{{ form.upload.label }}: {{ form.upload(disabled=True, required=True) }}
 													</div>
-													<div style="margin-top: 25px;">
-															<span style="color: #006da0; font-weight:bold">Window (bp): </span>{{ form.window(size=6, required=True, pattern='\d+') }}
-													</div>
+
 													<br>
 													<!-- <input type="submit" value="SUBMIT" class="submit-button"> -->
 
@@ -266,34 +304,175 @@
 
 
 						<div class="col-md-6 col-sm-6" style="width:58%" id="annot-panel-container">
-								<div id="annot-panel" class="panel panel-info" style="min-width: 295px; border-radius: 10px; border-color: #1d8a00;">
-									<div class="panel-heading annotation-panel-heading"
-										style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 8px; border-color: #307ba0">
-										Annotation</div>
-										<div class="panel-body">
-												<div class="row">
-													<div id="bed-checklist" class="col-sm-6 ann-checkbox-group required" style="width:50%; padding-right: 0px;">
-														<label>Track</label>
-														<ul id="annot">
-															{% for elem in form.annot %}
-																<li id="{{elem.id}}-li">
-																	{{elem()}}
-																	{{elem.label}}
+								<ul id="tab-menu" class="nav nav-tabs pull-left">
+								  <li class="active"><a data-toggle="tab" href="#annot-panel" onclick="cleanform('overlap')">Annotation</a></li>
+								  <li><a data-toggle="tab" href="#overlap-panel" onclick="cleanform('annot')">Overlapping</a></li>
+								</ul>
+								<div class="clearfix annotation-panel-heading"></div>
+								<div class="tab-content">
 
-																</li>
-															{% endfor %}
-
-														</ul>
-
-														<!-- {{ form.annot }} -->
+										<div id="annot-panel" class="panel panel-info tab-pane fade in active" style="">
+											<!-- <div class="panel-heading annotation-panel-heading"
+												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 8px; border-color: #307ba0">
+												Annotation</div> -->
+												<div class="panel-body">
+													<div class="row">
+														<div style="padding-top: 10px; padding-left:15px">
+																<span style="color: #006da0; font-weight:bold">Window (bp): </span>{{ form.window(size=6, required=True, pattern='\d+') }}
+														</div>
 													</div>
-													<div id="genelist-checklist" class="col-sm-6 genes-checkbox-group" style="width:50%; padding-left:0px">
-														<label>Gene Lists</label>
-														{{ form.genes(required=True) }}
+														<div class="row" style="padding-top:15px">
+															<div id="bed-checklist" class="col-sm-6 ann-checkbox-group required" style="width:50%; padding-right: 0px;">
+																<label>Track</label>
+																<ul id="annot">
+																	{% for elem in form.annot %}
+																		<li id="{{elem.id}}-li">
+																			{{elem()}}
+																			{{elem.label}}
+
+																		</li>
+																	{% endfor %}
+
+																</ul>
+
+																<!-- {{ form.annot }} -->
+															</div>
+															<div id="genelist-checklist" class="col-sm-6 genes-checkbox-group" style="width:50%; padding-left:0px">
+																<label>Gene Lists</label>
+																{{ form.genes(required=True) }}
+															</div>
+														</div>
+												</div>
+											</div>
+
+
+										<div id="overlap-panel" class="panel panel-info tab-pane fade">
+											<div class="panel-body">
+												<div class="row">
+													<div id="overlap_mode" class="col-sm-6 ovl-checkbox-group required" style="width:55%; padding-right: 0px; padding-left:0px">
+														<div id="first-subpanel">
+
+																		<div class="radio" style="margin-top:15px">
+																			<label>
+																			<input id="radio_intraset" name="radio_intraset" type="radio"
+																			onclick="document.getElementById('radio_interset').checked = false;
+																			document.getElementById('overlapselect').disabled = true;" checked="checked"> Intra-set
+																			</label>
+																			<div class="help-tip" style="background-color: #ffd400">
+																				<p>
+																			</p>
+																			</div>
+																		</div>
+
+																		<div class="radio">
+																			<label style="margin-top: 10px;">
+																			<input id="radio_interset" name="radio_interset" type="radio"
+																			onclick="document.getElementById('radio_intraset').checked = false;
+																			document.getElementById('overlapselect').disabled = false;"> Inter-set
+																			</label>
+																			<div class="help-tip" style="background-color: #ffd400">
+																				<p>
+																			</p>
+																			</div>
+																		</div>
+
+																		<select id="overlapselect" name="overlapselect" style="margin-left:20px;" disabled>
+																			<option selected="true" value="-1" disabled>Choose Target</option>
+																			<option value="DGV_overlap">DGV</option>
+																			<option value="FILE">File</option>
+																		</select>
+																		<div id="file-upload-filename" name="file_upload_filename"></div>
+																		<span class="hiddenFileInput">
+																			{{ form.overlap_upload(disabled=False, required=False) }}
+																				  <!-- <input type="file" id="my_file" name="my_file"/> -->
+																		</span>
+
+													</div>
+
+															<div id="second-subpanel" style="margin-top:10px;">
+																		<div class="radio" style="margin-top:15px">
+																			<label>
+																					<input id="radio_reciprocal" name="radio_reciprocal"
+																						onclick="document.getElementById('radio_spanning').checked = false;
+																						document.getElementById('padding').disabled = false;
+																						document.getElementById('min_ovl_rec').disabled = false;
+																						document.getElementById('min_ovl_span').disabled = true;
+																						document.getElementById('max_span').disabled = true;"
+																						type="radio" checked="checked"> Reciprocal Overlap
+
+																			</label>
+																			<div class="help-tip" style="background-color: #ffd400">
+																				<p>
+																			</p>
+																			</div>
+																		</div>
+																		<div style="margin-right:20px; text-align: right;">
+																			{{ form.padding.label }}{{ form.padding(placeholder='0', required=True, size=6, pattern='\d+') }}
+																			{{ form.min_ovl_rec.label }}{{ form.min_ovl_rec(placeholder='50', required=True, size=6, pattern='\d+') }}
+																		</div>
+
+																		<div class="radio" style="margin-top:15px">
+																			<label>
+																					<input id="radio_spanning" name="radio_spanning"
+																						onclick="document.getElementById('radio_reciprocal').checked = false;
+																						document.getElementById('padding').disabled = true;
+																						document.getElementById('min_ovl_rec').disabled = true;
+																						document.getElementById('min_ovl_span').disabled = false;
+																						document.getElementById('max_span').disabled = false;"
+																						type="radio"> Spanning Overlap
+
+																			</label>
+																			<div class="help-tip" style="background-color: #ffd400">
+																				<p>
+																			</p>
+																			</div>
+																		</div>
+																		<div style="margin-right:20px; text-align: right;">
+																			{{ form.min_ovl_span.label }}{{ form.min_ovl_span(placeholder='50', required=True, disabled=True, size=6, pattern='\d+') }}
+																			{{ form.max_span.label }}{{ form.max_span(placeholder='100000', required=True, size=6, disabled=True, pattern='\d+') }}
+
+																		</div>
+
+																		<script type="text/javascript">
+																				$("#radio_interset").click(function() {
+																				    $("#overlapselect").attr("disabled", false);
+																				});
+
+																				$("#radio_intraset").click(function() {
+																				    $("#overlapselect").attr("disabled", true);
+																				});
+
+																				$('#overlapselect').change(function() {
+																				    var val = $("#overlapselect option:selected").text();
+																						if(val == "File"){
+																							$('#overlap_upload').click();
+																						}else {
+																							document.getElementById( 'file-upload-filename' ).textContent = '';
+
+																						}
+																				});
+																				//
+																				$('#overlap_upload').change(function() {
+																					var fileName = document.getElementById('overlap_upload').files[0].name;
+																					console.log(fileName)
+																					document.getElementById( 'file-upload-filename' ).textContent = '...'+fileName.slice(-15);
+
+																				});
+																		</script>
+															</div>
+
+													</div>
+
+													<div id="overlap_mode" class="col-sm-6 ann-checkbox-group required" style="width:45%; padding-right: 0px;">
+
 													</div>
 												</div>
+											</div>
+
 										</div>
-									</div>
+
+								</div>
+
 						</div>
 					</div>
 					<div style="text-align: center;" id="submit-field">
@@ -302,9 +481,17 @@
 			</form>
 			<script>
 				function checkBoxes(){
+						var annot_chosen = document.getElementById( 'hidden_annotradio').checked
+						var overlap_chosen = document.getElementById( 'hidden_overlapradio').checked
 
-						if($('div.ann-checkbox-group.required :checkbox:checked').length<=0){
+						if($('div.ann-checkbox-group.required :checkbox:checked').length<=0 && annot_chosen) {
 							alert("Please select the annotation(s) in the right panel.");
+							return false;
+						}
+
+						var interset_choice = document.getElementById( 'overlapselect').value
+						if(interset_choice == "-1" && overlap_chosen && document.getElementById( 'radio_interset').checked){
+							alert("Please select a DB/CNVfile to compute overlap against.");
 							return false;
 						}
 
@@ -337,8 +524,8 @@
 									var target_list = document.getElementById("genes");
 									var target_self = document.getElementById("annot-3-li")
 									// target_self.label="#fff2b3";
-									target_self.style.background="#fff2b3";
-									target_list.style.background="#fff2b3";
+									target_self.style.background="#d6ffd0";
+									target_list.style.background="#d6ffd0";
 					});
 
 					$("#annot-3-li").mouseover(function(){
@@ -346,8 +533,8 @@
 									var target_list = document.getElementById("genes");
 									var target_self = document.getElementById("annot-3-li")
 									// target_self.label="#fff2b3";
-									target_self.style.background="#fff2b3";
-									target_list.style.background="#fff2b3";
+									target_self.style.background="#d6ffd0";
+									target_list.style.background="#d6ffd0";
 					});
 
 					$("#genes").mouseover(function(){
@@ -355,8 +542,8 @@
 									var target_list = document.getElementById("genes");
 									var target_self = document.getElementById("annot-3-li")
 									// target_self.label="#fff2b3";
-									target_self.style.background="#fff2b3";
-									target_list.style.background="#fff2b3";
+									target_self.style.background="#d6ffd0";
+									target_list.style.background="#d6ffd0";
 					});
 
 					$('#annot-3').mouseout(function(){
@@ -624,7 +811,7 @@
             <div class="container" style="min-width: 410px;">
 							<div class="row hidden-xs visible-lg visible-md visible-sm" style="float:left; display:block !important; width:100%">
 										<div class="col-sm-6 col-lg-6 col-md-6" style="width:fit-content; display:block !important">
-												<img src="../static/img/logocss.png" class="img-responsive" align="left" width="150">
+												<img src="../static/img/logocss.png" class="img-responsive" align="left" width="100" style="padding-top: 14px;">
 										</div>
 								    <div class="col-sm-6 col-lg-6 col-md-6">
 								        <address>
@@ -656,6 +843,7 @@
         </footer>
 
 </body>
+
 
 <script type="text/javascript">
         var big_image;

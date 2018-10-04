@@ -44,6 +44,8 @@ import itertools
 from collections import OrderedDict
 from subprocess import call, Popen, PIPE
 import glob
+from pprint import pprint
+import json
 
 
 class MainApp:
@@ -152,6 +154,7 @@ class MainApp:
 
         # Annotation based on the options that were chosen
         count = 0
+        extra_info = {}
         for arg in self.d:
             if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists', 'reference'] and \
                     (self.d[arg] or self.d['all_beds']) and not arg.startswith('__') and not 'genelist' in arg:
@@ -160,7 +163,8 @@ class MainApp:
                 f = open(os.path.dirname(self.args.out)+'/'+str(count)+'_'+arg+'.progress', 'w')
                 f.close()
                 if arg != 'mirbase':
-                    self.add_annotation(arg)
+                    extra_annot_info = self.add_annotation(arg)
+                    extra_info.update({arg:extra_annot_info})
                 else:
                     for target_db in self.db_t.collection_names():
                         if target_db != 'system.indexes':
@@ -168,8 +172,6 @@ class MainApp:
                             
                             dict_inside, dict_cross, dict_distal = self.add_mirna_target(target=target_db, unique=True)
                             self.mirbase_dict[target_db].extend((dict_inside, dict_cross, dict_distal))
-                            from pprint import pprint
-                            # pprint(self.mirbase_dict)
         
         # Genelists annotation
         sys.stdout.write("Adding genelists classifications...\n")
@@ -183,9 +185,9 @@ class MainApp:
                         self.add_meta_gene(name)
         else:
             sys.stderr.write("WARNING: genelists not added since --gene option was not included.\n")
-        
+
         #Writing final file
-        write_file(self.out_dataframe, self.mirbase_dict, self.args.out)
+        write_file(self.out_dataframe, self.mirbase_dict, self.args.out, extra_info)
         # return self.out_dataframe.reset_index().to_json(orient='records')
 
         #Cleaning
@@ -194,6 +196,7 @@ class MainApp:
             
         sys.stdout = sys.__stdout__
         sys.stderr = sys.__stderr__
+
         
         return 0
     
@@ -259,15 +262,25 @@ class MainApp:
         """:type : list[str]"""
         distal_molecules_count = []
         """:type : list[int]"""
-
+        extra_info = {"inside": [], "cross": [], "distal": []}
+        
         for row in self.out_dataframe.itertuples():
             chrom = row.CHR
             start = row.START
             end = row.END
             # print("finding inside")
             inside_molecule_data = db.find({"$and": [{"chr": chrom, "start": {"$gte": start},
-                                                 "end": {"$lte": end}}]}, {'info': 1})
-            
+                                            "end": {"$lte": end}}]})
+
+            inside_molecule_data_list = list(inside_molecule_data)
+            if inside_molecule_data_list and len(inside_molecule_data_list[0]) > 5:
+                extra_info_cnv = list(inside_molecule_data_list)
+                for i in range(0, len(extra_info_cnv)):
+                    extra_info_cnv[i].pop('_id')
+                extra_info['inside'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': extra_info_cnv})
+            elif not inside_molecule_data_list or len(inside_molecule_data_list[0]) <= 5:
+                extra_info['inside'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': []})
+
             inside_molecule = inside_molecule_data.distinct('info')
             # find the coordinates of these DISTINCT genes
             distinct_inside_genes_data = list(
@@ -289,15 +302,22 @@ class MainApp:
                         {"start": {"$lt": end}}, {"end": {"$gt": end}}
                     ]}
 
-                ]},
-                {'info': 1}
+                ]}
             )
+            cross_molecule_data_list = list(cross_molecule_data)
+            if cross_molecule_data_list and len(cross_molecule_data_list[0]) > 5:
+                extra_info_cnv = list(cross_molecule_data_list)
+                for i in range(0, len(extra_info_cnv)):
+                    extra_info_cnv[i].pop('_id')
+                extra_info['cross'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': extra_info_cnv[0]})
+            elif not cross_molecule_data_list:
+                extra_info['cross'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': []})
+
             cross_molecule = cross_molecule_data.distinct('info')
             # find the coordinates of these DISTINCT genes
             distinct_cross_genes_data = list(
                 db.find({"info": {"$in": cross_molecule}}, {'start': 1, 'end': 1}))
             cross_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_cross_genes_data)
-
 
             # print("finding distal")
 
@@ -312,8 +332,15 @@ class MainApp:
                         {"start": {"$gt": start - distance_from_gene}}, {"start": {"$lt": start}}
                     ]}
                 ]
-                }, {'info': 1})
-                
+                })
+            distal_molecule_data_list = list(distal_molecule_data)
+            if distal_molecule_data_list and len(distal_molecule_data_list[0]) > 5:
+                extra_info_cnv = list(distal_molecule_data_list)
+                for i in range(0,len(extra_info_cnv)):
+                    extra_info_cnv[i].pop('_id')
+                extra_info['distal'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': extra_info_cnv})
+            elif not distal_molecule_data_list:
+                extra_info['distal'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': []})
             distal_molecule = distal_molecule_data.distinct('info')
             # find the coordinates of these DISTINCT genes
             distinct_distal_genes_data = list(db.find({"info":{"$in":distal_molecule}}, {'start': 1, 'end': 1}))
@@ -350,7 +377,6 @@ class MainApp:
                 distal_molecules.append(".")
                 distal_molecules_count.append(0)
                 distal_molecules_coords.append(".")
-
                 
         # print("final")
         self.out_dataframe.loc[:, annotation_db + '_inside'] = inside_molecules
@@ -368,6 +394,8 @@ class MainApp:
         self.out_dataframe.loc[:, annotation_db + '_distal_count'] = distal_molecules_count
         # print("distal", len(distal_molecules[0].split(';')), len(distal_molecules_coords[0].split(';')), distal_molecules_count)
         
+        return extra_info
+    
     def __get_genetarget(self, mirs_in_cnv: str, mirbase_dict: dict, target_dict: dict) -> list:
         """
         Take a list of miRs, formatted as from miRBase, parse it, get the corresponding mature miR symbols, and get a list
@@ -516,42 +544,98 @@ class MainApp:
     def add_meta_gene(self, genelist):
         db = self.connection['genelists'][genelist]
         genelist_l = set(db.find().distinct('gene'))
-        
+        print("Genelist")
         genes_inside = []
         genes_cross = []
         genes_distal = []
         genes_inside_count = []
         genes_cross_count = []
         genes_distal_count = []
+        genes_inside_coords = []
+        genes_cross_coords = []
+        genes_distal_coords = []
         
         for row in self.out_dataframe.itertuples():
-            inside = ';'.join(list(set(row.gene_inside.split(';')) & genelist_l))
-            genes_inside.append(inside) if inside else genes_inside.append('.')
-            genes_inside_count.append(str(len(inside.split(';')))) if inside else genes_inside_count.append('0')
+            querylist = set([g.split(':')[0] for g in row.gene_inside.split(';')])
+            #This retrieves the gene name in the genelist. It populates a list with gene names only.
+            inside_no_transcript = ';'.join(list(querylist & genelist_l))
 
-            cross = ';'.join(list(set(row.gene_cross.split(';')) & genelist_l))
-            genes_cross.append(cross) if cross else genes_cross.append('.')
-            genes_cross_count.append(str(len(cross.split(';')))) if cross else genes_cross_count.append('0')
+            #This explodes each gene into all the transcripts
+            inside = []
+            for r in row.gene_inside.split(';'):
+                    print("Q:",r)
+                    if r.split(':')[0] in inside_no_transcript:
+                        inside.append(r)
+            inside_coords = []
+            if inside:
+                for i in inside:
+                    inside_coords.append(row.gene_inside_coords.split(';')[row.gene_inside.split(';').index(i)])
+                inside_coords = ';'.join(inside_coords)
+            genes_inside.append(';'.join(inside)) if inside else genes_inside.append('.')
+            genes_inside_coords.append(inside_coords) if inside_coords else genes_inside_coords.append('.')
+            genes_inside_count.append(str(len(inside))) if inside else genes_inside_count.append('0')
 
-            distal = ';'.join(list(set(row.gene_distal.split(';')) & genelist_l))
-            genes_distal.append(distal) if distal else genes_distal.append('.')
-            genes_distal_count.append(str(len(distal.split(';')))) if distal else genes_distal_count.append('0')
+
+            querylist = set([g.split(':')[0] for g in row.gene_cross.split(';')])
+            #This retrieves the gene name in the genelist. It populates a list with gene names only.
+            cross_no_transcript = ';'.join(list(querylist & genelist_l))
+
+            #This explodes each gene into all the transcripts
+            cross = []
+            for r in row.gene_cross.split(';'):
+                    print("Q:",r)
+                    if r.split(':')[0] in cross_no_transcript:
+                        cross.append(r)
+            cross_coords = []
+            if cross:
+                for i in cross:
+                    cross_coords.append(row.gene_cross_coords.split(';')[row.gene_cross.split(';').index(i)])
+                cross_coords = ';'.join(cross_coords)
+            genes_cross.append(';'.join(cross)) if cross else genes_cross.append('.')
+            genes_cross_coords.append(cross_coords) if cross_coords else genes_cross_coords.append('.')
+            genes_cross_count.append(str(len(cross))) if cross else genes_cross_count.append('0')
+
+
+
+            querylist = set([g.split(':')[0] for g in row.gene_distal.split(';')])
+            #This retrieves the gene name in the genelist. It populates a list with gene names only.
+            distal_no_transcript = ';'.join(list(querylist & genelist_l))
+
+            #This explodes each gene into all the transcripts
+            distal = []
+            for r in row.gene_distal.split(';'):
+                    print("Q:",r)
+                    if r.split(':')[0] in distal_no_transcript:
+                        distal.append(r)
+            distal_coords = []
+            if distal:
+                for i in distal:
+                    distal_coords.append(row.gene_distal_coords.split(';')[row.gene_distal.split(';').index(i)])
+                distal_coords = ';'.join(distal_coords)
+            genes_distal.append(';'.join(distal)) if distal else genes_distal.append('.')
+            genes_distal_coords.append(distal_coords) if distal_coords else genes_distal_coords.append('.')
+            genes_distal_count.append(str(len(distal))) if distal else genes_distal_count.append('0')
+
             
-        self.out_dataframe.loc[:, genelist + '_inside'] = genes_inside
-        self.out_dataframe.loc[:, genelist + '_inside_count'] = genes_inside_count
-        self.out_dataframe.loc[:, genelist + '_cross'] = genes_cross
-        self.out_dataframe.loc[:, genelist + '_cross_count'] = genes_cross_count
-        self.out_dataframe.loc[:, genelist + '_distal'] = genes_distal
-        self.out_dataframe.loc[:, genelist + '_distal_count'] = genes_distal_count
+        self.out_dataframe.loc[:, genelist + '_genelist_inside'] = genes_inside
+        self.out_dataframe.loc[:, genelist + '_genelist_inside_coords'] = genes_inside_coords
+        self.out_dataframe.loc[:, genelist + '_genelist_inside_count'] = genes_inside_count
+        self.out_dataframe.loc[:, genelist + '_genelist_cross'] = genes_cross
+        self.out_dataframe.loc[:, genelist + '_genelist_cross_coords'] = genes_cross_coords
+        self.out_dataframe.loc[:, genelist + '_genelist_cross_count'] = genes_cross_count
+        self.out_dataframe.loc[:, genelist + '_genelist_distal'] = genes_distal
+        self.out_dataframe.loc[:, genelist + '_genelist_distal_coords'] = genes_distal_coords
+        self.out_dataframe.loc[:, genelist + '_genelist_distal_count'] = genes_distal_count
 
     
-def write_file(cnv_infolist: DataFrame, mirbase_dict: dict, out_filename: str):
+def write_file(cnv_infolist: DataFrame, mirbase_dict: dict, out_filename: str, extra_info: dict):
     """
     Write a DataFrame to excel
     :param DataFrame cnv_infolist: Annotated pandas DataFrame to be written to xlsx file
     :param out_filename: File name of the final xlsx file
     """
     print(cnv_infolist)
+    print(extra_info.keys())
     # Writing Excel file
     writer = pd.ExcelWriter(out_filename, engine='xlsxwriter')
     cnv_infolist.to_excel(writer, sheet_name='Annotated CNV - ' + time.strftime("%d-%m-%Y"), startrow=1,
@@ -574,9 +658,9 @@ def write_file(cnv_infolist: DataFrame, mirbase_dict: dict, out_filename: str):
     writer.save()
     
     # Writing JSON file
-    json = cnv_infolist.reset_index().to_json(orient='records')
+    json_data = cnv_infolist.reset_index().to_json(orient='records')
     with open(re.sub('.xlsx', '.json', out_filename), 'w') as f:
-        f.write(json)
+        f.write(json_data)
 
     # Writing CSV file
     cnv_infolist.to_csv(re.sub('.xlsx', '.csv', out_filename))
@@ -584,8 +668,13 @@ def write_file(cnv_infolist: DataFrame, mirbase_dict: dict, out_filename: str):
     #mirBase section (if --mirbase selected)
     if mirbase_dict != {}:
         with open(re.sub('.xlsx', '_mirbase.json', out_filename), 'w') as f:
-            import json
             json.dump(mirbase_dict, f)
+
+    # Writing JSON with extra info (for analyses that provide some)
+    with open(re.sub('.xlsx', '_extra.json', out_filename), 'w') as f:
+        json.dump(extra_info, f)
+
+
     
 if __name__ == '__main__':
     
@@ -660,5 +749,5 @@ if __name__ == '__main__':
         sys.exit("Please provide input as either --cnv_line or --cnv_file.")
     success = MainApp(args).process()
     if success == -1:
-        sys.stdout.write("There was a problem.")
+        sys.stdout.write("There was a problem in annotating CNVs.")
     print(success)

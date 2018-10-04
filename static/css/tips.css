@@ -24,8 +24,8 @@
     display:block;
     transform-origin: 100% 0%;
 
-    -webkit-animation: fadeIn 0.3s ease-in-out;
-    animation: fadeIn 0.3s ease-in-out;
+    -webkit-animation: fadeIn-tip 0.3s ease-in-out;
+    animation: fadeIn-tip 0.3s ease-in-out;
 
 }
 
@@ -96,8 +96,8 @@
     display:block;
     transform-origin: 100% 0%;
 
-    -webkit-animation: fadeIn 0.3s ease-in-out;
-    animation: fadeIn 0.3s ease-in-out;
+    -webkit-animation: fadeIn-tip 0.3s ease-in-out;
+    animation: fadeIn-tip 0.3s ease-in-out;
 
 }
 
@@ -139,7 +139,7 @@
 }
 /* CSS animation */
 
-@-webkit-keyframes fadeIn {
+@-webkit-keyframes fadeIn-tip {
     0% {
         opacity:0;
         transform: scale(0.6);
@@ -151,7 +151,7 @@
     }
 }
 
-@keyframes fadeIn {
+@keyframes fadeIn-tip {
     0% { opacity:0; }
     100% { opacity:100%; }
 }

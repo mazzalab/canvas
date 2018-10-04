@@ -34,13 +34,20 @@
 </script>
 
 <script id="json-reader">
+
   var jsonData;
-  var mirbase_jsonData
+  var mirbase_jsonData;
+  var extra_jsonData;
+
+  console.log("JSON MAIN YES")
+  console.log("{{ json_out }}")
   $.ajax({
     dataType: "json",
     url: "{{ json_out }}",
     async: false,
-    success: function(data){jsonData = data}
+    success: function(data){
+      jsonData = data;
+    }
   });
 
   if ({{choices|tojson|safe}}.includes('mirbase')){
@@ -52,6 +59,19 @@
     });
   }
 
+  // if ({{choices|tojson|safe}}.includes('enhancer')){
+  //   console.log("ENHANCER YES")
+  //   console.log("{{ json_out }}".replace(".json", "_extra.json"))
+  //   $.ajax({
+  //     dataType: "json",
+  //     url: "{{ json_out }}".replace(".json", "_extra.json"),
+  //     async: false,
+  //     success: function(data){extra_jsonData = data},
+  //     error: function (data) {
+  //       var responseText=JSON.parse(data.responseText);
+  //       alert("Error(s) while building:\n"+responseText.messages);}
+  //   });
+  // }
 
 
 </script>
@@ -102,10 +122,11 @@
 </script>
 <script>
     var cnvselection=-1;
+    var position;
     function updateGenes(cnvselection, jsonData) {
       {% for c in choices %}
           var splitchar = ';';
-          {% if c!='mirbase' %}
+          {% if (c!='mirbase' and c!='gene') %}
                 $('#sel-{{c}}').empty();
                 if (cnvselection==-1){
                   console.log("no choice")
@@ -115,7 +136,7 @@
                   if('{{c}}' == 'mirna'){
                     splitchar = '";"'
                   }
-                  var position = 'inside';
+                  position = 'inside';
                   var radios = document.getElementsByName("radio-{{c}}");
                   for (var i = 0, length = radios.length; i < length; i++) {
                       if (radios[i].checked) {
@@ -157,6 +178,8 @@
                       if(genename!='.'){
                         if ('{{c}}' == 'mirna' && geneID){
                           $('#sel-{{c}}').append($('<option></option>').attr('value', genename+';'+geneID).text(genename+' ('+geneID+')'));
+                        }else if('{{c}}' == 'coding_gene' || '{{c}}' == 'noncoding_gene' || '{{c}}'.indexOf("genelist")!== -1){
+                          $('#sel-{{c}}').append($('<option></option>').attr('value', genename).text(genename.split(':')[1]+' ('+genename.split(':')[0]+')'));
                         }else{
                           $('#sel-{{c}}').append($('<option></option>').attr('value', genename).text(genename));
                         }
@@ -196,7 +219,7 @@
                 break;
             };
         };
-        document.getElementById("modal-title").innerHTML = category + ' - ' + position.split('-')[0];
+        document.getElementById("modal-title").innerHTML = {{nice_names|safe}}[category] + ' - ' + position.split('-')[0];
         function updateModal(){
           var modaldata = document.getElementById("sel-"+category).innerHTML;
           document.getElementById("modal-sel").innerHTML = modaldata
@@ -451,6 +474,7 @@
 <script>
   function onchange_dropdown(){
     var match = get_genome_position()
+    console.log("MATCH "+match)
     chr = match[1]
     start = match[2]
     end = match[3]
@@ -468,25 +492,54 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="parallax filter-gradient blue" data-color="blue" style="height:135px !important;">
     <div class="parallax-background">
         <img src="../static/img/dna2.png">
     </div>
 </div>
 <div class= "section section-gray section-clients" style="padding-top:10px; height: fit-content;">
-  <div class="results-container container">
-      <h2 style="margin-left:30px; margin-bottom: 40px; color: #307ba0;">Results</h2>
+  <div id="results-container" class="results-container container">
+      <h2 style="margin-left:30px; margin-bottom: 40px; color: #307ba0; font-size:40px; text-shadow: 1px 1px 3px rgba(150, 150, 150, 0.56);">Results</h2>
     <div style="display:-webkit-box; margin-left: 30px;">
         <div id="dropdown-div" style="display: -webkit-inline-box; vertical-align: -webkit-baseline-middle;">
 
         <select data-style="btn-new" id="cnv-dropdown" name="CNVs"></select>
+
         <script>
+            let dropdown = $('#cnv-dropdown');
+
+            // dropdown.empty();
+
+            dropdown.append('<option selected="true" value="-1" disabled>Choose CNV</option>');
+            dropdown.prop('selectedIndex', 0);
+
+            // Populate dropdown with list of CNVs
+            $.getJSON("{{ json_out }}", function (data) {
+            $.each(data, function (key, entry) {
+              dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+": "+entry.START+" - "+entry.END));
+            })
+            });
+
+            document.getElementById('cnv-dropdown').addEventListener('change',function(){
+              var match = get_genome_position()
+              chr = match[1]
+              start = match[2]
+              end = match[3]
+              updatebrowser(chr, start, end);
+              updateGenes(cnvselection, jsonData);
+            });
+        </script>
+        <!-- <script>
+
             let dropdown = $('#cnv-dropdown');
 
             // dropdown.empty();
 
             // Populate dropdown with list of CNVs
             $.getJSON("{{ json_out }}", function (data) {
+              document.getElementById("cnv-dropdown").selectedIndex = 0;
+
                 $.each(data, function (key, entry) {
                   console.log("KEY")
                   console.log(key)
@@ -497,16 +550,15 @@
                   }else{
                     dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+": "+entry.START+" - "+entry.END));
                   }
-                  dropdown.prop('selectedIndex', 0);
-
                 })
+                console.log(document.getElementById("cnv-dropdown").selectedIndex)
             });
 
             $( "#cnv-dropdown").change(function(){
               onchange_dropdown()
             });
 
-        </script>
+        </script> -->
         </div>
         <div id="arrow" class="red-arrow animate-flicker">
           <p>
@@ -535,46 +587,49 @@
     </div>
 
     <!-- Panels -->
-    <div class="row draggablePanelList" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
+    <div id="panellist-div" class="row draggablePanelList" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
     {% for c in choices %}
-      {% if c!='mirbase' %}
+      {% if (c!='mirbase') and (c!='gene') %}
             <div class="col-sm-4">
               <div class="panel panel-info">
-                <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">
-                      {{nice_names[c]}}
+                       {% if c.endswith('_genelist') %}
+                         <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #45af35 !important; border-color: #16821f !important">
+                       {% else %}
+                         <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">
+                       {% endif %}
+                             {{nice_names[c]}}
 
-                      <div class="help-tip" style="background-color: #ffd400">
-                        <p>{{ info[c] }}
-                      </p>
-                      </div>
+                             <div class="help-tip" style="background-color: #ffd400">
+                               <p>{{ info[c] }}
+                             </p>
+                             </div>
 
-                        <input type="checkbox" class="ios8-switch ios8-switch-sm" id="checkbox-plot-{{c}}">
-                        <label for="checkbox-plot-{{c}}">Add track</label>
-                        <script>
-                            var plot_switches = {}
-                            $(document).ready(function() {
-                              $("#checkbox-plot-{{c}}").click(function(){
-                                    for(var p = 0; p < {{choices|tojson|safe}}.length; p++) {
-                                      category = {{choices|tojson|safe}}[p]
-                                      plot_switches[category] = $('#checkbox-plot-'+category).is(':checked')
-                                    }
+                               <input type="checkbox" class="ios8-switch ios8-switch-sm" id="checkbox-plot-{{c}}">
+                               <label for="checkbox-plot-{{c}}">Show</label>
+                               <script>
+                                   console.log("checking ", '{{c}}')
+                                   var plot_switches = {}
+                                   $(document).ready(function() {
+                                     $("#checkbox-plot-{{c}}").click(function(){
+                                           for(var p = 0; p < {{choices|tojson|safe}}.length; p++) {
+                                             category = {{choices|tojson|safe}}[p]
+                                             plot_switches[category] = $('#checkbox-plot-'+category).is(':checked')
+                                           }
 
-                                    var match = get_genome_position()
-                                    chr = match[1]
-                                    start = match[2]
-                                    end = match[3]
-                                    updatebrowser(chr, start, end, plot_switches);
-                                    // console.log(all_coords)
-                                    // for(var i = 0; i < .length; i++) {
-                                      // $('form.bc-details1').show();
-                                  // } else {
-                                  //     $('form.bc-details1').hide();
-                              });
-                            });
-                        </script>
-
-
-                </div>
+                                           var match = get_genome_position()
+                                           chr = match[1]
+                                           start = match[2]
+                                           end = match[3]
+                                           updatebrowser(chr, start, end, plot_switches);
+                                           // console.log(all_coords)
+                                           // for(var i = 0; i < .length; i++) {
+                                             // $('form.bc-details1').show();
+                                         // } else {
+                                         //     $('form.bc-details1').hide();
+                                     });
+                                   });
+                               </script>
+                        </div>
 
                 <div class="panel-body">
                   <form>
@@ -607,34 +662,55 @@
                         </div>
                     </div>
 
-                    <select multiple class="form-control" id="sel-{{c}}"></select>
+                    <select size="7" class="form-control" id="sel-{{c}}"></select>
                     <div>
 
                     </div>
                     <div style="position:relative; margin-top:10px; min-height: 36px;">
 
-                    {% if c == 'gene' %}
-                        <button class="btn" type="button" id="getSelectsBtn-{{c}}"
-                        style="padding: 4px 8px; border-width: 1px;">
-                        <img src="../static/img/gc_small.png" style="max-width:100%" /></button>
-                        <script>
-                          $(document).ready(function() {
-                              $("#getSelectsBtn-{{c}}").click(function(){
-                                  $.each($("#sel-{{c}} option:selected"), function(){
-                                    window.open("https://www.genecards.org/cgi-bin/carddisp.pl?gene="+$(this).val(), '_blank');
-                                    // window.focus();
-                                    console.log("You have selected - " + $(this).val());
-                                  });
-                              });
-                          });
-                        </script>
-                        {% if genes_choices!=[] %}
-                            <a id="genesmodal-link" href="#genesModal" data-toggle="modal" data-category="{{c}}" data-position=""
-                            data-backdrop="false" title="Add this item" class="open-genesDialog new-win btn" style="position:relative">
-                            Classification
-                            </a>
-                        {% endif %}
-                    {% endif %}
+                   {% if c.endswith('_genelist') %}
+                       <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                       style="padding: 4px 8px; border-width: 1px;">
+                       <img src="../static/img/gc_small.png" style="max-width:100%" /></button>
+                       <script>
+                         $(document).ready(function() {
+                             $("#getSelectsBtn-{{c}}").click(function(){
+                                 $.each($("#sel-{{c}} option:selected"), function(){
+                                   window.open("https://www.genecards.org/cgi-bin/carddisp.pl?gene="+$(this).val().split(':')[0], '_blank');
+                                   // window.focus();
+                                   console.log("You have selected - " + $(this).val().split(':')[0]);
+                                 });
+                             });
+                         });
+                       </script>
+                       <!-- {% if genes_choices!=[] %}
+                           <a id="genesmodal-link" href="#genesModal" data-toggle="modal" data-category="{{c}}" data-position=""
+                           data-backdrop="false" title="Add this item" class="open-genesDialog new-win btn" style="position:relative">
+                           Classification
+                           </a>
+                       {% endif %} -->
+                   {% endif %}
+
+                   {% if c == 'enhancer' %}
+                       <button id="enhancer-link" class="btn" type="button" style="position:relative">Full annotation</button>
+                   {% endif %}
+
+                   {% if c == 'longNC' %}
+                       <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                       style="padding: 5px 8px; border-width: 1px; color: #427c70; font-size:17px;">
+                       <b>LNC</b>ipedia</button>
+                       <script>
+                         $(document).ready(function() {
+                             $("#getSelectsBtn-{{c}}").click(function(){
+                                 $.each($("#sel-{{c}} option:selected"), function(){
+                                   window.open("https://lncipedia.org/db/transcript/"+$(this).val(), '_blank');
+                                   // window.focus();
+                                   console.log("You have selected - " + $(this).val());
+                                 });
+                             });
+                         });
+                       </script>
+                   {% endif %}
 
                     {% if c == 'mirna' %}
                         <button class="btn" type="button" id="getSelectsBtn-{{c}}"
@@ -692,22 +768,56 @@
     {% endfor %}
     <script>
         var cnvdrop = document.getElementById("cnv-dropdown");
-
         console.log("Selected index")
-        console.log(cnvdrop.selectedIndex)
-        if(cnvdrop.selectedIndex!=-1){
-          cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+        console.log(document.getElementById("cnv-dropdown").selectedIndex)
+        console.log("cnv drop")
+        console.log(cnvdrop)
+
+        if(document.getElementById("cnv-dropdown").selectedIndex!=-1 && jsonData!=null){
+          cnvselection = document.getElementById("cnv-dropdown").options[document.getElementById("cnv-dropdown").selectedIndex].value;
           {% for c in choices %}
           var radios = document.getElementsByName("radio-{{c}}");
           var prev = null;
           for(var i = 0; i < radios.length; i++) {
               radios[i].onclick = function() {
+                  console.log("CHANGED RADIO! for cnv")
+                  console.log(cnvselection)
+
                   updateGenes(cnvselection, jsonData)
               };
           }
           {% endfor %}
         }
 
+    </script>
+
+    <script>
+        $('#enhancer-link').click(function(){
+          $.ajax({
+            dataType: "json",
+            url: "{{ json_out }}".replace(".json", "_extra.json"),
+            async: false,
+            success: function(data){
+              extra_jsonData = data;
+              console.log("LOADED EXTRA")
+
+            },
+            error: function (data) {
+              var responseText=JSON.parse(data.responseText);
+              alert("Error(s) while building:\n"+responseText.messages);}
+          });
+          var enh_radios = document.getElementsByName("radio-enhancer");
+          for (var i = 0, length = enh_radios.length; i < length; i++) {
+             if (enh_radios[i].checked) {
+                 // do whatever you want with the checked radio
+                  enh_position = radios[i].value;
+                  break;
+              };
+          };
+          console.log("POSITION "+enh_position)
+          // cnvselection = document.getElementById("cnv-dropdown").options[document.getElementById("cnv-dropdown").selectedIndex].text
+          JSONToCSVConverter(extra_jsonData, "Enhancers annotation", true, cnvselection, "enhancer", enh_position.split('-')[0]);
+        });
     </script>
     </div>
 
@@ -803,6 +913,11 @@
 
             document.getElementById("genoverse").innerHTML = '';
             var colorsdict = {"gene": "#16a086",
+                "ID_genelist": "#16a086",
+                "dosage_sensitive_genelist": "#16a086",
+                "mendeliome_genelist": "#16a086",
+                "ohnologs_genelist": "#16a086",
+                "imprinted_genelist": "#16a086",
                 "coding_gene": "#27ae61",
                 "noncoding_gene": "#34495e",
                 "longNC": "#2a80b9",
@@ -944,63 +1059,82 @@
                       feature_type: "gene",
                       gene_id: feature_name,
                       id: feature_name,
+                      source: {{sources|tojson|safe}}[cat],
                       logic_name: '',
                       strand: 1,
                       version:11
                     }
+                  if(cat == 'coding_gene' || cat == 'noncoding_gene' || cat.indexOf("genelist")!== -1){
+                    newtrack[feature_name]['external_name'] = feature_name.split(':')[0];
+                    newtrack[feature_name]['id'] = feature_name.split(':')[1];
+
+                  }
+                }
+              }
+
+              for (var n =0; n<jsonData[0][cat+"_cross"].split(splitchar).length; n++){
+                feature_name = jsonData[0][cat+"_cross"].split(splitchar)[n].replace('"','');
+                if (cat == "mirna" && feature_name!='.'){
+                  feature_name = feature_name.split('Name=')[1]
+                }
+                if(feature_name!='.'){
+                  newtrack[feature_name] = {
+                    chr: chr,
+                    start: jsonData[0][cat+"_cross_coords"].split(';')[n].split('-')[0],
+                    end: jsonData[0][cat+"_cross_coords"].split(';')[n].split('-')[1],
+                    color: colorsdict[cat],
+                    assembly_name: "GRCh37",
+                    biotype: "gene",
+                    description: "",
+                    external_name: feature_name,
+                    feature_type: "gene",
+                    gene_id: feature_name,
+                    id: feature_name,
+                    source: {{sources|tojson|safe}}[cat],
+                    logic_name: '',
+                    strand: 1,
+                    version:11
+                  }
+                  if(cat == 'coding_gene' || cat == 'noncoding_gene' || cat.indexOf("genelist")!== -1){
+                    newtrack[feature_name]['external_name'] = feature_name.split(':')[0];
+                    newtrack[feature_name]['id'] = feature_name.split(':')[1];
+
                   }
                 }
 
-                for (var n =0; n<jsonData[0][cat+"_cross"].split(splitchar).length; n++){
-                  feature_name = jsonData[0][cat+"_cross"].split(splitchar)[n].replace('"','');
-                  if (cat == "mirna" && feature_name!='.'){
-                    feature_name = feature_name.split('Name=')[1]
-                  }
-                  if(feature_name!='.'){
-                    newtrack[feature_name] = {
-                      chr: chr,
-                      start: jsonData[0][cat+"_cross_coords"].split(';')[n].split('-')[0],
-                      end: jsonData[0][cat+"_cross_coords"].split(';')[n].split('-')[1],
-                      color: colorsdict[cat],
-                      assembly_name: "GRCh37",
-                      biotype: "gene",
-                      description: "",
-                      external_name: feature_name,
-                      feature_type: "gene",
-                      gene_id: feature_name,
-                      id: feature_name,
-                      logic_name: '',
-                      strand: 1,
-                      version:11
-                    }
+              }
+
+              for (var n =0; n<jsonData[0][cat+"_distal"].split(splitchar).length; n++){
+                feature_name = jsonData[0][cat+"_distal"].split(splitchar)[n].replace('"','');
+                if (cat == "mirna" && feature_name!='.'){
+                  feature_name = feature_name.split('Name=')[1]
+                }
+                if(feature_name!='.'){
+                  newtrack[feature_name] = {
+                    chr: chr,
+                    start: jsonData[0][cat+"_distal_coords"].split(';')[n].split('-')[0],
+                    end: jsonData[0][cat+"_distal_coords"].split(';')[n].split('-')[1],
+                    color: colorsdict[cat],
+                    assembly_name: "GRCh37",
+                    biotype: "gene",
+                    description: "",
+                    external_name: feature_name,
+                    feature_type: "gene",
+                    gene_id: feature_name,
+                    id: feature_name,
+                    source: {{sources|tojson|safe}}[cat],
+                    logic_name: '',
+                    strand: 1,
+                    version:11
                   }
 
-                }
+                  if(cat == 'coding_gene' || cat == 'noncoding_gene' || cat.indexOf("genelist")!== -1){
+                    newtrack[feature_name]['external_name'] = feature_name.split(':')[0];
+                    newtrack[feature_name]['id'] = feature_name.split(':')[1];
 
-                for (var n =0; n<jsonData[0][cat+"_distal"].split(splitchar).length; n++){
-                  feature_name = jsonData[0][cat+"_distal"].split(splitchar)[n].replace('"','');
-                  if (cat == "mirna" && feature_name!='.'){
-                    feature_name = feature_name.split('Name=')[1]
-                  }
-                  if(feature_name!='.'){
-                    newtrack[feature_name] = {
-                      chr: chr,
-                      start: jsonData[0][cat+"_distal_coords"].split(';')[n].split('-')[0],
-                      end: jsonData[0][cat+"_distal_coords"].split(';')[n].split('-')[1],
-                      color: colorsdict[cat],
-                      assembly_name: "GRCh37",
-                      biotype: "gene",
-                      description: "",
-                      external_name: feature_name,
-                      feature_type: "gene",
-                      gene_id: feature_name,
-                      id: feature_name,
-                      logic_name: '',
-                      strand: 1,
-                      version:11
-                    }
                   }
                 }
+              }
 
 
 
@@ -1057,9 +1191,9 @@
   console.log(jsonData)
   console.log("mirna JSON")
   console.log(mirbase_jsonData)
-  window.onload = function(){
-    onchange_dropdown();
-  }
+  console.log("Extra data")
+  console.log(extra_jsonData)
+
 </script>
 
 
@@ -1067,3 +1201,4 @@
 <!-- /.modal -->
 
 {% endblock %}
+</div>

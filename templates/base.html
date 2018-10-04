@@ -14,15 +14,16 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
         <meta name="viewport" content="width=device-width" />
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="../static/css/landing-page.css" rel="stylesheet"/>
         <link href="../static/css/tips.css" rel="stylesheet"/>
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-        <script src="http://code.interactjs.io/v1.3.4/interact.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+        <script src="../static/js/jquery-1.12.4.js"></script>
+        <script src="../static/js/jquery-ui.js"></script>
+        <script src="../static/js/bootstrap.min.js"></script>
+        <link href="../static/css/font-awesome.min.css" rel="stylesheet">
+        <script src="../static/js/interact.min.js"></script>
+        <script src="../static/js/json2csv.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script> -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
         <!-- Genoverse -->
@@ -31,10 +32,18 @@
         <script src="../static/angularjs-genoverse/lib/Genoverse/js/Genoverse.js"></script>
         <script src="../static/angularjs-genoverse/lib/Genoverse/js/genomes/grch38.js"></script>
  -->
-
         <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	<title>{% block title %}{% endblock %} - InCAS v1.0</title>
+      	<title>{% block title %}{% endblock %} - InCAS v1.1</title>
     {% endblock %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121740015-1"></script>
+    	<script>
+    	  window.dataLayer = window.dataLayer || [];
+    	  function gtag(){dataLayer.push(arguments);}
+    	  gtag('js', new Date());
+
+    	  gtag('config', 'UA-121740015-1');
+    	</script>​
 </head>
 
 <body class="landing-page">
@@ -71,7 +80,7 @@
                       Description
                   </a>
               </li>
-							<li class="dropdown">
+							<!-- <li class="dropdown">
 				        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Download
 				        <span class="caret"></span></a>
 				        <ul class="dropdown-menu">
@@ -79,7 +88,7 @@
 				          <li><a href="#">Version 2</a></li>
 				          <li><a href="#">Version 3</a></li>
 				        </ul>
-				      </li>
+				      </li> -->
               <li>
                   <a href="#">
                       Help
@@ -99,7 +108,7 @@
         <div class="container" style="min-width: 410px;">
           <div class="row hidden-xs visible-lg visible-md visible-sm" style="float:left; display:block !important; width:100%">
                 <div class="col-sm-6 col-lg-6 col-md-6" style="width:fit-content; display:block !important">
-                    <img src="../static/img/logocss.png" class="img-responsive" align="left" width="150">
+                    <img src="../static/img/logocss.png" class="img-responsive" align="left" width="100" style="padding-top: 14px;">
                 </div>
                 <div class="col-sm-6 col-lg-6 col-md-6">
                     <address>
@@ -129,6 +138,40 @@
         </div>
 
   </footer>
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+  var download_div_ovl;
+  var results_table;
+  var panellist_div;
+  var navbar_height;
+
+  if( $('#download-div-ovl').height() == undefined ){
+    download_div_ovl = 0;
+    results_table = 0;
+  }else{
+    download_div_ovl = $('#download-div-ovl').height();
+    results_table = $('#results-table').height();
+  }
+
+  if( $('#panellist-div').height() == undefined ){
+    panellist_div = 0
+    navbar_height = $('.navbar').height()+45
+  }else{
+    panellist_div = $('#panellist-div').height()
+    navbar_height = 0
+
+  }
+  console.log($(document).height()-(navbar_height)-$('#results-container').height()-(download_div_ovl)-$('.footer').height());
+  console.log("TOTAL HEIGHT: "+$(document).height())
+  console.log("NAVBAR: "+(navbar_height));
+  console.log("RESULTS CONTAINER: "+($('#results-container').height()+100))
+  console.log("RESULTS TABLE: "+results_table)
+  console.log("DOWNLOAD DIV OVL "+download_div_ovl)
+  console.log("FOOTER: "+$('.footer').height())
+  $('.footer').css('margin-top',$(document).height()-(navbar_height)-($('#results-container').height()+100)-(results_table)-(download_div_ovl)-$('.footer').height());
+  $('.section .section-gray .section-clients').css('height','fill-available');
+});
+</script>
+<script src="../static/js/jquery.dataTables.min.js"></script>
+<script src="../static/js/dataTables.bootstrap.min.js"></script>
 </body></html>

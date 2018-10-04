@@ -13,6 +13,8 @@ regex1="genelist"
 regex2="tarbase"
 regex3="targetscan"
 regex4="mirbase"
+regex5="enhancer"
+regex6="overlap"
 while getopts "d:r:" opt; do
       case $opt in
             d) $cleanup && die "Cannot specify option -d with -r"
@@ -47,9 +49,15 @@ while getopts "d:r:" opt; do
                 mongoimport --host=127.0.0.1 -d $(basename $dir) -c ${s%.txt} --type tsv --file $file --fields geneName,mirna
             elif [[ "$file" =~ $regex4 ]]; then
                 mongoimport --host=127.0.0.1 -d $(basename $dir) -c ${s%.txt} --type tsv --file $file --fields chr,source,feature,start,end,score,strand,frame,info
-
+            elif [[ "$file" =~ $regex5 ]]; then
+                mongoimport --host=127.0.0.1 -d $(basename $dir) -c ${s%.txt} --type tsv --file $file --fields info,chr,start,end,CellType,source,TargetGene,ConservationMean,ConservationMedian
+                mongo $(basename $dir) --eval "db.${s%.txt}.createIndex({chr:1});"
+            elif [[ "$file" =~ $regex6 ]]; then
+                mongoimport --host=127.0.0.1 -d $(basename $dir) -c ${s%.txt} --type tsv --file $file --fields chr,start,end,type
+                mongo $(basename $dir) --eval "db.${s%.txt}.createIndex({chr:1});"
             else
                 mongoimport --host=127.0.0.1 -d $(basename $dir) -c ${s%.txt} --type tsv --file $file --fields chr,start,end,info
+                mongo $(basename $dir) --eval "db.${s%.txt}.createIndex({chr:1});"
             fi
 
         done

@@ -1,0 +1,124 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% block head %}
+{{ super() }}
+<link href="../static/css/arrow.css" rel="stylesheet"/>
+<link href="../static/css/excel-bootstrap-table-filter-style.css" rel="stylesheet"/>
+
+<script src="../static/js/d3.v3.min.js"></script>
+<script src="../static/js/excel-bootstrap-table-filter-bundle.js"></script>
+
+
+<script type="text/javascript"charset="utf-8">
+
+    d3.tsv("{{ text_file_out }}", function(data) {
+        // the columns you'd like to display
+        var columns = ["CNV1", "CNV2", "OVERLAP RATIO"];
+
+        var table = d3.select("#results-container").append("table").attr("id", "results-table").attr("class",
+        "table table-bordered table-intel table-striped table-fit"),
+
+            thead = table.append("thead").attr('id', 'tablehead'),
+            tbody = table.append("tbody");
+
+        // append the header row
+        thead.append("tr")
+            .selectAll("th")
+            .data(columns)
+            .enter()
+            .append("th")
+                .text(function(column) { return column; })
+                .attr("id",'');
+        // create a row for each object in the data
+        var rows = tbody.selectAll("tr")
+            .data(data)
+            .enter()
+            .append("tr");
+
+        // create a cell in each row for each column
+        var cells = rows.selectAll("td")
+            .data(function(row) {
+                return columns.map(function(column) {
+                    return {column: column, value: row[column]};
+                });
+            })
+            .enter()
+            .append("td")
+                .text(function(d) { return d.value; });
+
+        $('#results-table').excelTableFilter();
+        document.getElementById('results-table').rows[0].cells[2].id = "ovl-perc-column";
+    });
+
+    // Use the plugin once the DOM has been loaded.
+    $(document).ready(function() {
+      // Apply the plugin
+
+    });
+</script>
+
+<style>
+  label{
+    font-weight: normal!important;
+    font-size:90%;
+  }
+  input[type="radio"]{
+    margin: 3px 0 0;
+  }
+</style>
+
+{% endblock %}
+
+{% block title %}Results{% endblock %}
+{% block navbar %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<div class="parallax filter-gradient blue" data-color="blue" style="height:135px !important;">
+    <div class="parallax-background">
+        <img src="../static/img/dna2.png">
+    </div>
+</div>
+<div class= "section section-gray section-clients" style="padding-top:10px;">
+  <div class="results-container container" id="results-container">
+      <div>
+        <h2 style="margin-left:30px; margin-bottom: 40px; color: #307ba0;">Results</h2>
+
+      </div>
+  </div>
+  <div id="download-div-ovl">
+    <span id="download-span-ovl-complete" style="vertical-align:-webkit-baseline-middle;">
+        Download results as an &nbsp;
+        <a class="btn btn-success btn-lg active" href="{{file_out}}" download="{{download_name}}" style="font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #16821f; color: #ffffff;border-color: #34aa3a;" role="button" aria-pressed="true">
+        Excel Matrix</a> &nbsp; or <a class="btn btn-success btn-lg active" href="{{text_file_out}}" download="{{text_download_name}}" style="margin-left: 10px; font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #ea7900; color: #ffffff;border-color: #ffba58;" role="button" aria-pressed="true">CSV File</a>
+    </span>
+    <span id="download-span-ovl-justlist" style="vertical-align:-webkit-baseline-middle;">
+        Download results as a &nbsp; <a class="btn btn-success btn-lg active" href="{{text_file_out}}" download="{{text_download_name}}" style="margin-left: 10px; font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #ea7900; color: #ffffff;border-color: #ffba58;" role="button" aria-pressed="true">CSV File</a>
+    </span>
+  </div>
+
+<script>
+  console.log("File_out "+'{{file_out}}')
+  console.log("Text_file_out "+'{{text_file_out}}')
+  console.log("Download_name "+'{{download_name}}')
+  console.log("text_download_name "+"{{text_download_name}}")
+  $.ajax({
+      url:'{{file_out}}',
+      type:'HEAD',
+      error: function()
+      {
+        document.getElementById("download-span-ovl-complete").style.display="none";
+      },
+      success: function()
+      {
+        document.getElementById("download-span-ovl-justlist").style.display="none";
+
+      }
+  });
+</script>
+
+
+
+{% endblock %}

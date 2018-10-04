@@ -13,11 +13,11 @@
     int00 = int00 || setInterval(update, 100);
     function update() {
       $.get(
-        "{{ url_for('thread_status') }}",
+        "{{ url_for('thread_status_ovl') }}",
         function refresher(data) {
           console.log(data);
           if (data.status == 'finished') {
-            window.location = "{{ url_for('results') }}";
+            window.location = "{{ url_for('results_ovl') }}";
             int00 = undefined;
           }else if (data.status == 'problem'){
               window.location.replace("{{ url_for('problem') }}");
@@ -27,16 +27,17 @@
               // return -1;
           }else{
             document.getElementById("progress").innerHTML = ''
-            for (var i = 0, length = data.status.length; i < length; i++){
-              if(i==length-1){
-                console.log(data.status[i])
-                  document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating "+{{nice_names|tojson|safe}}[data.status[i].replace(/\d+_/g,'')]+"...<br />"
-              }else{
-                console.log(data.status[i])
-
-                  document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallcheck.png\" />&nbsp&nbspCalculating "+{{nice_names|tojson|safe}}[data.status[i].replace(/\d+_/g,'')]+"...<br />"
-              }
-            }
+            document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating...<br />"
+            // for (var i = 0, length = data.status.length; i < length; i++){
+            //   if(i==length-1){
+            //     console.log(data.status[i])
+            //       document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating "+{{nice_names|tojson|safe}}[data.status[i].replace(/\d+_/g,'')]+"...<br />"
+            //   }else{
+            //     console.log(data.status[i])
+            //
+            //       document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallcheck.png\" />&nbsp&nbspCalculating "+{{nice_names|tojson|safe}}[data.status[i].replace(/\d+_/g,'')]+"...<br />"
+            //   }
+            // }
           }
         })
       }

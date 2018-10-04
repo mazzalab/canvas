@@ -1,11 +1,11 @@
-setwd("../resources/BED")
+setwd("/home/m.truglio/PycharmProjects/canvas/resources/BED")
 
 ################## Catch MIN and MAX coordinates of RefSeq isoforms ##################
-lnc <- read.table("gene.txt", stringsAsFactors = F, header = F)
+lnc <- read.table("lncipedia.txt", stringsAsFactors = F, header = F)
 colnames(lnc) <- c("chr", "start", "end", "lnc")
 
 lnc <- cbind(lnc, gsub(":.*$", "", lnc$lnc))
-lnc <- lnc[,-4]
+lnc[,4] <- lnc[, ncol(lnc)]
 colnames(lnc) <- c("chr", "start", "end", "lnc")
 
 library(data.table)
@@ -18,15 +18,15 @@ colnames(report) <- c("chr", "start", "end", "lnc")
 rm(report_min, report_max, DT)
 
 report <- report[order(report$lnc),]
-write.table(x=report, file = "meta_gene.txt", row.names = F, quote = F, sep = "\t")
+write.table(x=report, file = "meta_lnc.txt", row.names = F, quote = F, sep = "\t")
 
 
 #######################################################################################
 
   
   
-library(xlsx)
-write.xlsx(x = report, file = "meta_gene.txt", sheetName = "LongNC", row.names = FALSE)
+#library(xlsx)
+#write.xlsx(x = report, file = "meta_lnc.txt", sheetName = "LongNC", row.names = FALSE)
 
 ##########################################################
 
