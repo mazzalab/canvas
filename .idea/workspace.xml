@@ -2,114 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="240b687c-d558-49db-b1ac-c8908ba7987b" name="Default" comment="- Incas now compatible with hg18 and hg38&#10;- GUI fixes&#10;- In the results page, the first cnv is automatically selected and displayed.&#10;&#10;Last commit before major change in the way the genelists are displayed (one panel per list)">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/liftover_files/crossmap" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/liftover_files/example/output/stocazzo.bed" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ensembl_logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ensembl_small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/favicon-16x16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/favicon-32x32.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/favicon-96x96.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/gc.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/gc_small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/incas_logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/incas_logo.psd" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/incas_logo2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/incas_logo_sfondo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/incas_logo_variations.psd" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/logocss.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/newwin.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/red-arrow.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/red-arrow2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/smallcheck.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/smallcross.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/smallwait.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/.Rhistory" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/enhancer.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/har.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/BED/ucr.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/ID_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/imprinted_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/genelists/ohnologs_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/liftover_files/chains/hg18ToHg19.over.chain" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/liftover_files/chains/hg38ToHg19.over.chain" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/liftover_files/example/input/silver_russell.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/liftover_files/example/output/silver_russell_out.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/liftover_files/example/output/silver_russell_out.txt.unmap" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/liftover_files/example/output/unmapped.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/circRNA.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/coding_gene.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/gene.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/longNC.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/meta_longNC.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/mirbase.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/mirna.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/noncoding_gene.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/pseudogene.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/refseq_allgenes.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/refseq_coding_genes.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/BED/refseq_noncoding_genes.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/ASD_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/ID_a_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/ID_b_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_1_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_2_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_3_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_4_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_5_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_6_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_S_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene_noscore_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/dosage_sensitive_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/epilessia_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/malformazioni_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/mendeliome_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/onologhi_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/pubmed_autism_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/pubmed_brain_malformations_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/pubmed_epilepsy_or_seizures_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/genelists/pubmed_intellectual_disability_genelist.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/targets/tarbase.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/old_dbs/targets/targetscan.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/.idea/angularjs-genoverse.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/.npmignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/.travis.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/app.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/bower.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/karma.conf.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/src/.npmignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/src/genoverse.module.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/src/genoverse.spec.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/test-ignore.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/test/e2e/genoverse.spec.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/test/e2e/protractor.conf.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/angularjs-genoverse/test/e2e/protractor.saucelabs.conf.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/arrow.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/jquery.cookiebar.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/privacy-and-cookie-policy.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/jquery.cookiebar.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/js.cookie.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/modal.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/multiple-select.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/error.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/privacy-and-cookie-policy.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/circRNA.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/coding_gene.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/enhancer.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/gene.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/har.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/longNC.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/mirbase.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/mirna.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/noncoding_gene.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/pseudogene.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/BED/ucr.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/annotate_bed.py" afterPath="$PROJECT_DIR$/annotate_bed.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/landing-page.css" afterPath="$PROJECT_DIR$/static/css/landing-page.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/tips.css" afterPath="$PROJECT_DIR$/static/css/tips.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/results.html" afterPath="$PROJECT_DIR$/templates/results.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/working.html" afterPath="$PROJECT_DIR$/templates/working.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -132,52 +36,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="annotate_bed.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="120" column="83" lean-forward="true" selection-start-line="120" selection-start-column="83" selection-end-line="120" selection-end-column="83" />
-              <folding>
-                <element signature="e#1224#1239#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="genoverse.module.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/static/angularjs-genoverse/src/genoverse.module.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="79" column="19" lean-forward="false" selection-start-line="79" selection-start-column="19" selection-end-line="79" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="283" column="56" lean-forward="false" selection-start-line="283" selection-start-column="56" selection-end-line="283" selection-end-column="56" />
-              <folding>
-                <element signature="e#0#40#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="setup_mongo_collections.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="39" column="20" lean-forward="false" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -241,9 +100,6 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="NodeModulesDirectoryManager">
-    <handled-path value="$PROJECT_DIR$/static/angularjs/node_modules" />
-  </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1079" />
     <option name="y" value="840" />
@@ -266,100 +122,36 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
+              <option name="myItemId" value="incas" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
+              <option name="myItemId" value="incas" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
+              <option name="myItemId" value="incas" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
+              <option name="myItemId" value="incas" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canvas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liftover_files" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -691,7 +483,7 @@
     <option name="localTasksCounter" value="15" />
     <servers />
   </component>
-  <component name="TodoView" selected-index="4">
+  <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -703,21 +495,21 @@
   <component name="ToolWindowManager">
     <frame x="1079" y="840" width="1922" height="1049" extended-state="6" />
     <layout>
-      <window_info id="TODO" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3297414" sideWeight="0.49786553" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3297414" sideWeight="0.50213444" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.49573106" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37715518" sideWeight="0.14461046" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.48932764" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.45144078" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15280464" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37715518" sideWeight="0.85912484" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37715518" sideWeight="0.85538954" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15955175" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288201" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.06937033" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -764,423 +556,56 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2244">
-          <caret line="132" column="56" lean-forward="false" selection-start-line="132" selection-start-column="56" selection-end-line="132" selection-end-column="56" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="20" lean-forward="false" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2023">
-          <caret line="134" column="47" lean-forward="false" selection-start-line="134" selection-start-column="47" selection-end-line="134" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="24" column="75" lean-forward="false" selection-start-line="24" selection-start-column="68" selection-end-line="24" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3332">
-          <caret line="205" column="18" lean-forward="false" selection-start-line="205" selection-start-column="18" selection-end-line="205" selection-end-column="18" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1190">
-          <caret line="84" column="28" lean-forward="false" selection-start-line="84" selection-start-column="28" selection-end-line="84" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="47" column="24" lean-forward="false" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="24" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="76" column="6" lean-forward="true" selection-start-line="76" selection-start-column="6" selection-end-line="76" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6222">
-          <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1938">
-          <caret line="114" column="109" lean-forward="false" selection-start-line="114" selection-start-column="109" selection-end-line="114" selection-end-column="109" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6222">
-          <caret line="393" column="21" lean-forward="false" selection-start-line="393" selection-start-column="21" selection-end-line="393" selection-end-column="21" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2176">
-          <caret line="128" column="19" lean-forward="true" selection-start-line="128" selection-start-column="19" selection-end-line="128" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="43" column="6" lean-forward="false" selection-start-line="43" selection-start-column="6" selection-end-line="43" selection-end-column="6" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="81" lean-forward="false" selection-start-line="42" selection-start-column="81" selection-end-line="42" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="32" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
     <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="59" lean-forward="false" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="32" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
     <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="59" lean-forward="true" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="32" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
     <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
     <entry file="file://$PROJECT_DIR$/clean_targetscan.R" />
     <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="20" lean-forward="false" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="283" column="56" lean-forward="false" selection-start-line="283" selection-start-column="56" selection-end-line="283" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="120" column="83" lean-forward="true" selection-start-line="120" selection-start-column="83" selection-end-line="120" selection-end-column="83" />
-          <folding>
-            <element signature="e#1224#1239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/angularjs-genoverse/src/genoverse.module.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="79" column="19" lean-forward="false" selection-start-line="79" selection-start-column="19" selection-end-line="79" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
+    <entry file="file://$PROJECT_DIR$/app.py" />
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
+    <entry file="file://$PROJECT_DIR$/static/angularjs-genoverse/src/genoverse.module.js" />
   </component>
 </project>
