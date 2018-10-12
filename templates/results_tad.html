@@ -1,0 +1,918 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% block head %}
+{{ super() }}
+<link href="../static/css/arrow.css" rel="stylesheet"/>
+
+<script>
+    $(document).on("click", function () {
+        document.getElementById("arrow").style.display = "none";
+    });
+</script>
+
+<style>
+  label{
+    font-weight: normal!important;
+    font-size:90%;
+  }
+  input[type="radio"]{
+    margin: 3px 0 0;
+  }
+</style>
+<script>
+    function readTextFile(file) {
+      var rawFile = new XMLHttpRequest();
+      rawFile.overrideMimeType("application/json");
+      rawFile.open("GET", file, true);
+      rawFile.onreadystatechange = function() {
+          if (rawFile.readyState === 4 && rawFile.status == "200") {
+              return rawFile.responseText;
+          }
+      }
+      rawFile.send(null)
+    }
+</script>
+
+<script id="json-reader">
+
+  var jsonData;
+  var mirbase_jsonData;
+  var extra_jsonData;
+
+  console.log("JSON MAIN YES")
+  console.log("{{ json_out }}")
+  $.ajax({
+    dataType: "json",
+    url: "{{ json_out }}",
+    async: false,
+    success: function(data){
+      jsonData = data;
+    }
+  });
+
+  if ({{choices|tojson|safe}}.includes('mirbase')){
+    $.ajax({
+      dataType: "json",
+      url: "{{ json_out }}".replace(".json", "_mirbase.json"),
+      async: false,
+      success: function(data){mirbase_jsonData = data}
+    });
+  }
+
+
+</script>
+
+<script type ="text/javascript">
+  $(document).on("click", "#loadpage", function () {
+      var values = $('#modal-sel').val();
+
+      // set fso = CreateObject("Scripting.FileSystemObject");
+      // set s = fso.CreateTextFile("\test.txt", True);
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(values.join("\n")));
+      element.setAttribute('download', "selected_genes.txt");
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+      // for (i=0; i< )
+      // s.writeline(document.passForm.input1.value);
+      // s.writeline(document.passForm.input2.value);
+      // s.writeline(document.passForm.input3.value);
+      // s.Close();
+    });
+</script>
+
+<script>
+    jQuery(function($) {
+      var panelList = $('.draggablePanelList');
+
+      panelList.sortable({
+          // Only make the .panel-heading child elements support dragging.
+          // Omit this to make then entire <li>...</li> draggable.
+          handle: '.panel-heading',
+          update: function() {
+              $('.panel', panelList).each(function(index, elem) {
+                   var $listItem = $(elem),
+                       newIndex = $listItem.index();
+
+                   // Persist the new indices.
+              });
+          }
+      });
+    });
+
+</script>
+<script>
+    var cnvselection=-1;
+    var position;
+    function updateGenes(cnvselection, jsonData) {
+      {% for c in choices %}
+          var splitchar = ';';
+          {% if (c!='All') %}
+                $('#sel-{{c}}').empty();
+                if (cnvselection==-1){
+                  console.log("no choice")
+                }else{
+                  enableWin("{{c}}")
+                  position = 'inside';
+                  var radios = document.getElementsByName("radio-{{c}}");
+                  for (var i = 0, length = radios.length; i < length; i++) {
+                      if (radios[i].checked) {
+                          // do whatever you want with the checked radio
+                          position = radios[i].value;
+
+                          document.getElementById("radio-{{c}}-inside-label").innerHTML = 'included ('+jsonData[cnvselection].{{c}}_inside_count+')';
+                          document.getElementById("radio-{{c}}-covering-label").innerHTML = 'covering ('+jsonData[cnvselection].{{c}}_covering_count+')';
+                          document.getElementById("radio-{{c}}-cross-label").innerHTML = 'broken ('+jsonData[cnvselection].{{c}}_cross_count+')';
+                          document.getElementById("radio-{{c}}-distal-label").innerHTML = 'distal ('+jsonData[cnvselection].{{c}}_distal_count+')';
+
+                          if(position == 'inside-{{c}}'){
+                            var splitgenes = jsonData[cnvselection].{{c}}_inside.split(splitchar)
+                          }else if (position == 'covering-{{c}}') {
+                            var splitgenes = jsonData[cnvselection].{{c}}_covering.split(splitchar)
+                          }else if (position == 'cross-{{c}}') {
+                            var splitgenes = jsonData[cnvselection].{{c}}_cross.split(splitchar)
+                          }else if (position == 'distal-{{c}}') {
+                            var splitgenes = jsonData[cnvselection].{{c}}_distal.split(splitchar)
+                          }
+                          // only one radio can be logically checked, don't check the rest
+                          break;
+                      }
+                  }
+
+                  for (i = 0; i < splitgenes.length; i++) {
+
+                      genename = splitgenes[i]
+
+                      if(genename!='.'){
+                          $('#sel-{{c}}').append($('<option></option>').attr('value', genename).text(genename));
+
+                      }
+                    }
+                }
+          {% endif %}
+      {% endfor %}
+    };
+
+</script>
+
+
+<script>
+    function enableWin(category) {
+        document.getElementById("modal-link-"+category).disabled = false;
+        document.getElementById("checkbox-plot-"+category).disabled = false;
+        if (category == 'gene' && document.getElementById("genesmodal-link")){
+            document.getElementById("genesmodal-link").disabled = false;
+        }
+    }
+
+    function disableWin(category) {
+        document.getElementById("modal-link-"+category).disabled = true;
+        document.getElementById("checkbox-plot-"+category).disabled = true;
+        if (category == 'gene' && document.getElementById("genesmodal-link")){
+            document.getElementById("genesmodal-link").disabled = true;
+        }
+    }
+
+    function resetSwitches(){
+      console.log("RESET CALLED")
+      {% for c in choices %}
+         document.getElementById('checkbox-plot-{{c}}').checked = false
+      {% endfor %}
+    }
+</script>
+
+<script>
+  function openlist(entry, position, db) {
+    // Fixes dual-screen position                         Most browsers      Firefox
+    var w = 300;
+    var h = 700;
+    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var newWindow = window.open('about:blank', 'Genes', 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+    newWindow.document.title = "Genes";
+    // Puts focus on the newWindow
+    if (window.focus) {
+        newWindow.focus();
+    }
+
+    newWindow.document.write("<script>function downloadFile() {var a = document.createElement(\"a\"); a.download = \""+entry.split(';')[0]+"_"+db+"_genes.txt\"; a.href = \"data:text/html,\" + document.getElementById(\"mirna-genes\").innerText; document.body.appendChild(a); a.click();}<\/script><title>"+entry.split(';')[0]+" in "+db+"<\/title><div><p>Genes for "+entry.split(';')[0]+" in "+ db + " (<a href=\"#\" onclick=downloadFile()>Download</a>):</p></div><div id=\"mirna-genes\"></div>");
+
+    // function downloadList(){
+    //     document.location =
+    //         'data:text/attachment;,' +
+    //         document.getElementById('mirna-genes').innerHTML;
+    // };
+
+    var genes = mirbase_jsonData[db][position][entry];
+    var uniquegenes = [];
+    $.each(genes, function(i, el){
+        if($.inArray(el, uniquegenes) === -1) uniquegenes.push(el);
+    });
+    for(var i = 0; i < uniquegenes.length; i++) {
+      newWindow.document.getElementById("mirna-genes").innerHTML += uniquegenes[i]+"<br />"
+    }
+  }
+</script>
+
+<script>
+  function get_genome_position(){
+    var cnvdrop = document.getElementById("cnv-dropdown");
+    cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+    cnvtext = cnvdrop.options[cnvdrop.selectedIndex].text
+
+    var cnvregexp = /chr([XYM\d]+):\s(\d+)\s-\s(\d+)/gm;
+    return cnvregexp.exec(cnvtext)
+  }
+</script>
+
+{% endblock %}
+
+{% block title %}Results{% endblock %}
+{% block navbar %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<div class="parallax filter-gradient blue" data-color="blue" style="height:135px !important;">
+    <div class="parallax-background">
+        <img src="../static/img/dna2.png">
+    </div>
+</div>
+<div class= "section section-gray section-clients" style="padding-top:10px; height: fit-content;">
+  <div id="results-container" class="results-container container">
+      <h2 style="margin-left:30px; margin-bottom: 40px; color: #307ba0; font-size:40px; text-shadow: 1px 1px 3px rgba(150, 150, 150, 0.56);">Results</h2>
+    <div style="display:-webkit-box; margin-left: 30px;">
+        <div id="dropdown-div" style="display: -webkit-inline-box; vertical-align: -webkit-baseline-middle;">
+
+        <select data-style="btn-new" id="cnv-dropdown" name="CNVs"></select>
+
+        <script>
+            let dropdown = $('#cnv-dropdown');
+
+            // dropdown.empty();
+
+            dropdown.append('<option selected="true" value="-1" disabled>Choose CNV</option>');
+            dropdown.prop('selectedIndex', 0);
+
+            // Populate dropdown with list of CNVs
+            $.getJSON("{{ json_out }}", function (data) {
+            $.each(data, function (key, entry) {
+              dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+": "+entry.START+" - "+entry.END));
+            })
+            });
+
+            document.getElementById('cnv-dropdown').addEventListener('change',function(){
+              console.log("MATCH")
+              var match = get_genome_position()
+              console.log(match)
+              var cnv_id = document.getElementById('cnv-dropdown').value
+              chr = match[1]
+              start = match[2]
+              end = match[3]
+              updatebrowser(chr, start, end, cnv_id, tracks=[]);
+              resetSwitches()
+              updateGenes(cnvselection, jsonData);
+            });
+        </script>
+        <!-- <script>
+
+            let dropdown = $('#cnv-dropdown');
+
+            // dropdown.empty();
+
+            // Populate dropdown with list of CNVs
+            $.getJSON("{{ json_out }}", function (data) {
+              document.getElementById("cnv-dropdown").selectedIndex = 0;
+
+                $.each(data, function (key, entry) {
+                  console.log("KEY")
+                  console.log(key)
+                  if(key==0){
+                    console.log("ENTRY INDEX")
+                    console.log(entry.index)
+                    dropdown.append($('<option></option>').attr('value', entry.index).attr('selected', true).text(entry.CHR+": "+entry.START+" - "+entry.END));
+                  }else{
+                    dropdown.append($('<option></option>').attr('value', entry.index).text(entry.CHR+": "+entry.START+" - "+entry.END));
+                  }
+                })
+                console.log(document.getElementById("cnv-dropdown").selectedIndex)
+            });
+
+            $( "#cnv-dropdown").change(function(){
+              onchange_dropdown()
+            });
+
+        </script> -->
+        </div>
+        <div id="arrow" class="red-arrow animate-flicker">
+          <p>
+          </p>
+        </div>
+        <div id="download-div">
+            <span id="download-span">
+              or download results as an</span>
+            <div id="down-buttons">
+                  <a class="btn btn-success btn-lg active" href="{{file_out}}" download="{{download_name}}"
+                  style="font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #16821f; color: #ffffff;border-color: #34aa3a;"
+                  role="button" aria-pressed="true">
+                  Excel File</a>&nbsp or &nbsp<a class="btn btn-success btn-lg active" href="{{text_file_out}}" download="{{text_download_name}}"
+                  style="font-size: 14px; vertical-align: baseline; padding: 5px 15px 5px 15px; background-color: #ea7900; color: #ffffff;border-color: #ffba58;"
+                  role="button" aria-pressed="true">CSV File</a>
+            </div>
+
+        </div>
+    </div>
+
+    <br>
+    <!-- Genoverse -->
+
+    <div id="genoverse-wrap">
+      <div id="genoverse"></div>
+    </div>
+
+    <!-- Panels -->
+    <div id="panellist-div" class="row draggablePanelList" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
+    {% for c in choices %}
+      {% if (c!='All') %}
+            <div class="col-sm-4">
+              <div class="panel panel-info">
+                       {% if c.endswith('_genelist') %}
+                         <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #45af35 !important; border-color: #16821f !important">
+                       {% else %}
+                         <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #307ba0; border-color: #307ba0">
+                       {% endif %}
+                             {{c}}
+
+                             <div class="help-tip" style="background-color: #ffd400">
+                               <p>{{ info[c] }}
+                             </p>
+                             </div>
+
+                               <input type="checkbox" class="ios8-switch ios8-switch-sm" id="checkbox-plot-{{c}}">
+                               <label for="checkbox-plot-{{c}}">Show</label>
+                               <script>
+                                   console.log("checking ", '{{c}}')
+                                   var plot_switches = {}
+                                   $(document).ready(function() {
+                                     $("#checkbox-plot-{{c}}").click(function(){
+                                           for(var p = 0; p < {{choices|tojson|safe}}.length; p++) {
+                                             category = {{choices|tojson|safe}}[p]
+                                             plot_switches[category] = $('#checkbox-plot-'+category).is(':checked')
+                                           }
+
+                                           var match = get_genome_position()
+                                           var cnv_id = document.getElementById('cnv-dropdown').value
+                                           chr = match[1]
+                                           start = match[2]
+                                           end = match[3]
+                                           updatebrowser(chr, start, end, cnv_id, plot_switches);
+
+                                     });
+                                   });
+                               </script>
+                        </div>
+
+                <div class="panel-body">
+                  <form>
+
+                    <div id="radios">
+                        <div class="radio-inline">
+                          <label class="form-check-label-{{c}}">
+                          <input type="radio" class="form-check-input" name="radio-{{c}}" id="inside-{{c}}" value="inside-{{c}}"
+                          checked><span id="radio-{{c}}-inside-label">included (0)</span>
+                          </label>
+                        </div>
+                        <div class="radio-inline">
+                          <label class="form-check-label-{{c}}">
+                          <input type="radio" class="form-check-input" name="radio-{{c}}" id="covering-{{c}}" value="covering-{{c}}"
+                          unchecked><span id="radio-{{c}}-covering-label">covering (0)</span>
+                          </label>
+                        </div>
+                        <div class="radio-inline">
+                          <label class="form-check-label-{{c}}">
+                          <input type="radio" class="form-check-input" name="radio-{{c}}" id="cross-{{c}}" value="cross-{{c}}"
+                          unchecked><span id="radio-{{c}}-cross-label">broken (0)</span>
+                          </label>
+                        </div>
+                        <div class="radio-inline">
+                          <label class="form-check-label-{{c}}">
+                          <input type="radio" class="form-check-input" name="radio-{{c}}" id="distal-{{c}}" value="distal-{{c}}"
+                          unchecked><span id="radio-{{c}}-distal-label">distal (0)</span>
+                          </label>
+                        </div>
+                        <div class="help-tip-blue">
+                          <p>You can select among three subsets of <b>{{c}}:</b><br /><br />
+                            &nbsp;&nbsp;- <b>included</b>: completely overlapping with the CNV<br />
+                            &nbsp;&nbsp;- <b>broken</b>: including the CNV breakpoints<br />
+                            &nbsp;&nbsp;- <b>distal</b>: lying within a user-defined genomic window from the CNV boundaries<br />
+                          </p>
+                        </div>
+                    </div>
+
+                    <select size="7" class="form-control" id="sel-{{c}}"></select>
+                    <div>
+
+                    </div>
+                    <div style="position:relative; margin-top:10px; min-height: 36px;">
+
+                   {% if c.endswith('_genelist') %}
+                       <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                       style="padding: 4px 8px; border-width: 1px;">
+                       <img src="../static/img/gc_small.png" style="max-width:100%" /></button>
+                       <script>
+                         $(document).ready(function() {
+                             $("#getSelectsBtn-{{c}}").click(function(){
+                                 $.each($("#sel-{{c}} option:selected"), function(){
+                                   window.open("https://www.genecards.org/cgi-bin/carddisp.pl?gene="+$(this).val().split(':')[0], '_blank');
+                                   // window.focus();
+                                   console.log("You have selected - " + $(this).val().split(':')[0]);
+                                 });
+                             });
+                         });
+                       </script>
+                   {% endif %}
+
+                   {% if c == 'enhancer' %}
+                       <button id="enhancer-link" class="btn" type="button" style="position:relative">Full annotation</button>
+                   {% endif %}
+
+                   {% if c == 'longNC' %}
+                       <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                       style="padding: 5px 8px; border-width: 1px; color: #427c70; font-size:17px;">
+                       <b>LNC</b>ipedia</button>
+                       <script>
+                         $(document).ready(function() {
+                             $("#getSelectsBtn-{{c}}").click(function(){
+                                 $.each($("#sel-{{c}} option:selected"), function(){
+                                   window.open("https://lncipedia.org/db/transcript/"+$(this).val(), '_blank');
+                                   // window.focus();
+                                   console.log("You have selected - " + $(this).val());
+                                 });
+                             });
+                         });
+                       </script>
+                   {% endif %}
+
+                    {% if c == 'mirna' %}
+                        <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                        style="padding: 8px 8px; font-size:95%; font-weight: bold; color:#d60000; border-width: 1px;">miRBase
+                        </button>
+                        <script>
+                          $(document).ready(function() {
+                              $("#getSelectsBtn-{{c}}").click(function(){
+                                  $.each($("#sel-{{c}} option:selected"), function(){
+                                    window.open("http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc="+$(this).val().split(';')[0], '_blank');
+                                    // window.focus();
+                                    console.log("You have selected - " + $(this).val());
+                                  });
+                              });
+                          });
+                        </script>
+
+                        {% if 'mirbase' in choices %}
+                          <a id="mirbasemodal-link" href="#mirbaseModal" data-toggle="modal" data-category="{{c}}" data-position=""
+                          data-backdrop="false" title="Add this item" class="open-mirbaseDialog new-win btn" style="position:relative">
+                          Targets
+                          </a>
+                        {% endif %}
+
+                    {% endif %}
+
+                    {% if c == 'pseudogene' %}
+                        <button class="btn" type="button" id="getSelectsBtn-{{c}}"
+                        style="padding: 5px 8px 9px 8px; border-width: 1px;">
+                        <img src="../static/img/ensembl_small.png" style="max-width:100%" /></button>
+                        <script>
+                          $(document).ready(function() {
+                              $("#getSelectsBtn-{{c}}").click(function(){
+                                  $.each($("#sel-{{c}} option:selected"), function(){
+                                    window.open("https://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;t="+$(this).val(), '_blank');
+                                    // window.focus();
+                                    console.log("You have selected - " + $(this).val());
+                                  });
+                              });
+                          });
+                        </script>
+                    {% endif %}
+                    <a id="modal-link-{{c}}" href="#myModal" data-toggle="modal" data-category="{{c}}" data-position=""
+                    data-backdrop="false" title="Add this item" class="open-AddBookDialog new-win">
+                    <img src="../static/img/newwin.png"></a>
+                    <script>
+                      disableWin("{{c}}")
+                    </script>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <script>
+        var cnvdrop = document.getElementById("cnv-dropdown");
+        console.log("Selected index")
+        console.log(document.getElementById("cnv-dropdown").selectedIndex)
+        console.log("cnv drop")
+        console.log(cnvdrop)
+        console.log("CHOICES")
+        console.log({{choices|safe}})
+
+        if(document.getElementById("cnv-dropdown").selectedIndex!=-1 && jsonData!=null){
+          cnvselection = document.getElementById("cnv-dropdown").options[document.getElementById("cnv-dropdown").selectedIndex].value;
+          {% for c in choices %}
+          var radios = document.getElementsByName("radio-{{c}}");
+          var prev = null;
+          for(var i = 0; i < radios.length; i++) {
+              radios[i].onclick = function() {
+                  console.log("CHANGED RADIO! for cnv")
+                  console.log(cnvselection)
+
+                  updateGenes(cnvselection, jsonData)
+              };
+          }
+          {% endfor %}
+        }
+
+    </script>
+
+    <script>
+        $('#enhancer-link').click(function(){
+          $.ajax({
+            dataType: "json",
+            url: "{{ json_out }}".replace(".json", "_extra.json"),
+            async: false,
+            success: function(data){
+              extra_jsonData = data;
+              console.log("LOADED EXTRA")
+
+            },
+            error: function (data) {
+              var responseText=JSON.parse(data.responseText);
+              alert("Error(s) while building:\n"+responseText.messages);}
+          });
+          var enh_radios = document.getElementsByName("radio-enhancer");
+          console.log("RADIOS")
+          console.log(enh_radios)
+          for (var i = 0, length = enh_radios.length; i < length; i++) {
+             console.log(i+" "+enh_radios[i].checked)
+             if (enh_radios[i].checked) {
+                 // do whatever you want with the checked radio
+                  enh_position = enh_radios[i].value;
+                  break;
+              };
+          };
+          console.log("POSITION "+enh_position)
+          // cnvselection = document.getElementById("cnv-dropdown").options[document.getElementById("cnv-dropdown").selectedIndex].text
+          JSONToCSVConverter(extra_jsonData, "Enhancers annotation", true, cnvselection, "enhancer", enh_position.split('-')[0]);
+        });
+    </script>
+    </div>
+
+  </div>
+
+
+</div>
+<!-- Trigger/Open The Modal -->
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="min-height:400px; max-width:300px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title" id="modal-title" style="text-transform:capitalize">Title</h4>
+
+            </div>
+            <div class="modal-body" style="height:calc(100% - 100px);">
+              <select multiple class="form-control" id="modal-sel"
+                style=" min-height: calc(100% - 25px); height:280px"></select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="loadpage" type="button" class="btn btn-primary">Download selected</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div id="genesModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="min-height:400px; height:fit-content ;width: fit-content; min-width:605px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title" id="genesmodal-title" style="text-transform:capitalize">Title</h4>
+
+            </div>
+            <div class="modal-body" style="height:calc(100% - 100px);">
+                <table id="classification" class="table table-striped table-bordered">
+                </table>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+                <!-- <button id="genesloadpage" type="button" class="btn btn-primary">Download selected</button> -->
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<div id="mirbaseModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="min-height:400px; height:fit-content ;width: fit-content; min-width:585px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title" id="mirbasemodal-title" style="text-transform:capitalize">Title</h4>
+
+            </div>
+            <div class="modal-body" style="height:calc(100% - 100px);">
+                <table id="mirbase-classification" class="table table-striped table-bordered">
+                </table>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+                <!-- <button id="genesloadpage" type="button" class="btn btn-primary">Download selected</button> -->
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/genoverse.min.js"></script>
+<script type="text/javascript" src="../static/angularjs-genoverse/lib/Genoverse/js/genomes/grch37.js"></script>
+
+
+<script>
+    function updatebrowser(chr, start, end, cnv_id, tracks=[])
+    {
+          console.log("STARTEND "+start+' '+end)
+          document.getElementById("genoverse").innerHTML = '';
+          var colorsdict = {"gene": "#16a086",
+              "ID_genelist": "#16a086",
+              "dosage_sensitive_genelist": "#16a086",
+              "mendeliome_genelist": "#16a086",
+              "ohnologs_genelist": "#16a086",
+              "imprinted_genelist": "#16a086",
+              "coding_gene": "#27ae61",
+              "noncoding_gene": "#34495e",
+              "longNC": "#2a80b9",
+              "mirna": "#c1392b",
+              "circRNA": "#d25400",
+              "pseudogene": "#7e8c8d",
+              "ucr": "#8f44ad",
+              "har": "#9b58b5",
+              "enhancer": "#5d562e"}
+          ext_start = parseInt(start) - {{distance}}
+          ext_end = parseInt(end) + {{distance}}
+          var genoverseConfig = {
+            container : '#genoverse', // Where to inject Genoverse (css/jQuery selector/DOM element)
+            // If no genome supplied, it must have at least chromosomeSize, e.g.:
+            // chromosomeSize : 249250621, // chromosome 1, human
+            genome    : 'grch37', // see js/genomes/
+            chr       : chr,
+            start     : ext_start-500000,
+            end       : ext_end,
+            plugins   : [ 'controlPanel', 'karyotype', 'trackControls', 'resizer', 'focusRegion', 'fullscreen', 'tooltips', 'fileDrop' ],
+            tracks    : [
+              Genoverse.Track.Scalebar,
+              Genoverse.Track.extend({
+                name       : 'Sequence',
+                url        : 'http://grch37.rest.ensembl.org/sequence/region/human/__CHR__:__START__-__END__?content-type=text/plain',
+                controller : Genoverse.Track.Controller.Sequence,
+                model      : Genoverse.Track.Model.Sequence.Ensembl,
+                view       : Genoverse.Track.View.Sequence,
+                100000     : false,
+                resizable  : 'auto'
+              }),
+
+              Genoverse.Track.extend({
+                name            : 'CNV',
+                resizable       : 'auto',
+                subFeatureJoinStyle : 'line',
+                labels : 'overlay',
+                fontColor: 'white',
+                fontWeight: 'bold',
+                subFeatureJoinLineWidth : 15,
+                featureMargin: {
+                  top:10,
+                  right:1,
+                  bottom:1,
+                  left:0
+                },
+                data:[{
+                            chr: chr,
+                            start: ext_start,
+                            end: ext_end,
+                            color: '#CC0000'
+                          }],
+                parseData: function (data, chr) {
+                  var feature = data[0];
+                  var subfeatures = [];
+                  var leftlimit =  {
+                    start: start - {{distance}},
+                    end: start,
+                    color: '#004C99',
+                  }
+                  subfeatures.push(leftlimit);
+
+                  var rightlimit =  {
+                    start: end,
+                    end: parseInt(end) + parseInt({{distance}}),
+                    color: '#004C99'
+                  }
+                  subfeatures.push(rightlimit);
+
+                  feature.subFeatures = subfeatures;
+                  feature.id = 'CNV '+start+'-'+end;
+                  feature.label = 'CNV';
+                  this.insertFeature(feature);
+
+                }
+              }),
+            ]
+          };
+          for (var t = 0; t < Object.keys(tracks).length; t++) {
+            var splitchar = ';';
+            cat = Object.keys(tracks)[t]
+
+            var newtrack = {};
+            var all_keys = []
+            if(tracks[cat] == true){
+
+              for (var n =0; n<jsonData[cnv_id][cat+"_inside"].split(splitchar).length; n++){
+                feature_name = jsonData[cnv_id][cat+"_inside"].split(splitchar)[n].replace('"','');
+                if(feature_name!='.'){
+                  newtrack[feature_name] = {
+                    chr: chr,
+                    start: jsonData[cnv_id][cat+"_inside_coords"].split(';')[n].split('-')[0],
+                    end: jsonData[cnv_id][cat+"_inside_coords"].split(';')[n].split('-')[1],
+                    color: colorsdict[cat],
+                    assembly_name: "GRCh37",
+                    biotype: "TAD",
+                    description: "",
+                    external_name: feature_name,
+                    feature_type: "gene",
+                    gene_id: feature_name,
+                    id: feature_name,
+                    source: "<a href='http://promoter.bx.psu.edu/hi-c/publications.html' target='_blank'>YUE Lab - PennState</a>",
+                    logic_name: '',
+                    strand: 1,
+                    version:11
+                  }
+                }
+              }
+
+              for (var n =0; n<jsonData[cnv_id][cat+"_covering"].split(splitchar).length; n++){
+                feature_name = jsonData[cnv_id][cat+"_covering"].split(splitchar)[n].replace('"','');
+                if(feature_name!='.'){
+                  newtrack[feature_name] = {
+                    chr: chr,
+                    start: jsonData[cnv_id][cat+"_covering_coords"].split(';')[n].split('-')[0],
+                    end: jsonData[cnv_id][cat+"_covering_coords"].split(';')[n].split('-')[1],
+                    color: colorsdict[cat],
+                    assembly_name: "GRCh37",
+                    biotype: "TAD",
+                    description: "",
+                    external_name: feature_name,
+                    feature_type: "gene",
+                    gene_id: feature_name,
+                    id: feature_name,
+                    source: "<a href='http://promoter.bx.psu.edu/hi-c/publications.html' target='_blank'>YUE Lab - PennState</a>",
+                    logic_name: '',
+                    strand: 1,
+                    version:11
+                  }
+                }
+              }
+
+            for (var n =0; n<jsonData[cnv_id][cat+"_cross"].split(splitchar).length; n++){
+              feature_name = jsonData[cnv_id][cat+"_cross"].split(splitchar)[n].replace('"','');
+              if(feature_name!='.'){
+                newtrack[feature_name] = {
+                  chr: chr,
+                  start: jsonData[cnv_id][cat+"_cross_coords"].split(';')[n].split('-')[0],
+                  end: jsonData[cnv_id][cat+"_cross_coords"].split(';')[n].split('-')[1],
+                  color: colorsdict[cat],
+                  assembly_name: "GRCh37",
+                  biotype: "TAD",
+                  description: "",
+                  external_name: feature_name,
+                  feature_type: "gene",
+                  gene_id: feature_name,
+                  id: feature_name,
+                  source: "<a href='http://promoter.bx.psu.edu/hi-c/publications.html' target='_blank'>YUE Lab - PennState</a>",
+                  logic_name: '',
+                  strand: 1,
+                  version:11
+                }
+                if(cat == 'coding_gene' || cat == 'noncoding_gene' || cat.indexOf("genelist")!== -1){
+                  newtrack[feature_name]['external_name'] = feature_name.split(':')[0];
+                  newtrack[feature_name]['id'] = feature_name.split(':')[1];
+
+                }
+              }
+
+            }
+
+            for (var n =0; n<jsonData[cnv_id][cat+"_distal"].split(splitchar).length; n++){
+              feature_name = jsonData[cnv_id][cat+"_distal"].split(splitchar)[n].replace('"','');
+              if(feature_name!='.'){
+                newtrack[feature_name] = {
+                  chr: chr,
+                  start: jsonData[cnv_id][cat+"_distal_coords"].split(';')[n].split('-')[0],
+                  end: jsonData[cnv_id][cat+"_distal_coords"].split(';')[n].split('-')[1],
+                  color: colorsdict[cat],
+                  assembly_name: "GRCh37",
+                  biotype: "TAD",
+                  description: "",
+                  external_name: feature_name,
+                  feature_type: "gene",
+                  gene_id: feature_name,
+                  id: feature_name,
+                  source: "<a href='http://promoter.bx.psu.edu/hi-c/publications.html' target='_blank'>YUE Lab - PennState</a>",
+                  logic_name: '',
+                  strand: 1,
+                  version:11
+                }
+
+              }
+            }
+
+              trackconfig = Genoverse.Track.Gene.extend({
+                name: cat,
+                resizable       : 'auto',
+                subFeatureJoinStyle : 'line',
+                model      : Genoverse.Track.Model.Gene,
+                view       : Genoverse.Track.View.Gene,
+                labels : 'overlay',
+                fontColor: colorsdict[cat],
+                subFeatureJoinLineWidth : 15,
+                featureHeight:    6,
+                featureMargin: {
+                  top:10,
+                  right:1,
+                  bottom:1,
+                  left:0
+                },
+                data: Object.values(newtrack),
+                parseData: function (data, chr) {
+                  for (var i = 0; i < data.length; i++) {
+                    var feature = data[i];
+
+                    if (feature.feature_type === 'gene') {
+                      feature.chr         = feature.chr || chr;
+                      feature.label       = (feature.external_name || feature.id);
+                      feature.transcripts = [];
+
+                      this.insertFeature(feature);
+                    }
+                  }
+                }
+
+              });
+
+            genoverseConfig.tracks.push(trackconfig);
+
+          }
+
+          }
+
+          new Genoverse(genoverseConfig);
+
+      };
+</script>
+
+<script>
+  console.log("Full JSON")
+  console.log(jsonData)
+  console.log("mirna JSON")
+  console.log(mirbase_jsonData)
+  console.log("Extra data")
+  console.log(extra_jsonData)
+  console.log({{choices|safe}})
+
+</script>
+
+
+
+<!-- /.modal -->
+
+{% endblock %}
+</div>

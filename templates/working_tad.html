@@ -1,0 +1,93 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% block title %}Working...{% endblock %}
+{% block head %}
+{{ super() }}
+<script>
+  var int00;
+  setTimeout(function(){
+      document.getElementById('comic-container').style.display = 'block';
+  },8000);
+
+  $(document).ready(function() {
+    int00 = int00 || setInterval(update, 100);
+    function update() {
+      $.get(
+        "{{ url_for('thread_status_tad') }}",
+        function refresher(data) {
+          console.log(data);
+          if (data.status == 'finished') {
+            window.location = "{{ url_for('results_tad') }}";
+            int00 = undefined;
+          }else if (data.status == 'problem'){
+              window.location.replace("{{ url_for('problem') }}");
+              // document.getElementById("progresscontainer").innerHTML = "<div style=\"padding:40px; background-color:#ffd7d9; border-radius:10px \"><img src=\"../static/img/smallcross.png\" />&nbsp&nbspThere was a problem with your input file.</div>"
+              // throw new Error("Something went badly wrong!");
+              // window.stop();
+              // return -1;
+          }else{
+            document.getElementById("progress").innerHTML = ''
+            document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating...<br />"
+            // for (var i = 0, length = data.status.length; i < length; i++){
+            //   if(i==length-1){
+            //     console.log(data.status[i])
+            //       document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallwait.png\" />&nbsp&nbspCalculating "+{{nice_names|tojson|safe}}[data.status[i].replace(/\d+_/g,'')]+"...<br />"
+            //   }else{
+            //     console.log(data.status[i])
+            //
+            //       document.getElementById("progress").innerHTML += "<img src=\"../static/img/smallcheck.png\" />&nbsp&nbspCalculating "+{{nice_names|tojson|safe}}[data.status[i].replace(/\d+_/g,'')]+"...<br />"
+            //   }
+            // }
+          }
+        })
+      }
+  });
+</script>
+{% endblock %}
+
+{% block navbar %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="parallax filter-gradient blue" data-color="blue" style="height:135px !important;">
+    <div class="parallax-background">
+        <img src="../static/img/dna2.png">
+    </div>
+</div>
+<div class="section section-gray section-clients" style="height: -webkit-fill-available;">
+  <div class= "container" style="text-align: -webkit-center;">
+    <div style="width:50%">
+      <div id="progresscontainer">
+      <div id="progress">
+        Working...
+      </div>
+    </div>
+    </div>
+    <div id="comic-container" style="padding-top:100px; display:none;">
+      <img src="{{comic}}" />
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<footer class="footer">
+        <div class="container" style="min-width: 410px; width: 100%; bottom: 0; position: fixed;">
+          <div class="row hidden-xs visible-lg visible-md visible-sm" style="float:left; display:block !important; width:100%">
+                <div class="col-sm-6 col-lg-6 col-md-6" style="width:fit-content; display:block !important">
+                    <img src="../static/img/logocss.png" class="img-responsive" align="left" width="150">
+                </div>
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <address>
+                        <strong>Laboratory of Bioinformatics</strong><br>
+                        <!--i class="glyphicon glyphicon-home"></i-->
+                        IRCCS Casa Sollievo della Sofferenza - Mendel<br>
+                        Viale Regina Margherita, 261<br>
+                        Rome, Italy 00198<br>
+                        <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><abbr title="Phone"> </abbr>
+                        (+39) 06-44160515<br>
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><abbr title="E-mail"> </abbr>
+                        bioinformatics@css-mendel.it
+                    </address>
+                </div>
+          </div>
