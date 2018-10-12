@@ -172,7 +172,7 @@ select[multiple], select[size] {
   border-color: #005201;
 }
 
-#overlap-panel{
+#overlap-panel,#tad-panel{
   min-width: 295px; border-radius: 9px; border-top-left-radius: 0; border-top-right-radius: 0;
   border-top: 0;
   border-color: #005201;
@@ -310,10 +310,55 @@ ul {
   color:#FFFFFF;
 } */
 
+#tads_length{
+  display: none;
+}
+
+#tads_filter{
+  display:none;
+}
+
+#tads_info{
+  display:none;
+}
+
+#tads_paginate{
+  display:none;
+}
+
+#tad-checklist{
+  font-size: 12px;
+}
+
+.tad-checkbox{
+  position: relative;
+  top: 2px;
+  margin-right: 4px !important;
+}
+
+.table td.fit,
+.table th.fit {
+    white-space: nowrap;
+    width: 1% !important;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    vertical-align: middle;
+}
+.table-fit {
+    /* width: 1% !important;
+    white-space: nowrap; */
+
+}
 .nav-tabs>li>a {
+  border-right-color: #005201;
+  border-right-width: 1px;
   color:#FFFFFF;
   border-radius: 9px 9px 0 0;
   margin-right: 0;
+}
+
+#tads>tbody>tr:nth-of-type(odd){
+  background-color: #f1faeb;
 }
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
@@ -1991,7 +2036,7 @@ address {
     #upload{
       max-width: 256px;
     }
-    #annot-panel,#overlap-panel{
+    #annot-panel,#overlap-panel,#tad-panel{
       height: 386px;
     }
     #genes li {

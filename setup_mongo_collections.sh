@@ -15,6 +15,7 @@ regex3="targetscan"
 regex4="mirbase"
 regex5="enhancer"
 regex6="overlap"
+regex7="TADs"
 while getopts "d:r:" opt; do
       case $opt in
             d) $cleanup && die "Cannot specify option -d with -r"
@@ -55,6 +56,9 @@ while getopts "d:r:" opt; do
             elif [[ "$file" =~ $regex6 ]]; then
                 mongoimport --host=127.0.0.1 -d $(basename $dir) -c ${s%.txt} --type tsv --file $file --fields chr,start,end,type
                 mongo $(basename $dir) --eval "db.${s%.txt}.createIndex({chr:1});"
+            elif [[ "$file" =~ $regex7 ]]; then
+                mongoimport --host=127.0.0.1 -d $(basename $dir) -c ${s%_TADs.txt} --type tsv --file $file --fields chr,start,end,info
+                mongo $(basename $dir) --eval "db.${s%_TADs.txt}.createIndex({chr:1});"
             else
                 mongoimport --host=127.0.0.1 -d $(basename $dir) -c ${s%.txt} --type tsv --file $file --fields chr,start,end,info
                 mongo $(basename $dir) --eval "db.${s%.txt}.createIndex({chr:1});"

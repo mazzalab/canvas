@@ -128,7 +128,7 @@ class OverlapApp:
             count = 0
 
             with open(self.args.output_prefix+'_list.csv', 'w') as out_file:
-                out_file.write("CNV1\tCNV2\tOVERLAP RATIO\n".format(self.args.min_overlap))
+                out_file.write("QUERY\tTARGET\tOVERLAP RATIO\n".format(self.args.min_overlap))
                 for res in CNVOperations.reciprocal_overlap(cnv_gen, self.args.padding, self.args.combine_mode):
                     
                     if res[2] >= self.args.min_overlap/100:
@@ -232,7 +232,7 @@ class OverlapApp:
             tot_comparisons = len(names_1) * len(names_2)
             count = 0
             with open(self.args.output_prefix+'_list.csv', 'w') as out_file:
-                out_file.write("CNV1\tCNV2\tOVERLAP RATIO\n".format(self.args.min_overlap, self.args.padding))
+                out_file.write("QUERY\tTARGET\tOVERLAP RATIO\n".format(self.args.min_overlap, self.args.padding))
                 for res in CNVOperations.spanning_overlap(cnv_gen, self.args.padding):
                     if res[2] >= self.args.min_overlap/100 and res[3] <= self.args.span:
                         out_file.write(str(res[0]).replace(' []','') + "\t" + str(res[1]).replace(' []','') + "\t" + str(round(float(res[2]), 2)) + "\n")

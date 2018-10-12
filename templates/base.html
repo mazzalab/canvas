@@ -70,30 +70,36 @@
     <div class="collapse navbar-collapse" id="example" >
       <ul class="nav navbar-nav navbar-right">
 
-              <li>
-                  <a href="http://incas.css-mendel.it">
-                      Home
-                  </a>
-              </li>
-              <li>
-                  <a href="#">
-                      Description
-                  </a>
-              </li>
-							<!-- <li class="dropdown">
-				        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Download
-				        <span class="caret"></span></a>
-				        <ul class="dropdown-menu">
-				          <li><a href="#">Version 1</a></li>
-				          <li><a href="#">Version 2</a></li>
-				          <li><a href="#">Version 3</a></li>
-				        </ul>
-				      </li> -->
-              <li>
-                  <a href="#">
-                      Help
-                  </a>
-              </li>
+        <li>
+            <a href="http://incas.css-mendel.it">
+                Home
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                Documentation
+            </a>
+        </li>
+        <!-- <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Download
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Version 1</a></li>
+            <li><a href="#">Version 2</a></li>
+            <li><a href="#">Version 3</a></li>
+          </ul>
+        </li> -->
+        <li>
+            <a href="#">
+                Tutorial
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                Contacts
+            </a>
+        </li>
        </ul>
     </div><!-- /.navbar-collapse -->
   </div>
@@ -161,13 +167,13 @@ $(document).ready(function() {
     navbar_height = 0
 
   }
-  console.log($(document).height()-(navbar_height)-$('#results-container').height()-(download_div_ovl)-$('.footer').height());
-  console.log("TOTAL HEIGHT: "+$(document).height())
-  console.log("NAVBAR: "+(navbar_height));
-  console.log("RESULTS CONTAINER: "+($('#results-container').height()+100))
-  console.log("RESULTS TABLE: "+results_table)
-  console.log("DOWNLOAD DIV OVL "+download_div_ovl)
-  console.log("FOOTER: "+$('.footer').height())
+  // console.log($(document).height()-(navbar_height)-$('#results-container').height()-(download_div_ovl)-$('.footer').height());
+  // console.log("TOTAL HEIGHT: "+$(document).height())
+  // console.log("NAVBAR: "+(navbar_height));
+  // console.log("RESULTS CONTAINER: "+($('#results-container').height()+100))
+  // console.log("RESULTS TABLE: "+results_table)
+  // console.log("DOWNLOAD DIV OVL "+download_div_ovl)
+  // console.log("FOOTER: "+$('.footer').height())
   $('.footer').css('margin-top',$(document).height()-(navbar_height)-($('#results-container').height()+100)-(results_table)-(download_div_ovl)-$('.footer').height());
   $('.section .section-gray .section-clients').css('height','fill-available');
 });

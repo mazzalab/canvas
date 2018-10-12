@@ -2,85 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="240b687c-d558-49db-b1ac-c8908ba7987b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/lncpedia.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/R_User_Library.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CNVOverlap/CNV.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CNVOverlap/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CNVOverlap/cnv_operations.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CNVOverlap/db/clean_snps.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CNVOverlap/pairwise_match.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/other scripts/enhancerDB_setup.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/overlapper.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/excel-bootstrap-table-filter-style.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/font-awesome.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/d3.v3.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/dataTables.bootstrap.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/excel-bootstrap-table-filter-bundle.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/interact.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/jquery-1.12.4.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/jquery-ui.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/jquery.dataTables.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/json2csv.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/results_ovl.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/working_ovl.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/circRNA.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/coding_gene.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/gene.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/longNC.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/meta_longNC.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/mirbase.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/mirna.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/noncoding_gene.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/pseudogene.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/refseq_allgenes.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/refseq_coding_genes.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/BED/refseq_noncoding_genes.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/ASD_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/ID_a_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/ID_b_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_1_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_2_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_3_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_4_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_5_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_6_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene-score_S_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/discarded_genscore_genelists/gene_noscore_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/dosage_sensitive_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/epilessia_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/malformazioni_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/mendeliome_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/onologhi_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/pubmed_autism_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/pubmed_brain_malformations_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/pubmed_epilepsy_or_seizures_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/genelists/pubmed_intellectual_disability_genelist.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/targets/tarbase.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/old_dbs/targets/targetscan.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/annotate_bed.py" afterPath="$PROJECT_DIR$/annotate_bed.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/other scripts/make_meta_lnc.R" afterPath="$PROJECT_DIR$/other scripts/make_meta_lnc.R" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/genelists/ID_genelist.txt" afterPath="$PROJECT_DIR$/resources/genelists/ID_genelist.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/genelists/dosage_sensitive_genelist.txt" afterPath="$PROJECT_DIR$/resources/genelists/dosage_sensitive_genelist.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/genelists/imprinted_genelist.txt" afterPath="$PROJECT_DIR$/resources/genelists/imprinted_genelist.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/genelists/mendeliome_genelist.txt" afterPath="$PROJECT_DIR$/resources/genelists/mendeliome_genelist.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/genelists/ohnologs_genelist.txt" afterPath="$PROJECT_DIR$/resources/genelists/ohnologs_genelist.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/input_output/cnv_file_new.txt" afterPath="$PROJECT_DIR$/resources/input_output/cnv_file_new.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/targets/tarbase.txt" afterPath="$PROJECT_DIR$/resources/targets/tarbase.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/targets/targetscan.txt" afterPath="$PROJECT_DIR$/resources/targets/targetscan.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setup_mongo_collections.sh" afterPath="$PROJECT_DIR$/setup_mongo_collections.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/landing-page.css" afterPath="$PROJECT_DIR$/static/css/landing-page.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/tips.css" afterPath="$PROJECT_DIR$/static/css/tips.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/results.html" afterPath="$PROJECT_DIR$/templates/results.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/working.html" afterPath="$PROJECT_DIR$/templates/working.html" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/m_truglio.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/markdown-exported-files.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/mongoSettings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/annotate_bed.py" beforeDir="false" afterPath="$PROJECT_DIR$/annotate_bed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overlapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/overlapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/liftover_files/example/output/silver_russell_out.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/liftover_files/example/output/silver_russell_out.txt.unmap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/liftover_files/example/output/stocazzo.bed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/liftover_files/example/output/unmapped.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup_mongo_collections.sh" beforeDir="false" afterPath="$PROJECT_DIR$/setup_mongo_collections.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/landing-page.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/landing-page.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/results.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/results_ovl.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/results_ovl.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -98,24 +39,78 @@
     <option name="SHOW_EMPTY_GROUPS" value="false" />
     <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1587824849">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.20" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="Python Console" value="309" />
+          <entry key="py" value="1902" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="2211" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.js.language.service.starts" />
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="HTML" value="1" />
+          <entry key="MONGO" value="3" />
+          <entry key="Python" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="html" value="1" />
+          <entry key="incas_mongo/TAD/Aorta_STL002_Leung2015" value="2" />
+          <entry key="incas_mongo/TAD/HUVEC_Lieberman" value="1" />
+          <entry key="py" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.vcs.git.usages" />
+    </session>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="139" column="35" lean-forward="false" selection-start-line="139" selection-start-column="28" selection-end-line="139" selection-end-column="35" />
-              <folding />
+            <state relative-caret-position="130">
+              <caret line="350" column="61" selection-start-line="350" selection-start-column="61" selection-end-line="350" selection-end-column="61" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+                <element signature="e#28878#29309#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="overlapper.py" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/annotate_bed.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="462" column="24" selection-start-line="462" selection-start-column="24" selection-end-line="462" selection-end-column="24" />
+              <folding>
+                <element signature="e#10212#11282#0" />
+                <element signature="e#11361#12014#0" />
+                <element signature="e#12078#20511#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/overlapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="34" column="34" lean-forward="false" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+            <state relative-caret-position="3675">
+              <caret line="274" column="24" selection-start-line="274" selection-start-column="20" selection-end-line="274" selection-end-column="24" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -123,14 +118,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cnv_operations.py" pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNVOverlap/cnv_operations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="38" lean-forward="true" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
+            <state>
+              <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="317">
+              <caret line="61" column="16" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -139,19 +143,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>c</find>
-      <find>ca</find>
-      <find>canc</find>
-      <find>can</find>
-      <find>canv</find>
-      <find>canva</find>
-      <find>canvas</find>
-      <find>sort</find>
-      <find>gerno</find>
-      <find>HERE</find>
-      <find>checking</find>
-      <find>checkin</find>
-      <find>colle</find>
       <find>sys.stdo</find>
       <find>print</find>
       <find>system.</find>
@@ -168,6 +159,19 @@
       <find>hg</find>
       <find>crossm</find>
       <find>input</find>
+      <find>li</find>
+      <find>lif</find>
+      <find>lift</find>
+      <find>lifto</find>
+      <find>liftov</find>
+      <find>liftove</find>
+      <find>liftover</find>
+      <find>TAD</find>
+      <find>CNV1</find>
+      <find>annot_ch</find>
+      <find>index</find>
+      <find>all</find>
+      <find>genes_</find>
       <find>input()</find>
     </findStrings>
     <dirStrings>
@@ -182,8 +186,10 @@
       <list>
         <option value="$PROJECT_DIR$/make_meta_gene.R" />
         <option value="$PROJECT_DIR$/setup_mongo_collections.sh" />
-        <option value="$PROJECT_DIR$/annotate_bed.py" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/overlapper.py" />
         <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/annotate_bed.py" />
       </list>
     </option>
   </component>
@@ -199,193 +205,44 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1079" />
-    <option name="y" value="840" />
-    <option name="width" value="1922" />
-    <option name="height" value="1049" />
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/static/angularjs-genoverse/lib/Genoverse/package.json" />
+      <path value="$PROJECT_DIR$/static/angularjs-genoverse/lib/Genoversebak/package.json" />
+      <path value="$PROJECT_DIR$/static/angularjs-genoverse/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1135" />
+    <option name="y" value="1086" />
+    <option name="width" value="1914" />
+    <option name="height" value="1045" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="overlaps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="old_dbs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="enhancers_pre_files" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="other scripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="incas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CNVOverlap" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="incas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="incas" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/m.truglio/PycharmProjects/canvas/annotate_bed.py" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/miniconda3/envs/canvas/bin/python3.6" />
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/m.truglio/PycharmProjects/canvas/annotate_bed.py" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -404,7 +261,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Unnamed">
+  <component name="RunManager">
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
@@ -416,76 +273,8 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
+    <configuration name="Unnamed" type="PythonConfigurationType" factoryName="Python">
       <module name="CaNVAs" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="TARGET" value="" />
-      <option name="SETTINGS_FILE" value="" />
-      <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
-      <node-interpreter value="project" />
-      <working-dir value="" />
-      <envs />
-      <scope-kind value="ALL" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
-      <config-file value="" />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
-    <configuration default="true" type="MongoRunConfiguration" factoryName="Mongo">
-      <setting name="path" value="" />
-      <setting name="shellParams" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="CaNVAs" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="CaNVAs" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -496,34 +285,37 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="CaNVAs" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="RRunConfigurationType" factoryName="R">
-      <option name="SCRIPT_PATH" value="" />
-      <option name="SCRIPT_ARGS" value="" />
-      <option name="WORKING_DIRECTORY_PATH" value="" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="CaNVAs" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/miniconda3/envs/canvas/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <module name="CaNVAs" />
-      <method />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-interpreter>project</node-interpreter>
@@ -532,76 +324,23 @@
       <tasks />
       <arguments />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run" />
-      <scripts />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="CaNVAs" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
+      <method v="2" />
     </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
+      <module name="CaNVAs" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="CaNVAs" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;.&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
+      <method v="2" />
     </configuration>
-    <configuration default="false" name="Unnamed" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="$USER_HOME$/miniconda3/envs/canvas/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="CaNVAs" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Python.Unnamed" />
-    </list>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -719,7 +458,14 @@
       <option name="project" value="LOCAL" />
       <updated>1538639828218</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="reorganized files and folders">
+      <created>1538640482056</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1538640482056</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView">
@@ -732,35 +478,37 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1079" y="840" width="1922" height="1049" extended-state="6" />
-    <editor active="true" />
+    <frame x="1079" y="840" width="1922" height="1049" extended-state="7" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.49573106" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37715518" sideWeight="0.14461046" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.48932764" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.45144078" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15280464" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37715518" sideWeight="0.85538954" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15955175" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288201" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.06937033" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2716115" />
+      <window_info id="Structure" order="1" weight="0.06937033" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3297414" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49573106" weight="0.3297414" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.15581644" side_tool="true" visible="true" weight="0.40800866" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.48452508" weight="0.32900432" />
+      <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.8511206" weight="0.32683983" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.84418356" visible="true" weight="0.40800866" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Mongo Explorer" order="3" visible="true" weight="0.13233724" />
+      <window_info anchor="right" id="R Graphics" order="4" weight="0.32977587" />
+      <window_info anchor="right" id="Database" order="5" weight="0.3288201" />
+      <window_info anchor="right" id="Data View" order="6" />
+      <window_info anchor="right" id="R Packages" order="7" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="processedProjectFiles" value="true" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
@@ -788,87 +536,92 @@
     <MESSAGE value="Major update of old features and new additions:&#10;&#10;- Added a genome browser to plot the CNV and the tracks for each result category&#10;- Mirnas lists are now downloadable&#10;- GUI fixes and improvements" />
     <MESSAGE value="- Incas now compatible with hg18 and hg38&#10;- GUI fixes&#10;- In the results page, the first cnv is automatically selected and displayed.&#10;&#10;Last commit before major change in the way the genelists are displayed (one panel per list)" />
     <MESSAGE value="removed resources (too big) to re-add it zipped" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed resources (too big) to re-add it zipped" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="2" />
-    </breakpoint-manager>
-    <watches-manager />
+    <MESSAGE value="reorganized files and folders" />
+    <option name="LAST_COMMIT_MESSAGE" value="reorganized files and folders" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
-    <entry file="file://$PROJECT_DIR$/app.py" />
     <entry file="file://$PROJECT_DIR$/clean_targetscan.R" />
     <entry file="file://$PROJECT_DIR$/make_meta_gene.R" />
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh" />
-    <entry file="file://$PROJECT_DIR$/annotate_bed.py" />
     <entry file="file://$PROJECT_DIR$/static/angularjs-genoverse/src/genoverse.module.js" />
-    <entry file="file://$PROJECT_DIR$/app.py">
+    <entry file="file://$PROJECT_DIR$/other scripts/Untitled.ipynb" />
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownHtmlPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="181">
+            <caret line="338" column="138" selection-start-line="338" selection-start-column="135" selection-end-line="338" selection-end-column="138" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CNVOverlap/cnv_operations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="139" column="35" lean-forward="false" selection-start-line="139" selection-start-column="28" selection-end-line="139" selection-end-column="35" />
-          <folding />
+        <state>
+          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="61" column="16" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/working_ovl.html">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownHtmlPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor />
+          <second_editor />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/overlapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="34" column="34" lean-forward="false" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+        <state relative-caret-position="3675">
+          <caret line="274" column="24" selection-start-line="274" selection-start-column="20" selection-end-line="274" selection-end-column="24" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNVOverlap/cnv_operations.py">
+    <entry file="file://$USER_HOME$/miniconda3/envs/canvas/lib/python3.6/site-packages/flask/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="38" lean-forward="true" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
+        <state relative-caret-position="172">
+          <caret line="1812" selection-start-line="1812" selection-end-line="1812" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/canvas/lib/python3.6/site-packages/flask/json/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-163">
+          <caret line="80" selection-start-line="80" selection-end-line="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="350" column="61" selection-start-line="350" selection-start-column="61" selection-end-line="350" selection-end-column="61" />
           <folding>
-            <element signature="e#0#16#0" expanded="true" />
+            <element signature="e#0#40#0" expanded="true" />
+            <element signature="e#28878#29309#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="462" column="24" selection-start-line="462" selection-start-column="24" selection-end-line="462" selection-end-column="24" />
+          <folding>
+            <element signature="e#10212#11282#0" />
+            <element signature="e#11361#12014#0" />
+            <element signature="e#12078#20511#0" />
           </folding>
         </state>
       </provider>

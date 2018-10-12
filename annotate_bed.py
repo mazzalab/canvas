@@ -55,6 +55,7 @@ class MainApp:
         self.connection = MongoClient('localhost', 27017, unicode_decode_error_handler='ignore')
     
         self.db = self.connection['BED']
+        self.db_tad = self.connection['TAD']
         self.db_gl = self.connection['genelists']
         self.db_t = self.connection['targets']
         self.d = vars(self.args)
@@ -76,7 +77,19 @@ class MainApp:
                 # Checking presence of required genelists and BEDs....
                 if 'genelist' in arg and not arg.replace('_genelist', '') in self.db_gl.collection_names():
                     sys.exit("The collection {} could not be found in the genelists db. Exiting.".format(arg))
-                if not 'genelist' in arg and not arg in self.db.collection_names():
+                
+                if arg == 'TAD':
+                    tads_to_annotate = self.d[arg].split(',')
+                    for t in tads_to_annotate:
+                        if t != 'All' and t not in self.db_tad.collection_names():
+                            sys.exit("The collection {} could not be found in the TAD db. Exiting.".format(
+                                self.d[arg]))
+                        
+                        if t == 'All':
+                            tads_to_annotate = self.db_tad.collection_names()
+                            break
+                            
+                if not 'genelist' in arg and not 'TAD' in arg and not arg in self.db.collection_names():
                     sys.exit("The collection {} could not be found in the BED db. Exiting.".format(arg))
 
                 if arg == 'mirbase':
@@ -87,9 +100,9 @@ class MainApp:
                     if not self.d['mirna'] and not self.d['all_beds']:
                         sys.exit('The --mirbase option depends on the prior execution of --mirna. '
                                  'Please include this option as well.')
-                        
+                                 
         sys.stdout.write("Requested DBs are present. Proceeding to annotate...\n")
-        
+
         # In case the input is a file...
         if self.args.cnv_file:
             if os.path.exists(self.args.cnv_file):
@@ -116,7 +129,6 @@ class MainApp:
             print("Chosen reference is", self.args.reference)
             chainfile = os.path.join("resources/liftover_files/chains",
                                      "{}ToHg19.over.chain".format(self.args.reference))
-            print(cnv_info)
     
             # For the conversion, it is necessary to save a temporary file
             # and run CrossMap on it.
@@ -152,7 +164,7 @@ class MainApp:
                 
         self.out_dataframe = cnv_info
 
-        # Annotation based on the options that were chosen
+        # Annotation of BEDs based on the options that were chosen
         count = 0
         extra_info = {}
         for arg in self.d:
@@ -162,20 +174,28 @@ class MainApp:
                 sys.stdout.write("Adding annotation for {}...\n".format(arg))
                 f = open(os.path.dirname(self.args.out)+'/'+str(count)+'_'+arg+'.progress', 'w')
                 f.close()
-                if arg != 'mirbase':
-                    extra_annot_info = self.add_annotation(arg)
-                    extra_info.update({arg:extra_annot_info})
-                else:
+                
+                if arg == 'TAD':
+                    print(tads_to_annotate)
+                    for t in tads_to_annotate:
+                        print("LAUNCHING TAD", t)
+                        self.add_TAD_annotation(t)
+                        
+                elif arg == 'mirbase':
                     for target_db in self.db_t.collection_names():
                         if target_db != 'system.indexes':
                             self.mirbase_dict[target_db] = []  # initialized the target key (tarbase or targetscan) in the mirbase dict
                             
                             dict_inside, dict_cross, dict_distal = self.add_mirna_target(target=target_db, unique=True)
                             self.mirbase_dict[target_db].extend((dict_inside, dict_cross, dict_distal))
+                else:
+                    extra_annot_info = self.add_annotation(arg)
+                    extra_info.update({arg:extra_annot_info})
         
         # Genelists annotation
+        print(self.d)
         sys.stdout.write("Adding genelists classifications...\n")
-        if self.d['gene'] or self.d['all_beds']:
+        if 'gene' in self.d or 'all_beds' in self.d:
             for name in sorted(self.db_gl.collection_names()):
                 if name != 'system.indexes':
                     print("checking ", name)
@@ -395,7 +415,186 @@ class MainApp:
         # print("distal", len(distal_molecules[0].split(';')), len(distal_molecules_coords[0].split(';')), distal_molecules_count)
         
         return extra_info
+
+    def add_TAD_annotation(self, annotation_db: str):
+        """
+        Take a DataFrame and add in the last six columns the annotation provided in the 4th column of the BED file
+        :param str annotation_db: File path and name of the annotation BED file
+        """
+        db = self.connection['TAD'][annotation_db]
+        sys.stdout.write('Annotating TAD {}...\n'.format(annotation_db))
+        distance_from_CNV = self.args.distance
     
+        inside_TADs = []
+        """:type : list[str]"""
+        inside_TADs_coords = []
+        """:type : list[str]"""
+        inside_TADs_count = []
+        """:type : list[int]"""
+        covering_TADs = []
+        """:type : list[str]"""
+        covering_TADs_coords = []
+        """:type : list[str]"""
+        covering_TADs_count = []
+        """:type : list[int]"""
+        cross_TADs = []
+        """:type : list[str]"""
+        cross_TADs_coords = []
+        """:type : list[str]"""
+        cross_TADs_count = []
+        """:type : list[str]"""
+        distal_TADs = []
+        """:type : list[str]"""
+        distal_TADs_coords = []
+        """:type : list[str]"""
+        distal_TADs_count = []
+        """:type : list[int]"""
+        
+        # Fix for the case columns are >255 and each pandas row becomes a tuple. Columns need to be called
+        # by position when this happens; we safely get that position from the original imported csv structure.
+        chr_column_pos = int(self.out_dataframe.columns.get_loc("CHR"))+1
+        start_column_pos = int(self.out_dataframe.columns.get_loc("START")) + 1
+        end_column_pos = int(self.out_dataframe.columns.get_loc("END"))+1
+        #####
+        
+        for row in self.out_dataframe.itertuples():
+            # Query CNV
+            # print(row)
+            if type(row) == tuple:
+                chrom = row[chr_column_pos]
+                start = row[start_column_pos]
+                end = row[end_column_pos]
+            else:
+                chrom = row.CHR
+                start = row.START
+                end = row.END
+            
+            print("finding inside")
+            inside_TAD_data = db.find({"$and": [{"chr": chrom, "start": {"$gte": start},
+                                                      "end": {"$lte": end}}]})
+        
+            inside_TAD = inside_TAD_data.distinct('info')
+            # find the coordinates of these DISTINCT genes
+            distinct_inside_TAD_data = list(
+                db.find({"info": {"$in": inside_TAD}}, {'start': 1, 'end': 1}))
+            inside_TAD_coords = list(
+                str(d['start']) + '-' + str(d['end']) for d in distinct_inside_TAD_data)
+            
+            print("finding cross")
+            cross_TAD_data = db.find(
+                {"$or": [
+                    {"$and": [
+                        {"chr": chrom, "start": {"$gt": start, "$lte": end}, "end": {"$gt": end}}
+                    ]},
+                    {"$and": [
+                        {"chr": chrom, "start": {"$lt": start}, "end": {"$gt": start, "$lt": end}}
+                    ]}
+                ]}
+            )
+            cross_TAD = cross_TAD_data.distinct('info')
+            # find the coordinates of these DISTINCT genes
+            distinct_cross_TAD_data = list(
+                db.find({"info": {"$in": cross_TAD}}, {'start': 1, 'end': 1}))
+            cross_TAD_coords = list(
+                str(d['start']) + '-' + str(d['end']) for d in distinct_cross_TAD_data)
+
+
+            print("finding covering")
+            covering_TAD_data = db.find(
+                    {"$and": [
+                        {"chr": chrom}, {"start": {"$lte": start}}, {"end": {"$gt": start}},
+                        {"start": {"$lt": end}}, {"end": {"$gte": end}}
+                    ]}
+            )
+            covering_TAD = covering_TAD_data.distinct('info')
+            # find the coordinates of these DISTINCT genes
+            distinct_covering_TAD_data = list(
+                db.find({"info": {"$in": covering_TAD}}, {'start': 1, 'end': 1}))
+            covering_TAD_coords = list(
+                str(d['start']) + '-' + str(d['end']) for d in distinct_covering_TAD_data)
+
+            print("finding distal")
+
+            distal_TAD_data = db.find(
+                {"$or": [
+                    {"$and": [
+                        {"chr": chrom}, {"start": {"$gt": end}}, {"start": {"$lt": distance_from_CNV+end}},
+                        {"end": {"$lt": distance_from_CNV + end}}, {"end": {"$gt": end}}
+                    ]},
+                    {"$and": [
+                        {"chr": chrom}, {"end": {"$lt": start}}, {"end": {"$gt": start-distance_from_CNV}},
+                        {"start": {"$gt": start - distance_from_CNV}}, {"start": {"$lt": start}}
+                    ]}
+                ]
+                })
+            distal_TAD = distal_TAD_data.distinct('info')
+            # find the coordinates of these DISTINCT genes
+            distinct_distal_TAD_data = list(
+                db.find({"info": {"$in": distal_TAD}}, {'start': 1, 'end': 1}))
+            distal_TAD_coords = list(
+                str(d['start']) + '-' + str(d['end']) for d in distinct_distal_TAD_data)
+        
+
+            # print(len(inside_TAD))
+            if len(inside_TAD) > 0:
+                inside_TADs.append(";".join(str(x) for x in inside_TAD))
+                inside_TADs_count.append(len(inside_TAD))
+                inside_TADs_coords.append(";".join(str(x) for x in inside_TAD_coords))
+            else:
+                inside_TADs.append(".")
+                inside_TADs_count.append(0)
+                inside_TADs_coords.append(".")
+        
+            # print(len(cross_molecule))
+            if len(cross_TAD) > 0:
+                cross_TADs.append(";".join(str(x) for x in cross_TAD))
+                cross_TADs_count.append(len(cross_TAD))
+                cross_TADs_coords.append(";".join(str(x) for x in cross_TAD_coords))
+            else:
+                cross_TADs.append(".")
+                cross_TADs_count.append(0)
+                cross_TADs_coords.append(".")
+
+            # print(len(covering_TAD))
+            if len(covering_TAD) > 0:
+                covering_TADs.append(";".join(str(x) for x in covering_TAD))
+                covering_TADs_count.append(len(covering_TAD))
+                covering_TADs_coords.append(";".join(str(x) for x in covering_TAD_coords))
+            else:
+                covering_TADs.append(".")
+                covering_TADs_count.append(0)
+                covering_TADs_coords.append(".")
+                
+            # print(len(distal_molecule))
+            if len(distal_TAD) > 0:
+                distal_TADs.append(";".join(str(x) for x in distal_TAD))
+                distal_TADs_count.append(len(distal_TAD))
+                distal_TADs_coords.append(";".join(str(x) for x in distal_TAD_coords))
+            else:
+                distal_TADs.append(".")
+                distal_TADs_count.append(0)
+                distal_TADs_coords.append(".")
+    
+
+        self.out_dataframe.loc[:, annotation_db + '_inside'] = inside_TADs
+        self.out_dataframe.loc[:, annotation_db + '_inside_coords'] = inside_TADs_coords
+        self.out_dataframe.loc[:, annotation_db + '_inside_count'] = inside_TADs_count
+        # print("Inside", len(inside_molecules[0].split(';')), len(inside_molecules_coords[0].split(';')), inside_molecules_count)
+    
+        self.out_dataframe.loc[:, annotation_db + '_cross'] = cross_TADs
+        self.out_dataframe.loc[:, annotation_db + '_cross_coords'] = cross_TADs_coords
+        self.out_dataframe.loc[:, annotation_db + '_cross_count'] = cross_TADs_count
+        # print("cross", len(cross_molecules[0].split(';')), len(cross_molecules_coords[0].split(';')), cross_molecules_count)
+    
+        self.out_dataframe.loc[:, annotation_db + '_covering'] = covering_TADs
+        self.out_dataframe.loc[:, annotation_db + '_covering_coords'] = covering_TADs_coords
+        self.out_dataframe.loc[:, annotation_db + '_covering_count'] = covering_TADs_count
+        
+        self.out_dataframe.loc[:, annotation_db + '_distal'] = distal_TADs
+        self.out_dataframe.loc[:, annotation_db + '_distal_coords'] = distal_TADs_coords
+        self.out_dataframe.loc[:, annotation_db + '_distal_count'] = distal_TADs_count
+        # print("distal", len(distal_molecules[0].split(';')), len(distal_molecules_coords[0].split(';')), distal_molecules_count)
+
     def __get_genetarget(self, mirs_in_cnv: str, mirbase_dict: dict, target_dict: dict) -> list:
         """
         Take a list of miRs, formatted as from miRBase, parse it, get the corresponding mature miR symbols, and get a list
@@ -682,7 +881,8 @@ if __name__ == '__main__':
     parser.add_argument("--cnv-file", help="CNV file to be annotated")
     parser.add_argument("--out", required=True, help="Annotated file")
     parser.add_argument("--cnv-line", help="Single CNV to be annotated (E.g.: 'chr1:11110-11150'")
-    
+    parser.add_argument("--TAD", nargs='?', const="All",
+                        help="Annotate TADs for the chosen CNV(s)")
     parser.add_argument("--gene", action='store_true', required=False,
                         help="BED file of all RefSeq genes")
     parser.add_argument("--coding_gene", action='store_true', required=False,

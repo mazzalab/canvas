@@ -30,6 +30,7 @@ ANNOT_CHOICES = [('all_beds','All'), ('coding_gene','Coding genes'),
                  ('pseudogene','Pseudogenes'), ('circRNA','CircularRNAs (circRNAs)'), ('enhancer','Enhancers'),
                  ('ucr', 'Ultra Conserved Regions (UCRs)'), ('har', 'Human Accelerated Regions (HARs)')]
 
+
 EXPLANATIONS = {"gene": "All RefSeq genes reported in UCSC genome browser.",
                 "coding_gene": "RefSeq protein-coding genes (labelled as NM_*) reported in UCSC genome browser.",
                 "noncoding_gene": "RefSeq non-protein-coding genes (labelled as NR_*) reported in UCSC genome browser.",
@@ -51,6 +52,8 @@ EXPLANATIONS = {"gene": "All RefSeq genes reported in UCSC genome browser.",
                                       "Effects (2016)."
                 }
 
+EXPLANATIONS_TAD = {}
+
 NICE_NAMES = {"gene": "Gene lists",
                 "coding_gene": "Coding genes",
                 "noncoding_gene": "Non-coding genes",
@@ -68,6 +71,8 @@ NICE_NAMES = {"gene": "Gene lists",
                 "ohnologs_genelist":"Ohnolog",
                 "imprinted_genelist": "Imprinted"
                 }
+
+NICE_NAMES_TAD = {}
 
 GENELISTS = [('all_genelists','All'), ('ID', 'Intellectual Disability'), ('dosage_sensitive', 'Dosage sensitive'),
              ('mendeliome', 'Mendeliome panel'),
@@ -91,6 +96,52 @@ SOURCES = {
     "ohnologs_genelist": "<a href='http://www.pnas.org/content/107/20/9270' target='_blank'>Makino and McLysaght, 2010</a>",
     "imprinted_genelist": "<a href='http://igc.otago.ac.nz/1601summarytable.pdf' target='_blank'>Catalogue of Parent of Origin Effects</a>",
 }
+
+#it's value, label
+TISSUE_CHOICES = [('all', 'All'), ('Liver_STL011_Leung2015', 'Liver_STL011_Leung2015'),
+               ('Lung_Donor_LG1', 'Lung_Donor_LG1'),
+               ('LNCaP_rep1', 'LNCaP_rep1'), ('Pancreas_Donor_PA2', 'Pancreas_Donor_PA2'),
+               ('SKNMC_rep1', 'SKNMC_rep1'), ('G401_rep1', 'G401_rep1'),
+               ('H1_ESC_Dixon2015', 'H1_ESC_Dixon2015'), ('GM12878_Lieberman', 'GM12878_Lieberman'),
+               ('H1_NPC_Dixon2015', 'Long description'), ('K562_Lieberman', 'Long description'),
+               ('SKMEL5_rep1', 'Long description'), ('SKNDZ_rep1', 'Long description'),
+               ('AdrenalGland_Donor_AD2', 'Long description'), ('Caki2_rep1', 'Long description'),
+               ('T470_rep1', 'Long description'), ('SJCRH30_rep1', 'Long description'),
+               ('HMEC_Lieberman', 'Long description'), ('NCIH460_rep1', 'Long description'),
+               ('PANC1_rep1', 'Long description'), ('H1_TRO_Dixon2015', 'Long description'),
+               ('HUVEC_Lieberman', 'Long description'), ('Aorta_STL002_Leung2015', 'Long description'),
+               ('Cortex_DLPFC_Donor_CO', 'Long description'),
+               ('VentricleRight_Donor_RV3', 'Long description'),
+               ('VentricleLeft_STL003_Leung2015', 'Long description'),
+               ('Spleen_Donor_PX1', 'Long description'), ('H1_MSC_Dixon2015', 'Long description'),
+               ('A549_rep1', 'Long description'), ('Bladder_Donor_BL1', 'Long description'),
+               ('H1_MES_Dixon2015', 'Long description'), ('Bowel_Small_Donor_SB2', 'Long description'),
+               ('IMR90_Lieberman', 'Long description'), ('NHEK_Lieberman', 'Long description'),
+               ('RPMI7951_rep1', 'Long description'), ('KBM7_Lieberman', 'Long description'),
+               ('Muscle_Psoas_Donor_PO1', 'Long description'), ('Thymus_STL001_Leung2015', 'Long description')]
+
+TISSUE_DESCRIPTIONS = {'All': 'All availabe tissues', 'Liver_STL011_Leung2015': 'Loooooooooooooooooooooooong description',
+                       'Lung_Donor_LG1': 'Long description',
+                       'LNCaP_rep1': 'Long description', 'Pancreas_Donor_PA2': 'Long description',
+                       'SKNMC_rep1': 'Long description', 'G401_rep1': 'Long description',
+                       'H1_ESC_Dixon2015': 'Long description', 'GM12878_Lieberman': 'Long description',
+                       'H1_NPC_Dixon2015': 'Long description', 'K562_Lieberman': 'Long description',
+                       'SKMEL5_rep1': 'Long description', 'SKNDZ_rep1': 'Long description',
+                       'AdrenalGland_Donor_AD2': 'Long description', 'Caki2_rep1': 'Long description',
+                       'T470_rep1': 'Long description', 'SJCRH30_rep1': 'Long description',
+                       'HMEC_Lieberman': 'Long description', 'NCIH460_rep1': 'Long description',
+                       'PANC1_rep1': 'Long description', 'H1_TRO_Dixon2015': 'Long description',
+                       'HUVEC_Lieberman': 'Long description', 'Aorta_STL002_Leung2015': 'Long description',
+                       'Cortex_DLPFC_Donor_CO': 'Long description',
+                       'VentricleRight_Donor_RV3': 'Long description',
+                       'VentricleLeft_STL003_Leung2015': 'Long description',
+                       'Spleen_Donor_PX1': 'Long description', 'H1_MSC_Dixon2015': 'Long description',
+                       'A549_rep1': 'Long description', 'Bladder_Donor_BL1': 'Long description',
+                       'H1_MES_Dixon2015': 'Long description', 'Bowel_Small_Donor_SB2': 'Long description',
+                       'IMR90_Lieberman': 'Long description', 'NHEK_Lieberman': 'Long description',
+                       'RPMI7951_rep1': 'Long description', 'KBM7_Lieberman': 'Long description',
+                       'Muscle_Psoas_Donor_PO1': 'Long description', 'Thymus_STL001_Leung2015': 'Long description'}
+
 app.config['SECRET_KEY'] = 'AGATTAcanvas2018'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_PATH'] = 5000
@@ -149,12 +200,15 @@ class MainForm(FlaskForm):
         FileAllowed(['txt', 'csv', 'cnv'], 'Text only!')
     ])
     window = StringField(u'Window (bp):', validators=[Length(max=15)], default='1000000')
+    window_tad = StringField(u'Window (bp):', validators=[Length(max=15)], default='1000000')
     padding = StringField(u'Padding (bp):', validators=[Length(max=15)], default='0')
     min_ovl_rec = StringField(u'Min. Overlap (%):', validators=[Length(max=5)], default='50')
     min_ovl_span = StringField(u'Min. Overlap (%):', validators=[Length(max=5)], default='50')
     max_span = StringField(u'Max. Span (bp):', validators=[Length(max=15)], default='100000')
     annot = MultiCheckboxField('annot', choices=ANNOT_CHOICES)
     genes = MultiCheckboxField('genes', choices=GENELISTS)
+    # tissues = SelectMultipleField('Tissues', choices=TISSUE_CHOICES)
+    # print(tissues)
     submit = SubmitField("Submit")
 
 
@@ -185,6 +239,9 @@ def index():
     session['working_ovl_filename'] = ''
     session['overlap_upload'] = ''
     session['combine_mode'] = ''
+    session['tissue_choices'] = []
+    session['window_tad'] = ''
+    
     
     # session['overlap_fileout_xlsx'] = ''
     # session['overlap_fileout_csv'] =
@@ -286,10 +343,29 @@ def index():
             
             print("Sessione", session.__dict__)
             return redirect(url_for('working_ovl'))
+    
+        elif 'tadradio' in request.form:
+            for elem in request.form.getlist('tad-tissue'):
+                    if elem == 'All':
+                        session['tissue_choices'] = list(TISSUE_DESCRIPTIONS.keys())
+                        session['tissue_choices'].remove('All')
+                        break
+                    else:
+                        session['tissue_choices'].append(elem)
+            
+            session['tissue_choices'] = ','.join(session['tissue_choices'])
+            
+            if 'window_tad' in request.form:
+                session['window_tad'] = request.form['window_tad']
+            else:
+                session['window_tad'] = 1000000
+                
+            print(session['tissue_choices'])
+            return redirect(url_for('working_tad'))
 
         
 
-    return render_template('index.html', form=form)
+    return render_template('index.html', form=form, tissue_descr=TISSUE_DESCRIPTIONS)
 
 
 @app.route('/working.html', methods=['GET', 'POST'])
@@ -417,6 +493,55 @@ def working_ovl():
                            comic=session['comic'])
 
 
+@app.route('/working_tad.html', methods=['GET', 'POST'])
+def working_tad():
+    global async_result
+    global finished
+    finished = False
+    
+    session['file_out'] = os.path.join(app.config['UPLOAD_FOLDER'], "{}.xlsx".format(
+        os.path.splitext(session['working_filename'])[0]))
+    
+    args = Object()
+    print("ARGOMENTI BEFORE")
+    print(args.__dict__)
+    setattrs(args, cnv_file=None, cnv_line=None, TAD=None, distance=int(session['window_tad']), reference='hg19',
+             out=session['file_out'])
+    
+    if session['choice'] == 'file':
+        session['download_name'] = os.path.splitext(session['filename'])[0] + '_INCAS.xlsx'
+        setattrs(args, cnv_line=None)
+        setattrs(args, cnv_file=os.path.join(app.config['UPLOAD_FOLDER'], session['working_filename']))
+    elif session['choice'] == 'line':
+        session['download_name'] = 'INCAS_results.xlsx'
+        setattrs(args, cnv_line=session['cnv_line'])
+        setattrs(args, cnv_file=None)
+    
+    if session['ref'] != 'hg19':
+        setattr(args, 'reference', session['ref'])
+    
+
+    setattr(args, 'TAD', session['tissue_choices'])
+    
+
+    print("GLI ARGOMENTI")
+    print(args.__dict__)
+    async_result = pool.apply_async(worker_tad, (args,))
+    
+    # Comic load!
+    comicnum = random.randint(1, 2017)
+    url = 'https://xkcd.com/' + str(comicnum) + '/info.0.json'
+    u = urlopen(url)
+    page_html = u.read()
+    u.close()
+    
+    json_data = json.loads(page_html)
+    session['comic'] = json_data['img']
+    
+    print("FINISHED the working")
+    return render_template('working_tad.html', file=session['filename'], nice_names=NICE_NAMES,
+                           comic=session['comic'])
+
 def worker(args):
     global finished
     success = MainApp(args).process()
@@ -434,7 +559,16 @@ def worker_ovl(args):
         finished = -1
     else:
         finished = True
-      
+
+def worker_tad(args):
+    global finished
+    success = MainApp(args).process()
+    print("SUCCESS TAD", success)
+    if success != 0:
+        finished = -1
+    else:
+        finished = True
+        
 @app.route('/status')
 def thread_status():
     global async_result
@@ -458,6 +592,28 @@ def thread_status():
 
 @app.route('/status_ovl')
 def thread_status_ovl():
+    global async_result
+    
+    """ Return the status of the worker thread """
+    # f_read = open(session['file_out'].replace('.xlsx','_log.txt'), "r").readlines()
+    # # st_results = os.stat(session['file_out'].replace('.xlsx','_log.txt'))
+    # # st_size = st_results[6]
+    # # f_read.seek(st_size)
+    # progress = [os.path.basename(x).split('.')[0] for x in
+    #             glob.glob(os.path.dirname(session['file_out']) + '/*.progress')]
+    # progress.sort(key=natural_keys)
+    # print("STATUS")
+    # print(progress)
+    if finished == True:
+        return jsonify(dict(status='finished'))
+    elif finished == -1:
+        return jsonify(dict(status='problem'))
+    else:
+        return jsonify(dict(status='Wait'))
+
+
+@app.route('/status_tad')
+def thread_status_tad():
     global async_result
     
     """ Return the status of the worker thread """
@@ -508,6 +664,23 @@ def results_ovl():
                            text_file_out=re.sub('_matrix.xlsx', '_list.csv', session['file_out']),
                            download_name=session['download_name'],
                            text_download_name=re.sub('_matrix.xlsx', '_list.csv', session['download_name'])
+                           )
+
+
+@app.route('/results_tad.html', methods=['GET', 'POST'])
+def results_tad():
+    print("IN RESULTS")
+    print(session['download_name'])
+    print(session['file_out'])
+
+    return render_template('results_tad.html',
+                           file_out=session['file_out'], json_out=re.sub('.xlsx', '.json', session['file_out']),
+                           text_file_out=re.sub('.xlsx', '.csv', session['file_out']),
+                           choices=session['tissue_choices'].split(','),
+                           download_name=session['download_name'],
+                           text_download_name=re.sub('.xlsx', '.csv', session['download_name'],),
+                           distance=session['window_tad'],
+                           info=EXPLANATIONS_TAD
                            )
 
 @app.route('/error.html', methods=['GET', 'POST'])

@@ -19,20 +19,27 @@
 		<link rel="icon" type="image/png" href="../static/img/favicon-32x32.png" sizes="32x32">
 		<link rel="icon" type="image/png" href="../static/img/favicon-96x96.png" sizes="96x96">
     <link href="../static/css/bootstrap.css" rel="stylesheet" />
-    <link href="../static/css/landing-page.css" rel="stylesheet"/>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-		<link href="../static/css/landing-page.css" rel="stylesheet"/>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="https://cdn.datatables.net/select/1.2.7/css/select.bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="../static/css/jquery.cookiebar.css">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link href="../static/css/tips.css" rel="stylesheet"/>
 		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="../static/css/landing-page.css" rel="stylesheet"/>
+
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="../static/js/SmoothScroll.js"></script>
 		<script src="../static/js/bootstrap.js" type="text/javascript"></script>
 		<script type="text/javascript" src="../static/js/js.cookie.js"></script>
     <script type="text/javascript" src="../static/js/jquery.cookiebar.js"></script>
-		<link rel="stylesheet" type="text/css" href="../static/css/jquery.cookiebar.css">
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+		<script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+
 
 		<script type="text/javascript">
         $(document).ready(function () {
@@ -52,8 +59,10 @@
 						for(var i = 0; i < cbarray.length; i++){
 							cbarray[i].checked = false;
 						}
-						document.getElementById('hidden_overlapradio').checked = true;
-						document.getElementById('hidden_annotradio').checked = false;
+						// document.getElementById('hidden_overlapradio').checked = true;
+						// document.getElementById('hidden_annotradio').checked = false;
+						// document.getElementById('hidden_tadradio').checked = false;
+
 
 
 				}else if (dirtyform == 'overlap') {
@@ -63,11 +72,39 @@
 					document.getElementById('overlapselect').selectedIndex = 0;
 					document.getElementById('overlapselect').disabled = true;
 
+					// document.getElementById('hidden_annotradio').checked = true;
+					// document.getElementById('hidden_overlapradio').checked = false;
+					// document.getElementById('hidden_tadradio').checked = false;
+
+
+				}else if (dirtyform == 'tad') {
+					var cbarray = document.getElementsByName('tad-tissue');
+					for(var i = 0; i < cbarray.length; i++){
+						cbarray[i].checked = false;
+					}
+					// document.getElementById('hidden_tadradio').checked = true;
+					// document.getElementById('hidden_overlapradio').checked = false;
+
+
+				}
+			}
+
+			function switch_hiddenradio(choice){
+				if (choice == 'annot'){
 					document.getElementById('hidden_annotradio').checked = true;
 					document.getElementById('hidden_overlapradio').checked = false;
+					document.getElementById('hidden_tadradio').checked = false;
+				}else if (choice == 'overlap') {
+					document.getElementById('hidden_annotradio').checked = false;
+					document.getElementById('hidden_overlapradio').checked = true;
+					document.getElementById('hidden_tadradio').checked = false;
+				}else if (choice == 'tad') {
+					document.getElementById('hidden_annotradio').checked = false;
+					document.getElementById('hidden_overlapradio').checked = false;
+					document.getElementById('hidden_tadradio').checked = true;
 				}
+			};
 
-			}
 
 		</script>
 
@@ -158,7 +195,7 @@
               </li>
               <li>
                   <a href="#">
-                      Description
+                      Documentation
                   </a>
               </li>
 							<!-- <li class="dropdown">
@@ -172,9 +209,15 @@
 				      </li> -->
               <li>
                   <a href="#">
-                      Help
+                      Tutorial
                   </a>
               </li>
+
+							<li>
+									<a href="#">
+											Contacts
+									</a>
+							</li>
        </ul>
     </div><!-- /.navbar-collapse -->
   </div>
@@ -223,11 +266,15 @@
 
 						<div class="radio">
 						  <label><input id="hidden_annotradio" type="radio" name="annotradio"
-								onclick="document.getElementById('hidden_overlapradio').checked = false;" checked>Annot</label>
+								onclick="switch_hiddenradio('annot')" checked>Annot</label>
 						</div>
 						<div class="radio">
 						  <label><input type="radio" class="hidden_overlapradio" id="hidden_overlapradio" name="ovlradio"
-								onclick="document.getElementById('hidden_annotradio').checked = false;">Overlap</label>
+								onclick="switch_hiddenradio('overlap')">Overlap</label>
+						</div>
+						<div class="radio">
+							<label><input type="radio" class="hidden_tadradio" id="hidden_tadradio" name="tadradio"
+								onclick="switch_hiddenradio('tad')">Tad</label>
 						</div>
 
 					<div class="row">
@@ -305,13 +352,16 @@
 
 						<div class="col-md-6 col-sm-6" style="width:58%" id="annot-panel-container">
 								<ul id="tab-menu" class="nav nav-tabs pull-left">
-								  <li class="active"><a data-toggle="tab" href="#annot-panel" onclick="cleanform('overlap')">Annotation</a></li>
-								  <li><a data-toggle="tab" href="#overlap-panel" onclick="cleanform('annot')">Overlapping</a></li>
+								  <li class="active"><a data-toggle="tab" href="#annot-panel" onclick="cleanform('overlap');cleanform('tad');switch_hiddenradio('annot')" style="border-top-left-radius: 9px;">Annotation</a></li>
+									<li><a data-toggle="tab" href="#tad-panel" onclick="cleanform('annot');cleanform('overlap');switch_hiddenradio('tad')">TAD</a></li>
+									<li><a data-toggle="tab" href="#overlap-panel" onclick="cleanform('annot');cleanform('tad');switch_hiddenradio('overlap')">Overlapping</a></li>
+
 								</ul>
+
 								<div class="clearfix annotation-panel-heading"></div>
 								<div class="tab-content">
 
-										<div id="annot-panel" class="panel panel-info tab-pane fade in active" style="">
+										<div id="annot-panel" class="panel panel-info tab-pane fade in active">
 											<!-- <div class="panel-heading annotation-panel-heading"
 												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 8px; border-color: #307ba0">
 												Annotation</div> -->
@@ -446,8 +496,25 @@
 																				    var val = $("#overlapselect option:selected").text();
 																						if(val == "File"){
 																							$('#overlap_upload').click();
+																							document.getElementById('radio_reciprocal').disabled = false;
+
+																						}else if (val == "DGV") {
+																							document.getElementById( 'file-upload-filename' ).textContent = '';
+																							document.getElementById('radio_spanning').checked = true;
+																							document.getElementById('radio_reciprocal').checked = false;
+																							document.getElementById('radio_reciprocal').disabled = true;
+																							document.getElementById('padding').disabled = true;
+																							document.getElementById('min_ovl_rec').disabled = true;
+																							document.getElementById('min_ovl_span').disabled = false;
+																							document.getElementById('max_span').disabled = false;
+
+
+
+
+
 																						}else {
 																							document.getElementById( 'file-upload-filename' ).textContent = '';
+																							document.getElementById('radio_reciprocal').disabled = false;
 
 																						}
 																				});
@@ -462,14 +529,36 @@
 															</div>
 
 													</div>
-
-													<div id="overlap_mode" class="col-sm-6 ann-checkbox-group required" style="width:45%; padding-right: 0px;">
-
-													</div>
 												</div>
 											</div>
 
 										</div>
+
+										<div id="tad-panel" class="panel panel-info tab-pane fade">
+											<!-- <div class="panel-heading annotation-panel-heading"
+												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 8px; border-color: #307ba0">
+												Annotation</div> -->
+												<div class="panel-body">
+													<div class="row">
+														<div style="padding-top: 10px; padding-left:15px; padding-right:15px">
+																<span style="color: #006da0; font-weight:bold">Window (bp): </span>{{ form.window_tad(size=6, required=True, pattern='\d+') }}
+														</div>
+													</div>
+														<div class="row" style="padding-top:25px; padding-right: 20px;">
+															<div id="tad-checklist" class="tad-checkbox-group col-sm-6 required" style="width:100%;height:280px;overflow:auto;">
+																<table id="tads" class="table table-striped table-bordered" style="width:100%;">
+																        <thead>
+																            <tr>
+																                <th class='fit' style="padding-top: 4px; padding-bottom: 4px;">Tissue</th>
+																                <th class='fit' style="padding-top: 4px; padding-bottom: 4px;">Description</th>
+																            </tr>
+																        </thead>
+																        <tbody id="tad_table_body">
+																				</tbody>
+																</table>
+														</div>
+												</div>
+											</div>
 
 								</div>
 
@@ -483,17 +572,35 @@
 				function checkBoxes(){
 						var annot_chosen = document.getElementById( 'hidden_annotradio').checked
 						var overlap_chosen = document.getElementById( 'hidden_overlapradio').checked
+						var tad_chosen = document.getElementById( 'hidden_tadradio').checked
 
 						if($('div.ann-checkbox-group.required :checkbox:checked').length<=0 && annot_chosen) {
 							alert("Please select the annotation(s) in the right panel.");
 							return false;
 						}
 
-						var interset_choice = document.getElementById( 'overlapselect').value
+						var interset_choice = document.getElementById('overlapselect').value
 						if(interset_choice == "-1" && overlap_chosen && document.getElementById( 'radio_interset').checked){
 							alert("Please select a DB/CNVfile to compute overlap against.");
 							return false;
 						}
+
+						if(document.getElementById( 'file-upload-filename' ).textContent == "" && document.getElementById( 'radio_interset').checked && $("#overlapselect option:selected").text() == 'File'){
+							alert("Please select an existing file to compute overlap against.");
+							return false;
+						}
+
+						if($('div.tad-checkbox-group.required :checkbox:checked').length<=0 && tad_chosen) {
+							alert("Please select at least a tissue for TAD annotation in the right panel.");
+							return false;
+						// } else if($('div.tad-checkbox-group.required :checkbox:checked').length>0 && tad_chosen) {
+						// 		for(i = 0; i < $('div.tad-checkbox-group.required :checkbox:checked').length; i++){
+						// 			console.log($('div.tad-checkbox-group.required :checkbox:checked')[i].value)
+						// 		}
+						//
+						// 		return false;
+						}
+
 
 				};
 			</script>
@@ -625,187 +732,10 @@
 					});
 
 
-
 			</script>
 
       </div>
     </div>
-
-    <!-- <div class="section section-presentation">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="description">
-                            <h4 class="header-text">It's beautiful</h4>
-                            <p>And your app is also probably social, awesome, easy-to-use and vital to users. This is the place to enlist all the good things that your app has to share. Focus on the benefits that the uers will receive. Try to combine imaginery with text and show meaningful printscreens from your app, that will make it clear what exactly the basic functions are. </p>
-                            <p>Try to make it very clear for the people browsing the page that this product will enrich their life and will make a nice addition to the homescreen. </p>
-                    </div>
-                </div>
-                <div class="col-md-5 col-md-offset-1 hidden-xs">
-                    <img src="../static/img/landing-page-1/mac2.jpg"/>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="section section-demo">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div id="description-carousel" class="carousel fade" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="item">
-                                <img src="../static/img/examples/home_3.png" alt="">
-                            </div>
-                            <div class="item active">
-                                <img src="../static/img/examples/home_2.png" alt="">
-                            </div>
-                            <div class="item">
-                                <img src="../static/img/examples/home_1.png" alt="">
-                            </div>
-                        </div>
-
-                        <ol class="carousel-indicators carousel-indicators-blue">
-                            <li data-target="#description-carousel" data-slide-to="0" class=""></li>
-                            <li data-target="#description-carousel" data-slide-to="1" class="active"></li>
-                            <li data-target="#description-carousel" data-slide-to="2" class=""></li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="col-md-5 col-md-offset-1">
-                    <h4 class="header-text">Easy to integrate</h4>
-                    <p>
-                        With all the apps that users love! Make it easy for users to share, like, post and tweet their favourite things from the app. Be sure to let users know they continue to remain connected while using your app!
-                    </p>
-                    <a href="http://codedesign.elkind.net/themes/bootstrap-theme-basic-app/" id="Demo" class="btn btn-lg btn-info btn-fill" data-button="info">Get Free Demo</a>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-    <!-- <div class="section section-features section-no-padding">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4 grayblock2">
-                    <div class="card card-blue">
-                        <div class="icon">
-                            <i class="fa fa-globe"></i>
-                        </div>
-                        <div class="text">
-                            <h4>Online Customers Management</h4>
-                            <p>Automatic text and email reminders make sure customers always remember their upcoming appointments.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 grayblock">
-                    <div class="card card-blue">
-                        <div class="icon">
-                            <i class="fa fa-binoculars"></i>
-                        </div>
-                        <h4>Smart Notifications on hands</h4>
-                        <p>All appointments sync with your Google calendar so your availability is always up to date. See your schedule at a glance from any device.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 grayblock2">
-                    <div class="card card-blue">
-                        <div class="icon">
-                            <i class="fa fa-university"></i>
-                        </div>
-                        <h4>Know your business better now</h4>
-                        <p>Take payments and run your business on the go, in your store and then see how it all adds up with analytics.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-
-
-    <!-- <div class="section section-testimonial">
-        <div class="container">
-                <h4 class="header-text text-center">What people think</h4>
-                <div id="carousel-example-generic" class="carousel fade" data-ride="carousel">
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item">
-                            <div class="mask">
-                                <img src="img/faces/face-4.jpg">
-                            </div>
-                            <div class="carousel-testimonial-caption">
-                                    <p>Jay Z, Producer</p>
-                                    <h3>"I absolutely love your app! It's truly amazing and looks awesome!"</h3>
-
-                            </div>
-                        </div>
-                        <div class="item active">
-                            <div class="mask">
-                                <img src="img/faces/face-3.jpg">
-                            </div>
-                            <div class="carousel-testimonial-caption">
-                                    <p>Drake, Designer</p>
-                                    <h3>"This is one of the most awesome apps I've ever seen! Wish you luck Code Design!"</h3>
-
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="mask">
-                                <img src="../static/img/faces/face-2.jpg">
-                            </div>
-                            <div class="carousel-testimonial-caption">
-                                    <p>Jack Ross, Musician</p>
-                                    <h3>"Loving this! Just picked it up the other day. Thank you for the work you put into this."</h3>
-
-                            </div>
-                        </div>
-                    </div>
-                     <ol class="carousel-indicators carousel-indicators-blue">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                    </ol>
-                </div>
-
-        </div>
-    </div> -->
-
-       <!-- <div class="section section-no-padding">
-        <div class="full-background filter-gradient blue" style="background-image:url('../static/img/landing-page-1/bg1.jpg');">
-            <div class="container">
-                <div class="info">
-                <h1>Download this landing page for free!</h1>
-                <p>The theme is open source, and you can use it for any purpose, personal or commercial. You can download Basic App landing page for free on the preview page at CODE/DESIGN.</p>
-                <a href="http://codedesign.elkind.net/themes/bootstrap-theme-basic-app/" class="btn btn-neutral btn-lg">DOWNLOAD</a>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-<!-- <div class="section section-contact">
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Contact Code Design</h2>
-                <p>Feel free to email us to provide some feedback on our templates, give us suggestions for new templates and themes, or to just say hello!</p>
-                <ul class="list-inline banner-social-buttons">
-                    <li>
-                        <a href="https://github.com/elkindnet" class="btn btn-default btn-lg"><i class="fa fa-github-alt fa-fw"></i> <span class="network-name">GitHub</span></a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/jenyelkind" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-                    </li>
-                    <li>
-                        <a href="https://www.facebook.com/jenyelkind" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Facebook</span></a>
-                    </li>
-                    <li>
-                        <a href="mailto:elkind@elkind.net" class="btn btn-default btn-lg"><i class="fa fa-envelope fa-fw"></i> <span class="network-name">GMAIL</span></a>
-                    </li>
-                    <li>
-                        <a href="https://plus.google.com/+JenyElkind/" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div> -->
 
     <footer class="footer">
             <div class="container" style="min-width: 410px;">
@@ -890,6 +820,52 @@
         };
 </script>
 
+<!-- <script>
+		$(document).ready(function() {
+			$('#tads').DataTable( {
+					// select: true,
+					paging: false,
+					orderable: false
+			} );
+		} );
+</script> -->
+
+
+<script>
+
+		function get_descriptions(){
+				var table = '';
+				var count = 0;
+				for(elem in {{tissue_descr|safe}}){
+					table += "<tr><td class='fit'><label><input type='checkbox' class='tad-checkbox' name='tad-tissue' id='tad-"+count+"' value='"+elem+"'/>"+elem+"</label></td><td class='fit'>"+{{tissue_descr|safe}}[elem]+"</td></tr>";
+					count +=1;
+				}
+				document.getElementById("tad_table_body").innerHTML += table;
+
+		}
+
+		get_descriptions();
+
+		$('#tad-0:checkbox').change(function ()  {
+				console.log("Changed!")
+				var boxes = document.getElementsByName("tad-tissue");
+				for (var i = 1, length = boxes.length; i < length; i++){
+					console.log(boxes[i].value)
+					boxes[i].checked = boxes[0].checked;
+				}
+		});
+
+		$('.tad-checkbox-group input[type=checkbox]').change(function() { // while you're at it listen for change rather than click, this is in case something else modifies the checkbox
+					var boxes = document.getElementsByName("tad-tissue");
+					for (var i = 1, length = boxes.length; i < length; i++){
+						if (boxes[i].checked == false){
+							boxes[0].checked = false;
+						}
+					}
+		});
+
+
+</script>
 <!--
 Google Analitics
 Demo Purpose Only

@@ -418,6 +418,13 @@
             document.getElementById("genesmodal-link").disabled = true;
         }
     }
+
+    function resetSwitches(){
+      console.log("RESET CALLED")
+      {% for c in choices %}
+         document.getElementById('checkbox-plot-{{c}}').checked = false
+      {% endfor %}
+    }
 </script>
 
 <script>
@@ -470,20 +477,6 @@
   }
 </script>
 
-
-<script>
-  function onchange_dropdown(){
-    var match = get_genome_position()
-    console.log("MATCH "+match)
-    chr = match[1]
-    start = match[2]
-    end = match[3]
-    updatebrowser(chr, start, end);
-    updateGenes(cnvselection, jsonData);
-  }
-
-</script>
-
 {% endblock %}
 
 {% block title %}Results{% endblock %}
@@ -522,11 +515,15 @@
             });
 
             document.getElementById('cnv-dropdown').addEventListener('change',function(){
+              console.log("MATCH")
               var match = get_genome_position()
+              console.log(match)
+              var cnv_id = document.getElementById('cnv-dropdown').value
               chr = match[1]
               start = match[2]
               end = match[3]
-              updatebrowser(chr, start, end);
+              updatebrowser(chr, start, end, cnv_id, tracks=[]);
+              resetSwitches()
               updateGenes(cnvselection, jsonData);
             });
         </script>
@@ -617,15 +614,12 @@
                                            }
 
                                            var match = get_genome_position()
+                                           var cnv_id = document.getElementById('cnv-dropdown').value
                                            chr = match[1]
                                            start = match[2]
                                            end = match[3]
-                                           updatebrowser(chr, start, end, plot_switches);
-                                           // console.log(all_coords)
-                                           // for(var i = 0; i < .length; i++) {
-                                             // $('form.bc-details1').show();
-                                         // } else {
-                                         //     $('form.bc-details1').hide();
+                                           updatebrowser(chr, start, end, cnv_id, plot_switches);
+
                                      });
                                    });
                                </script>
@@ -731,7 +725,7 @@
                         {% if 'mirbase' in choices %}
                           <a id="mirbasemodal-link" href="#mirbaseModal" data-toggle="modal" data-category="{{c}}" data-position=""
                           data-backdrop="false" title="Add this item" class="open-mirbaseDialog new-win btn" style="position:relative">
-                          Classification
+                          Targets
                           </a>
                         {% endif %}
 
@@ -807,10 +801,13 @@
               alert("Error(s) while building:\n"+responseText.messages);}
           });
           var enh_radios = document.getElementsByName("radio-enhancer");
+          console.log("RADIOS")
+          console.log(enh_radios)
           for (var i = 0, length = enh_radios.length; i < length; i++) {
+             console.log(i+" "+enh_radios[i].checked)
              if (enh_radios[i].checked) {
                  // do whatever you want with the checked radio
-                  enh_position = radios[i].value;
+                  enh_position = enh_radios[i].value;
                   break;
               };
           };
@@ -909,8 +906,9 @@
 
 
   <script>
-        function updatebrowser(chr, start, end, tracks=[]){
-
+        function updatebrowser(chr, start, end, cnv_id, tracks=[]){
+            console.log("PLOTTING CNV id"+cnv_id)
+            console.log(chr, start, end)
             document.getElementById("genoverse").innerHTML = '';
             var colorsdict = {"gene": "#16a086",
                 "ID_genelist": "#16a086",
@@ -1030,10 +1028,12 @@
                 // }),
               ]
             };
+            console.log("IN HERE");
+            console.log(tracks)
+
             for (var t = 0; t < Object.keys(tracks).length; t++) {
               var splitchar = ';';
               cat = Object.keys(tracks)[t]
-
               var newtrack = {};
               var all_keys = []
               if(tracks[cat] == true){
@@ -1041,16 +1041,16 @@
                   splitchar = '";'
                 }
 
-                for (var n =0; n<jsonData[0][cat+"_inside"].split(splitchar).length; n++){
-                  feature_name = jsonData[0][cat+"_inside"].split(splitchar)[n].replace('"','');
+                for (var n =0; n<jsonData[cnv_id][cat+"_inside"].split(splitchar).length; n++){
+                  feature_name = jsonData[cnv_id][cat+"_inside"].split(splitchar)[n].replace('"','');
                   if (cat == "mirna" && feature_name!='.'){
                     feature_name = feature_name.split('Name=')[1]
                   }
                   if(feature_name!='.'){
                     newtrack[feature_name] = {
                       chr: chr,
-                      start: jsonData[0][cat+"_inside_coords"].split(';')[n].split('-')[0],
-                      end: jsonData[0][cat+"_inside_coords"].split(';')[n].split('-')[1],
+                      start: jsonData[cnv_id][cat+"_inside_coords"].split(';')[n].split('-')[0],
+                      end: jsonData[cnv_id][cat+"_inside_coords"].split(';')[n].split('-')[1],
                       color: colorsdict[cat],
                       assembly_name: "GRCh37",
                       biotype: "gene",
@@ -1072,16 +1072,16 @@
                 }
               }
 
-              for (var n =0; n<jsonData[0][cat+"_cross"].split(splitchar).length; n++){
-                feature_name = jsonData[0][cat+"_cross"].split(splitchar)[n].replace('"','');
+              for (var n =0; n<jsonData[cnv_id][cat+"_cross"].split(splitchar).length; n++){
+                feature_name = jsonData[cnv_id][cat+"_cross"].split(splitchar)[n].replace('"','');
                 if (cat == "mirna" && feature_name!='.'){
                   feature_name = feature_name.split('Name=')[1]
                 }
                 if(feature_name!='.'){
                   newtrack[feature_name] = {
                     chr: chr,
-                    start: jsonData[0][cat+"_cross_coords"].split(';')[n].split('-')[0],
-                    end: jsonData[0][cat+"_cross_coords"].split(';')[n].split('-')[1],
+                    start: jsonData[cnv_id][cat+"_cross_coords"].split(';')[n].split('-')[0],
+                    end: jsonData[cnv_id][cat+"_cross_coords"].split(';')[n].split('-')[1],
                     color: colorsdict[cat],
                     assembly_name: "GRCh37",
                     biotype: "gene",
@@ -1104,16 +1104,18 @@
 
               }
 
-              for (var n =0; n<jsonData[0][cat+"_distal"].split(splitchar).length; n++){
-                feature_name = jsonData[0][cat+"_distal"].split(splitchar)[n].replace('"','');
+              for (var n =0; n<jsonData[cnv_id][cat+"_distal"].split(splitchar).length; n++){
+                console.log("Plotting")
+                console.log(jsonData[cnv_id][cat+"_distal_coords"].split(';')[n].split('-')[0], jsonData[cnv_id][cat+"_distal_coords"].split(';')[n].split('-')[1],)
+                feature_name = jsonData[cnv_id][cat+"_distal"].split(splitchar)[n].replace('"','');
                 if (cat == "mirna" && feature_name!='.'){
                   feature_name = feature_name.split('Name=')[1]
                 }
                 if(feature_name!='.'){
                   newtrack[feature_name] = {
                     chr: chr,
-                    start: jsonData[0][cat+"_distal_coords"].split(';')[n].split('-')[0],
-                    end: jsonData[0][cat+"_distal_coords"].split(';')[n].split('-')[1],
+                    start: jsonData[cnv_id][cat+"_distal_coords"].split(';')[n].split('-')[0],
+                    end: jsonData[cnv_id][cat+"_distal_coords"].split(';')[n].split('-')[1],
                     color: colorsdict[cat],
                     assembly_name: "GRCh37",
                     biotype: "gene",
@@ -1193,6 +1195,7 @@
   console.log(mirbase_jsonData)
   console.log("Extra data")
   console.log(extra_jsonData)
+
 
 </script>
 

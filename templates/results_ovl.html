@@ -13,7 +13,7 @@
 
     d3.tsv("{{ text_file_out }}", function(data) {
         // the columns you'd like to display
-        var columns = ["CNV1", "CNV2", "OVERLAP RATIO"];
+        var columns = ["QUERY", "TARGET", "OVERLAP RATIO"];
 
         var table = d3.select("#results-container").append("table").attr("id", "results-table").attr("class",
         "table table-bordered table-intel table-striped table-fit"),
