@@ -27,9 +27,9 @@ class CNVOperations:
                 cnv1_cnv2 = 0
                 sys.stdout.write("CNV of length 1, pass: "+str(cnv1)+'\n')
             else:
-                cnv1_cnv2 = cnv1.intersects_with(cnv2) / cnv1.length
+                cnv1_cnv2 = 100 * cnv1.intersects_with(cnv2) / cnv1.length
                 if combine == 'combination':
-                    cnv2_cnv1 = cnv2.intersects_with(cnv1) / cnv2.length
+                    cnv2_cnv1 = 100 * cnv2.intersects_with(cnv1) / cnv2.length
                 # print("RESULT", cnv1, cnv2, cnv1_cnv2, cnv2_cnv1)
             yield (cnv1, cnv2, cnv1_cnv2, cnv2_cnv1)
 
@@ -56,7 +56,7 @@ class CNVOperations:
             else:
                 cnv1_cnv2 = cnv1.intersects_with(cnv2)
                 cnv1_notin_cnv2 = cnv1.length - cnv1_cnv2
-                cnv1_cnv2 = cnv1_cnv2 / cnv1.length
+                cnv1_cnv2 = 100*cnv1_cnv2 / cnv1.length
 
             # if cnv1_cnv2 >= min_ovl and cnv1_notin_cnv2 <= span:
             yield (cnv1, cnv2, cnv1_cnv2, cnv1_notin_cnv2)

@@ -128,12 +128,12 @@ class OverlapApp:
             count = 0
 
             with open(self.args.output_prefix+'_list.csv', 'w') as out_file:
-                out_file.write("QUERY\tTARGET\tOVERLAP RATIO\n".format(self.args.min_overlap))
+                out_file.write("QUERY\tTARGET\tOVERLAP %\n".format(self.args.min_overlap))
                 for res in CNVOperations.reciprocal_overlap(cnv_gen, self.args.padding, self.args.combine_mode):
                     
-                    if res[2] >= self.args.min_overlap/100:
+                    if res[2] >= self.args.min_overlap:
                         out_file.write(str(res[0]).replace(' []','') + "\t" + str(res[1]).replace(' []','') + "\t" + str(round(float(res[2]),2)) + "\n")
-                    if res[3] >= self.args.min_overlap/100:
+                    if res[3] >= self.args.min_overlap:
                         out_file.write(str(res[1]).replace(' []','') + "\t" + str(res[0]).replace(' []','') + "\t" + str(round(float(res[3]),2)) + "\n")
                     if self.args.combine_mode == 'combination':
                         out_matrix.loc[str(res[0]).split()[0], str(res[1]).split()[0]] = round(float(res[2]), 2)
@@ -150,14 +150,19 @@ class OverlapApp:
 
             print('\n')
             print("percentage", count, tot_comparisons)
+            
             if self.args.combine_mode == 'combination':
                 writer = pd.ExcelWriter(self.args.output_prefix+'_matrix.xlsx', engine='xlsxwriter')
                 out_matrix.to_excel(writer, 'Sheet1', index=True)
                 workbook = writer.book
                 worksheet = writer.sheets['Sheet1']
                 headercells_format = workbook.add_format({'bold': True, 'font_color': 'green', 'align':'center'})
+                greycell_format = workbook.add_format({'bg_color': '#dddddd'})
                 worksheet.conditional_format('B2:{0}'.format(xl_rowcol_to_cell(len(names_1), len(names_2))), {'type': '2_color_scale', 'min_value': 0, 'max_value': 1, 'min_color': '#FFFFFF', 'max_color': '#00b60c', 'min_type':'num', 'max_type':'num'})
-    
+                
+                for i in range(1, len(names_1)+1):
+                    worksheet.write("{0}".format(xl_rowcol_to_cell(i, i)), '', greycell_format)
+                    print("{0}".format(xl_rowcol_to_cell(i, i)))
                 worksheet.freeze_panes(1, 1)
     
                 # Row of counts
@@ -232,9 +237,9 @@ class OverlapApp:
             tot_comparisons = len(names_1) * len(names_2)
             count = 0
             with open(self.args.output_prefix+'_list.csv', 'w') as out_file:
-                out_file.write("QUERY\tTARGET\tOVERLAP RATIO\n".format(self.args.min_overlap, self.args.padding))
+                out_file.write("QUERY\tTARGET\tOVERLAP %\n".format(self.args.min_overlap, self.args.padding))
                 for res in CNVOperations.spanning_overlap(cnv_gen, self.args.padding):
-                    if res[2] >= self.args.min_overlap/100 and res[3] <= self.args.span:
+                    if res[2] >= self.args.min_overlap and res[3] <= self.args.span:
                         out_file.write(str(res[0]).replace(' []','') + "\t" + str(res[1]).replace(' []','') + "\t" + str(round(float(res[2]), 2)) + "\n")
                     count += 1
                     print('{:.2%}%'.format(count/tot_comparisons), end="\r", flush=True)

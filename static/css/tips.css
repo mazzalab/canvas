@@ -9,8 +9,8 @@
   border-radius: 50%;
   width: 12px;
   height: 12px;
-  font-size: 10px;
-  line-height: 13px;
+  font-size: 10px !important;
+  line-height: 13px !important;
   cursor: default;
 }
 
@@ -42,8 +42,8 @@
     top: -10px;
     left: 0px;
     color: #4e4e4e;
-    font-size: 13px;
-    line-height: 1.4;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
 }
 
 .help-tip p:before{ /* The pointer of the tooltip */
@@ -67,9 +67,6 @@
 }
 
 
-
-
-
 .help-tip-blue{
 
   display: inline-block;
@@ -81,8 +78,8 @@
   border-radius: 50%;
   width: 12px;
   height: 12px;
-  font-size: 10px;
-  line-height: 13px;
+  font-size: 10px !important;
+  line-height: 13px !important;
   cursor: default;
 }
 
@@ -114,8 +111,8 @@
     top: -10px;
     left: -180px;
     color: #4e4e4e;
-    font-size: 13px;
-    line-height: 1.4;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
 }
 
 .help-tip-blue p:before{ /* The pointer of the tooltip */

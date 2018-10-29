@@ -7,7 +7,7 @@
 	<!-- <link rel="icon" type="image/png" href="../static/img/favicon.ico"> -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>InCAS v.1.1 - Integrated Copy number Annotation System</title>
+	<title>InCAS v.2.0 - Integrated Copy number Annotation System</title>
 
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta name="viewport" content="width=device-width" />
@@ -46,6 +46,13 @@
             $.cookieBar();
             $('#footer_id').load("footer.html");
         });
+
+		$('#tab-menu li a href').click(function (e) {
+				console.log("FFHFHJFHFH")
+		    e.preventDefault();
+		    $(this).tab('show');
+		    $('.tab-content > .tab-pane.active').jScrollPane();
+		});
     </script>
 
 		<script>
@@ -84,8 +91,6 @@
 					}
 					// document.getElementById('hidden_tadradio').checked = true;
 					// document.getElementById('hidden_overlapradio').checked = false;
-
-
 				}
 			}
 
@@ -105,6 +110,12 @@
 				}
 			};
 
+			function changeImage(subpanel, image){
+					console.log(subpanel+" "+image)
+					document.getElementById(subpanel).innerHTML = '<img src="static/img/overlap_imgs/'+image+'"/>'
+;
+
+			}
 
 		</script>
 
@@ -194,7 +205,7 @@
                   </a>
               </li>
               <li>
-                  <a href="#">
+                  <a href="#" class="disabled-link" title='Coming soon!' >
                       Documentation
                   </a>
               </li>
@@ -208,13 +219,13 @@
 				        </ul>
 				      </li> -->
               <li>
-                  <a href="#">
+                  <a href="#" class="disabled-link" title='Coming soon!'>
                       Tutorial
                   </a>
               </li>
 
 							<li>
-									<a href="#">
+									<a href="contacts.html">
 											Contacts
 									</a>
 							</li>
@@ -243,7 +254,7 @@
 														genes and regulatory regions.</h5>
                     </div>
                     <div class="buttons">
-                        <a href="#">
+                        <a href="#learnmore">
                             <button class="btn btn-neutral btn-lg">
                                 <i class="fa fa-lg"></i> Learn more
                             </button>
@@ -259,20 +270,21 @@
 						<div class="alert alert-warning" role="alert">
 							Warning: This is a beta version of the InCAS website, which is still undergoing final testing
 							before its official release; therefore, small bugs or lack of functionality may be encountered.
+							Documentation and tutorials will be released soon.
 					</div>
 					<form id="mainform" class="needs-validation" action="/" name="mainform" method="post"
 					enctype="multipart/form-data" onsubmit="return checkBoxes();">
 						{{ form.csrf_token }}
 
-						<div class="radio">
+						<div class="radio" id="hidden_annotradio_div">
 						  <label><input id="hidden_annotradio" type="radio" name="annotradio"
 								onclick="switch_hiddenradio('annot')" checked>Annot</label>
 						</div>
-						<div class="radio">
+						<div class="radio" id="hidden_overlapradio_div">
 						  <label><input type="radio" class="hidden_overlapradio" id="hidden_overlapradio" name="ovlradio"
 								onclick="switch_hiddenradio('overlap')">Overlap</label>
 						</div>
-						<div class="radio">
+						<div class="radio" id="hidden_tadradio_div">
 							<label><input type="radio" class="hidden_tadradio" id="hidden_tadradio" name="tadradio"
 								onclick="switch_hiddenradio('tad')">Tad</label>
 						</div>
@@ -342,6 +354,10 @@
 															document.getElementById('radio-hg19').checked = false;">
 															<span id="span-hg38">hg38</span>
 							                </label>
+															<div class="help-tip" style="background-color: #ffd400">
+																<p>
+															</p>
+															</div>
 							              </div>
 												</div>
 											</div>
@@ -352,9 +368,9 @@
 
 						<div class="col-md-6 col-sm-6" style="width:58%" id="annot-panel-container">
 								<ul id="tab-menu" class="nav nav-tabs pull-left">
-								  <li class="active"><a data-toggle="tab" href="#annot-panel" onclick="cleanform('overlap');cleanform('tad');switch_hiddenradio('annot')" style="border-top-left-radius: 9px;">Annotation</a></li>
-									<li><a data-toggle="tab" href="#tad-panel" onclick="cleanform('annot');cleanform('overlap');switch_hiddenradio('tad')">TAD</a></li>
-									<li><a data-toggle="tab" href="#overlap-panel" onclick="cleanform('annot');cleanform('tad');switch_hiddenradio('overlap')">Overlapping</a></li>
+								  <li class="active"><a data-toggle="tab" href="#" data-target="#annot-panel" onclick="cleanform('overlap');cleanform('tad');switch_hiddenradio('annot')" style="border-top-left-radius: 9px;">Annotation</a></li>
+									<li><a data-toggle="tab" data-target="#tad-panel"  href="#" onclick="cleanform('annot');cleanform('overlap');switch_hiddenradio('tad')">TAD</a></li>
+									<li><a data-toggle="tab" data-target="#overlap-panel" href="#" onclick="cleanform('annot');cleanform('tad');switch_hiddenradio('overlap')">Overlapping</a></li>
 
 								</ul>
 
@@ -398,48 +414,56 @@
 
 										<div id="overlap-panel" class="panel panel-info tab-pane fade">
 											<div class="panel-body">
-												<div class="row">
-													<div id="overlap_mode" class="col-sm-6 ovl-checkbox-group required" style="width:55%; padding-right: 0px; padding-left:0px">
-														<div id="first-subpanel">
+												<div class="row" style="display:flex">
+													<div id="overlap_mode" class="col ovl-checkbox-group required" style="padding-right: 0px; padding-left:0px">
+																<div id="first-subpanel">
+																				<div class="radio" style="margin-top:15px">
+																					<label>
+																					<input id="radio_intraset" name="radio_intraset" type="radio"
+																					onclick="document.getElementById('radio_interset').checked = false;
+																					document.getElementById('overlapselect').disabled = true; changeImage('third-subpanel','intraset.png')"
+																					checked="checked"> Intra-set
+																					</label>
+																					<div class="help-tip" style="background-color: #ffd400">
+																						<p>
+																							This function allows to compare CNVs in your CNV list detecting their
+																							percentage of overlap.
+																					</p>
+																					</div>
+																				</div>
 
-																		<div class="radio" style="margin-top:15px">
-																			<label>
-																			<input id="radio_intraset" name="radio_intraset" type="radio"
-																			onclick="document.getElementById('radio_interset').checked = false;
-																			document.getElementById('overlapselect').disabled = true;" checked="checked"> Intra-set
-																			</label>
-																			<div class="help-tip" style="background-color: #ffd400">
-																				<p>
-																			</p>
-																			</div>
-																		</div>
+																				<div class="radio">
+																					<label style="margin-top: 10px;">
+																					<input id="radio_interset" name="radio_interset" type="radio"
+																					onclick="document.getElementById('radio_intraset').checked = false;
+																					document.getElementById('overlapselect').disabled = false; changeImage('third-subpanel','interset.png')"> Inter-set
+																					</label>
+																					<div class="help-tip" style="background-color: #ffd400">
+																						<p>
+																							Compare the CNV/CNV list of interest with another set of CNV
+																							(user defined) or with the Database of Genomics Variants (DGV), detecting the percentage of overlap.
+																					</p>
+																					</div>
+																				</div>
 
-																		<div class="radio">
-																			<label style="margin-top: 10px;">
-																			<input id="radio_interset" name="radio_interset" type="radio"
-																			onclick="document.getElementById('radio_intraset').checked = false;
-																			document.getElementById('overlapselect').disabled = false;"> Inter-set
-																			</label>
-																			<div class="help-tip" style="background-color: #ffd400">
-																				<p>
-																			</p>
-																			</div>
-																		</div>
-
-																		<select id="overlapselect" name="overlapselect" style="margin-left:20px;" disabled>
-																			<option selected="true" value="-1" disabled>Choose Target</option>
-																			<option value="DGV_overlap">DGV</option>
-																			<option value="FILE">File</option>
-																		</select>
-																		<div id="file-upload-filename" name="file_upload_filename"></div>
-																		<span class="hiddenFileInput">
-																			{{ form.overlap_upload(disabled=False, required=False) }}
-																				  <!-- <input type="file" id="my_file" name="my_file"/> -->
-																		</span>
-
+																				<select id="overlapselect" name="overlapselect" style="margin-left:20px;" disabled>
+																					<option selected="true" value="-1" disabled>Choose Target</option>
+																					<option value="DGV_overlap">DGV</option>
+																					<option value="FILE">File</option>
+																				</select>
+																				<div id="file-upload-filename" name="file_upload_filename"></div>
+																				<span class="hiddenFileInput">
+																					{{ form.overlap_upload(disabled=False, required=False) }}
+																						  <!-- <input type="file" id="my_file" name="my_file"/> -->
+																				</span>
+															 </div>
 													</div>
-
-															<div id="second-subpanel" style="margin-top:10px;">
+													<div id="third-subpanel" class="col" style="margin:auto; text-align:center">
+																<img src="static/img/overlap_imgs/intraset.png"/>
+													</div>
+											</div>
+											<div class="row" style="display:flex">
+															<div id="second-subpanel" class="col" style="margin-top:10px;">
 																		<div class="radio" style="margin-top:15px">
 																			<label>
 																					<input id="radio_reciprocal" name="radio_reciprocal"
@@ -447,13 +471,15 @@
 																						document.getElementById('padding').disabled = false;
 																						document.getElementById('min_ovl_rec').disabled = false;
 																						document.getElementById('min_ovl_span').disabled = true;
-																						document.getElementById('max_span').disabled = true;"
+																						document.getElementById('max_span').disabled = true;
+																						changeImage('fourth-subpanel','reciprocal.png')"
 																						type="radio" checked="checked"> Reciprocal Overlap
 
 																			</label>
 																			<div class="help-tip" style="background-color: #ffd400">
 																				<p>
-																			</p>
+
+																			  </p>
 																			</div>
 																		</div>
 																		<div style="margin-right:20px; text-align: right;">
@@ -468,7 +494,8 @@
 																						document.getElementById('padding').disabled = true;
 																						document.getElementById('min_ovl_rec').disabled = true;
 																						document.getElementById('min_ovl_span').disabled = false;
-																						document.getElementById('max_span').disabled = false;"
+																						document.getElementById('max_span').disabled = false;
+																						changeImage('fourth-subpanel','spanning.png')"
 																						type="radio"> Spanning Overlap
 
 																			</label>
@@ -527,47 +554,53 @@
 																				});
 																		</script>
 															</div>
-
-													</div>
-												</div>
+															<div id="fourth-subpanel" class="col" style="margin:auto; text-align:center">
+																		<img src="static/img/overlap_imgs/reciprocal.png"/>
+															</div>
 											</div>
 
 										</div>
-
-										<div id="tad-panel" class="panel panel-info tab-pane fade">
-											<!-- <div class="panel-heading annotation-panel-heading"
-												style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 8px; border-color: #307ba0">
-												Annotation</div> -->
-												<div class="panel-body">
-													<div class="row">
-														<div style="padding-top: 10px; padding-left:15px; padding-right:15px">
-																<span style="color: #006da0; font-weight:bold">Window (bp): </span>{{ form.window_tad(size=6, required=True, pattern='\d+') }}
-														</div>
-													</div>
-														<div class="row" style="padding-top:25px; padding-right: 20px;">
-															<div id="tad-checklist" class="tad-checkbox-group col-sm-6 required" style="width:100%;height:280px;overflow:auto;">
-																<table id="tads" class="table table-striped table-bordered" style="width:100%;">
-																        <thead>
-																            <tr>
-																                <th class='fit' style="padding-top: 4px; padding-bottom: 4px;">Tissue</th>
-																                <th class='fit' style="padding-top: 4px; padding-bottom: 4px;">Description</th>
-																            </tr>
-																        </thead>
-																        <tbody id="tad_table_body">
-																				</tbody>
-																</table>
-														</div>
+								</div>
+								<div id="tad-panel" class="panel panel-info tab-pane fade">
+									<!-- <div class="panel-heading annotation-panel-heading"
+										style="font-size: 125%; font-weight: bold; color: #ffffff; background-color: #307ba0; border-top-left-radius:9px; border-top-right-radius: 8px; border-color: #307ba0">
+										Annotation</div> -->
+										<div class="panel-body">
+											<div class="row">
+												<div style="padding-top: 10px; padding-left:15px; padding-right:15px">
+														<span style="color: #006da0; font-weight:bold">Window (bp): </span>{{ form.window_tad(size=6, required=True, pattern='\d+') }}
 												</div>
 											</div>
+												<div class="row" style="padding-top:25px; padding-right: 20px;">
+													<div id="tad-checklist" class="tad-checkbox-group col-sm-6 required" style="width:100%;overflow:auto;">
+														<table id="tads" class="table table-striped table-bordered" style="width:100%;">
+																		<thead>
+																				<tr>
+																						<th class='fit' style="padding-top: 4px; padding-bottom: 4px;">Tissue</th>
+																						<th class='fit' style="padding-top: 4px; padding-bottom: 4px;">Description</th>
+																				</tr>
+																		</thead>
+																		<tbody id="tad_table_body">
+																		</tbody>
+														</table>
+												</div>
+										</div>
+									</div>
 
 								</div>
-
-						</div>
+					   </div>
 					</div>
 					<div style="text-align: center;" id="submit-field">
 						<input type="submit" value="SUBMIT" class="submit-button">
 					</div>
 			</form>
+
+<br />
+<br />
+			<!-- <div class="alert alert-success" role="alert">
+					If you are using InCAS for your research, please cite:
+			</div> -->
+
 			<script>
 				function checkBoxes(){
 						var annot_chosen = document.getElementById( 'hidden_annotradio').checked
@@ -735,12 +768,36 @@
 			</script>
 
       </div>
-    </div>
+	</div>
+</div>
+
+
+<div id="learnmore" class="section section-presentation">
+		<div class="container">
+				<div class="row">
+						<!-- <div class="col-md-6"> -->
+								<div class="description">
+												<h4 class="header-text">What is it?</h4>
+												<p>Human Copy Number Variants (CNVs) are known to be involved in several diseases such as intellectual disability, autism, schizophrenia and congenital anomalies, generally due to the presence of dosage-sensitive genes. However, CNVs frequently do not target protein-coding genes, thereby hitting interspersed functional DNA regions, with clinical significance that
+needs to be largely explored.</p>
+<p><b>InCAS</b> allows to comprehensively annotate CNVs using continuously updated information of protein-coding genes, non-coding genes (microRNAs and long non-coding RNAs) and functional elements (microRNA regulatory sites, ultra conserved regions, promoters, enhancer, topologically associated domains, and others) as well as of clinically significant CNVs.
+The whole framework is implemented in Python and Flask and deployed to a running instance of Nginx. Data are stored in MongoDB and accessible through both a mobile-first web interface and a RESTful interface for programmatic access.
+</p>
+<p><b>InCAS</b> is a freely available and handy tool for the assessment of the functional effect and clinical significance of CNVs. If you are using <b>InCAS</b>, please cite http://incas.css-mendel.it.</p>
+								</div>
+						<!-- </div> -->
+						<!-- <div class="col-md-5 col-md-offset-1 hidden-xs">
+								<img src="img/landing-page-1/mac2.jpg"/>
+						</div> -->
+				</div>
+		</div>
+</div>
+
 
     <footer class="footer">
             <div class="container" style="min-width: 410px;">
-							<div class="row hidden-xs visible-lg visible-md visible-sm" style="float:left; display:block !important; width:100%">
-										<div class="col-sm-6 col-lg-6 col-md-6" style="width:fit-content; display:block !important">
+							<div class="row hidden-xs visible-lg visible-md visible-sm" style="float:left; display:flex !important; width:100%">
+										<div id="logocss" class="col-sm-6 col-lg-6 col-md-6" style="width:fit-content;width:-moz-fit-content">
 												<img src="../static/img/logocss.png" class="img-responsive" align="left" width="100" style="padding-top: 14px;">
 										</div>
 								    <div class="col-sm-6 col-lg-6 col-md-6">
@@ -756,6 +813,16 @@
 								            bioinformatics@css-mendel.it
 								        </address>
 								    </div>
+										<div class="col-sm-6 col-lg-6 col-md-6" style="text-align: right; float:right">
+											 <address>
+												 <strong>Laboratory of Clinical Genomics</strong><br>
+												 <!--i class="glyphicon glyphicon-home"></i-->
+												 IRCCS Casa Sollievo della Sofferenza - Mendel<br>
+												 Viale Regina Margherita, 261<br>
+												 Rome, Italy 00198<br>
+												 <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><abbr title="Phone"> </abbr>
+												 (+39) 06-44160565<br>
+											</address>
 							</div>
 
                 <!-- <nav class="pull-left copyright">

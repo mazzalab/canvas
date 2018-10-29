@@ -33,7 +33,7 @@
         <script src="../static/angularjs-genoverse/lib/Genoverse/js/genomes/grch38.js"></script>
  -->
         <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-      	<title>{% block title %}{% endblock %} - InCAS v1.1</title>
+      	<title>{% block title %}{% endblock %} - InCAS v2.0</title>
     {% endblock %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121740015-1"></script>
@@ -46,7 +46,7 @@
     	</script>​
 </head>
 
-<body class="landing-page">
+<body class="landing-page" style='background-color:aliceblue'>
 {% block navbar %}
 <nav class="navbar navbar-transparent navbar-top" role="navigation">
     <div class="container" style="max-width:1165px !important;">
@@ -76,7 +76,7 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="#" class="disabled-link" title='Coming soon!'>
                 Documentation
             </a>
         </li>
@@ -90,7 +90,7 @@
           </ul>
         </li> -->
         <li>
-            <a href="#">
+            <a href="#" class="disabled-link" title='Coming soon!'>
                 Tutorial
             </a>
         </li>
@@ -110,7 +110,7 @@
 
 {% block content %}
 {% endblock %}
-<footer class="footer">
+<!-- <footer class="footer">
         <div class="container" style="min-width: 410px;">
           <div class="row hidden-xs visible-lg visible-md visible-sm" style="float:left; display:block !important; width:100%">
                 <div class="col-sm-6 col-lg-6 col-md-6" style="width:fit-content; display:block !important">
@@ -119,7 +119,6 @@
                 <div class="col-sm-6 col-lg-6 col-md-6">
                     <address>
                         <strong>Laboratory of Bioinformatics</strong><br>
-                        <!--i class="glyphicon glyphicon-home"></i-->
                         IRCCS Casa Sollievo della Sofferenza - Mendel<br>
                         Viale Regina Margherita, 261<br>
                         Rome, Italy 00198<br>
@@ -130,20 +129,8 @@
                     </address>
                 </div>
           </div>
-
-            <!-- <nav class="pull-left copyright">
-                &copy; 2018 <a href="http://www.css-mendel.it/">IRCCS Casa Sollievo della Sofferenza - Mendel</a>
-            </nav> -->
-            <!-- <div class="social-area pull-right">
-                    <a href="https://github.com/elkindnet" class="btn btn-social btn-simple"><i class="fa fa-github-alt fa-fw"></i> <span class="network-name"></span></a>
-                    <a href="https://twitter.com/jenyelkind" class="btn btn-social btn-simple"><i class="fa fa-twitter fa-fw"></i> <span class="network-name"></span></a>
-                    <a href="https://www.facebook.com/jenyelkind" class="btn btn-social btn-simple"><i class="fa fa-facebook fa-fw"></i> <span class="network-name"></span></a>
-                    <a href="mailto:elkind@elkind.net" class="btn btn-social btn-simple"><i class="fa fa-envelope fa-fw"></i> <span class="network-name"></span></a>
-                    <a href="https://plus.google.com/+JenyElkind/" class="btn btn-social btn-simple"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name"></span></a>
-            </div> -->
         </div>
-
-  </footer>
+  </footer> -->
 <script>
 $(document).ready(function() {
   var download_div_ovl;
@@ -174,7 +161,7 @@ $(document).ready(function() {
   // console.log("RESULTS TABLE: "+results_table)
   // console.log("DOWNLOAD DIV OVL "+download_div_ovl)
   // console.log("FOOTER: "+$('.footer').height())
-  $('.footer').css('margin-top',$(document).height()-(navbar_height)-($('#results-container').height()+100)-(results_table)-(download_div_ovl)-$('.footer').height());
+  $('.footer').css('margin-top',$(document).height()-(navbar_height)-($('#results-container').height()+230)-(results_table)-(download_div_ovl)-$('.footer').height());
   $('.section .section-gray .section-clients').css('height','fill-available');
 });
 </script>

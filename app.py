@@ -34,25 +34,68 @@ ANNOT_CHOICES = [('all_beds','All'), ('coding_gene','Coding genes'),
 EXPLANATIONS = {"gene": "All RefSeq genes reported in UCSC genome browser.",
                 "coding_gene": "RefSeq protein-coding genes (labelled as NM_*) reported in UCSC genome browser.",
                 "noncoding_gene": "RefSeq non-protein-coding genes (labelled as NR_*) reported in UCSC genome browser.",
-                "longNC": "Long non-coding RNAs reported in LNCipedia.",
-                "mirna": "microRNAs, reported in miRBase, and microRNA targets, reported in DIANA-TarBase and "
-                        "in TargetScan.",
-                "circRNA": "Circular RNAs reported in circBase.", "pseudogene": "Pseudogenes reported in psiDR.",
-                "ucr": "Ultraconserved elements (UCRs) reported in UCbase.",
-                "har": "Human Accelerated Regions (HARs).",
+                "longNC": "Long non-coding RNAs reported in LNCipedia (ver. 5.2, GRCh37/hg19).",
+                "mirna": "microRNAs, reported in miRBase ver. 20, and microRNA targets, reported in "
+                         "DIANA-TarBase ver. 7.0 and in TargetScan ver. 7.1.",
+                "circRNA": "Circular RNAs reported in circBase.",
+                "pseudogene": "Pseudogenes reported in psiDR ver. 0.",
+                "ucr": "Ultraconserved elements (UCRs) reported in UCbase ver. 2.0.",
+                "har": "Human Accelerated Regions (HARs) reported in Doan et al. Mutations in Human "
+                       "Accelerated Regions Disrupt Cognition and Social Behavior. Cell 2016;167(2):341-354.",
                 "enhancer": "Enhancers reported in Human Enhancer Disease Database (HEDD).",
-                "ID_genelist": "Genes reported to be associated with intellectual disability (isolated and "
-                               "associated disorders) in Vissers et al., 2016",
+                "ID_genelist": "Genes reported to be associated with intellectual disability in Vissers et "
+                               "al. Genetic studies in intellectual disability and related disorders. "
+                               "Nat Rev Genet 2016;17(1):9-18.",
                 "dosage_sensitive_genelist": "Genes reported to be dosage sensitive according to ClinGen "
-                                             "Dosage Sensitivity Map.",
+                                             "Dosage Sensitivity Map (NCBI).",
                 "mendeliome_genelist": "Genes associated to Mendelian diseases reported in TruSight One "
-                                       "Gene List (2013)",
-                "ohnologs_genelist": "Ohnolog genes reported in Makino and McLysaght, 2010",
-                "imprinted_genelist": "Mammalian imprinted genes taken from Catalogue of Parent of Origin "
-                                      "Effects (2016)."
+                                       "Gene List (ver. 2013, Illumina)",
+                "ohnologs_genelist": "Vertebrate genes originating from whole genome duplication reported "
+                                     "in Makino and McLysaght. Ohnologs in the human genome are dosage "
+                                     "balanced and frequently associated with disease. "
+                                     "Proc Natl Acad Sci U S A 2010; 107(20):9270-4",
+                "imprinted_genelist": "Mammalian imprinted genes reported in Catalogue of Parent of Origin "
+                                      "Effects (ver. 2016)."
                 }
 
-EXPLANATIONS_TAD = {}
+EXPLANATIONS_TAD = {'All': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Liver_STL011': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Lung_LG1': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'LNCaP': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Pancreas_PA2': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'SKNMC': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'G401': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'H1_ESC': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'GM12878': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'H1_NPC': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'K562': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'SKMEL5': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'SKNDZ': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Adrenal_Gland_AD2': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Caki2': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'T470': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'SJCRH30': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'HMEC': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'NCIH460': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'PANC1': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'H1_TRO': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'HUVEC': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Aorta_STL002': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Cortex_DLPFC': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'VentricleRight_RV3': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'VentricleLeft_STL003': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Spleen_PX1': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'H1_MSC': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'A549': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Bladder_BL1': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'H1_MES': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Small_Bowel_SB2': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'IMR90': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'NHEK': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'RPMI7951': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'KBM7': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Muscle_Psoas_P01': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.',
+                    'Thymus_STL001': 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.'}
 
 NICE_NAMES = {"gene": "Gene lists",
                 "coding_gene": "Coding genes",
@@ -98,49 +141,83 @@ SOURCES = {
 }
 
 #it's value, label
-TISSUE_CHOICES = [('all', 'All'), ('Liver_STL011_Leung2015', 'Liver_STL011_Leung2015'),
-               ('Lung_Donor_LG1', 'Lung_Donor_LG1'),
-               ('LNCaP_rep1', 'LNCaP_rep1'), ('Pancreas_Donor_PA2', 'Pancreas_Donor_PA2'),
-               ('SKNMC_rep1', 'SKNMC_rep1'), ('G401_rep1', 'G401_rep1'),
-               ('H1_ESC_Dixon2015', 'H1_ESC_Dixon2015'), ('GM12878_Lieberman', 'GM12878_Lieberman'),
-               ('H1_NPC_Dixon2015', 'Long description'), ('K562_Lieberman', 'Long description'),
-               ('SKMEL5_rep1', 'Long description'), ('SKNDZ_rep1', 'Long description'),
-               ('AdrenalGland_Donor_AD2', 'Long description'), ('Caki2_rep1', 'Long description'),
-               ('T470_rep1', 'Long description'), ('SJCRH30_rep1', 'Long description'),
-               ('HMEC_Lieberman', 'Long description'), ('NCIH460_rep1', 'Long description'),
-               ('PANC1_rep1', 'Long description'), ('H1_TRO_Dixon2015', 'Long description'),
-               ('HUVEC_Lieberman', 'Long description'), ('Aorta_STL002_Leung2015', 'Long description'),
-               ('Cortex_DLPFC_Donor_CO', 'Long description'),
-               ('VentricleRight_Donor_RV3', 'Long description'),
-               ('VentricleLeft_STL003_Leung2015', 'Long description'),
-               ('Spleen_Donor_PX1', 'Long description'), ('H1_MSC_Dixon2015', 'Long description'),
-               ('A549_rep1', 'Long description'), ('Bladder_Donor_BL1', 'Long description'),
-               ('H1_MES_Dixon2015', 'Long description'), ('Bowel_Small_Donor_SB2', 'Long description'),
-               ('IMR90_Lieberman', 'Long description'), ('NHEK_Lieberman', 'Long description'),
-               ('RPMI7951_rep1', 'Long description'), ('KBM7_Lieberman', 'Long description'),
-               ('Muscle_Psoas_Donor_PO1', 'Long description'), ('Thymus_STL001_Leung2015', 'Long description')]
+TISSUE_CHOICES = [('all', 'All'),
+                  ('Liver_STL011', 'Liver_STL011'),
+                  ('Lung_LG1', 'Lung_LG1'),
+                  ('LNCaP', 'LNCaP'),
+                  ('Pancreas_PA2', 'Pancreas_PA2'),
+                  ('SKNMC', 'SKNMC'),
+                  ('G401', 'G401'),
+                  ('H1_ESC', 'H1_ESC'),
+                  ('GM12878', 'GM12878'),
+                  ('H1_NPC', 'H1_NPC'),
+                  ('K562', 'K562'),
+                  ('SKMEL5', 'SKMEL5'),
+                  ('SKNDZ', 'SKNDZ'),
+                  ('Adrenal_Gland_AD2', 'Adrenal_Gland_AD2'),
+                  ('Caki2', 'Caki2'),
+                  ('T470', 'T470'),
+                  ('SJCRH30', 'SJCRH30'),
+                  ('HMEC', 'HMEC'),
+                  ('NCIH460', 'NCIH460'),
+                  ('PANC1', 'PANC1'),
+                  ('H1_TRO', 'H1_TRO'),
+                  ('HUVEC', 'HUVEC'),
+                  ('Aorta_STL002', 'Aorta_STL002'),
+                  ('Cortex_DLPFC', 'Cortex_DLPFC'),
+                  ('VentricleRight_RV3', 'VentricleRight_RV3'),
+                  ('VentricleLeft_STL003', 'VentricleLeft_STL003'),
+                  ('Spleen_PX1', 'Spleen_PX1'),
+                  ('H1_MSC', 'H1_MSC'),
+                  ('A549', 'A549'),
+                  ('Bladder_BL1', 'Bladder_BL1'),
+                  ('H1_MES', 'H1_MES'),
+                  ('Small_Bowel_SB2', 'Small_Bowel_SB2'),
+                  ('IMR90', 'IMR90'),
+                  ('NHEK', 'NHEK'),
+                  ('RPMI7951', 'RPMI7951'),
+                  ('KBM7', 'KBM7'),
+                  ('Muscle_Psoas_P01', 'Muscle_Psoas_P01'),
+                  ('Thymus_STL001', 'Thymus_STL001')]
 
-TISSUE_DESCRIPTIONS = {'All': 'All availabe tissues', 'Liver_STL011_Leung2015': 'Loooooooooooooooooooooooong description',
-                       'Lung_Donor_LG1': 'Long description',
-                       'LNCaP_rep1': 'Long description', 'Pancreas_Donor_PA2': 'Long description',
-                       'SKNMC_rep1': 'Long description', 'G401_rep1': 'Long description',
-                       'H1_ESC_Dixon2015': 'Long description', 'GM12878_Lieberman': 'Long description',
-                       'H1_NPC_Dixon2015': 'Long description', 'K562_Lieberman': 'Long description',
-                       'SKMEL5_rep1': 'Long description', 'SKNDZ_rep1': 'Long description',
-                       'AdrenalGland_Donor_AD2': 'Long description', 'Caki2_rep1': 'Long description',
-                       'T470_rep1': 'Long description', 'SJCRH30_rep1': 'Long description',
-                       'HMEC_Lieberman': 'Long description', 'NCIH460_rep1': 'Long description',
-                       'PANC1_rep1': 'Long description', 'H1_TRO_Dixon2015': 'Long description',
-                       'HUVEC_Lieberman': 'Long description', 'Aorta_STL002_Leung2015': 'Long description',
-                       'Cortex_DLPFC_Donor_CO': 'Long description',
-                       'VentricleRight_Donor_RV3': 'Long description',
-                       'VentricleLeft_STL003_Leung2015': 'Long description',
-                       'Spleen_Donor_PX1': 'Long description', 'H1_MSC_Dixon2015': 'Long description',
-                       'A549_rep1': 'Long description', 'Bladder_Donor_BL1': 'Long description',
-                       'H1_MES_Dixon2015': 'Long description', 'Bowel_Small_Donor_SB2': 'Long description',
-                       'IMR90_Lieberman': 'Long description', 'NHEK_Lieberman': 'Long description',
-                       'RPMI7951_rep1': 'Long description', 'KBM7_Lieberman': 'Long description',
-                       'Muscle_Psoas_Donor_PO1': 'Long description', 'Thymus_STL001_Leung2015': 'Long description'}
+TISSUE_DESCRIPTIONS = {'All': 'All availabe tissues',
+                       'Liver_STL011': 'Liver tissue',
+                       'Lung_LG1': 'Lung tissue',
+                       'LNCaP': 'Prostate carcinoma epithelial-like',
+                       'Pancreas_PA2': 'Pancreas tissue',
+                       'SKNMC': 'Neuroepithelioma tissue',
+                       'G401': 'Rhabdoid tumor kidney epithelial tissue',
+                       'H1_ESC': 'H1 human embryonic stem cell line',
+                       'GM12878': 'Blood lymphocyte',
+                       'H1_NPC': 'H1 human neural precursor cells',
+                       'K562': 'Chronic myeloid leukemia tissue',
+                       'SKMEL5': 'Malignant melanoma tissue',
+                       'SKNDZ': 'Neuroblastoma tissue',
+                       'Adrenal_Gland_AD2': 'Adrenal gland tissue',
+                       'Caki2': 'Clear cell renal carcinoma tissue',
+                       'T470': 'Breast carcinoma tissue',
+                       'SJCRH30': 'Rhabdomyosarcoma fibroblast',
+                       'HMEC': 'Mammary epithelial',
+                       'NCIH460': 'Large cell lung cancer',
+                       'PANC1': 'Pancreas ductal adenocarcinoma tissue',
+                       'H1_TRO': 'H1 human trophoblast-like cells',
+                       'HUVEC': 'Umbilical vein endothelial tissue',
+                       'Aorta_STL002': 'Aorta tissue',
+                       'Cortex_DLPFC': 'Dorsolateral prefrontal cortex tissue',
+                       'VentricleRight_RV3': 'Right ventricle tissue',
+                       'VentricleLeft_STL003': 'Left ventricle tissue',
+                       'Spleen_PX1': 'Spleen tissue',
+                       'H1_MSC': 'H1 human mesenchymal stem cells',
+                       'A549': 'Lung carcinoma A549 cell line',
+                       'Bladder_BL1': 'Bladder tissue',
+                       'H1_MES': 'H1 human mesendoderm cells',
+                       'Small_Bowel_SB2': 'Small bowel tissue',
+                       'IMR90': 'Lung fibroblast',
+                       'NHEK': 'Epidermal keratinocyte',
+                       'RPMI7951': 'Malignant melanoma tissue',
+                       'KBM7': 'Chronic myeloid leukemia tissue',
+                       'Muscle_Psoas_P01': 'Psoas muscle tissue',
+                       'Thymus_STL001': 'Thymus tissue'}
 
 app.config['SECRET_KEY'] = 'AGATTAcanvas2018'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -241,6 +318,7 @@ def index():
     session['combine_mode'] = ''
     session['tissue_choices'] = []
     session['window_tad'] = ''
+    session['skipped'] = []
     
     
     # session['overlap_fileout_xlsx'] = ''
@@ -265,6 +343,7 @@ def index():
             f.save(os.path.join(
                 app.config['UPLOAD_FOLDER'], session['working_filename']
             ))
+
         elif 'radio1' in request.form:
             session['choice'] = 'line'
             session['filename'] = 'line input'
@@ -643,6 +722,11 @@ def results():
         
     if 'all_genelists' in session['ann_choices']:
         session['ann_choices'].remove('all_genelists')
+    
+    if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], session['task_id']+'/liftover_skipped.tsv')):
+        with open(os.path.join(app.config['UPLOAD_FOLDER'], session['task_id']+'/liftover_skipped.tsv')) as liftover_skipped:
+            for sk_line in liftover_skipped:
+                session['skipped'].append(sk_line)
         
     return render_template('results.html', json_out=re.sub('.xlsx', '.json', session['file_out']),
                            file_out=session['file_out'],
@@ -652,8 +736,8 @@ def results():
                            choices=session['ann_choices']+session['genes_choices'],
                            genes_choices=session['genes_choices'],
                            distance=session['window'],
-                           info=EXPLANATIONS, nice_names=NICE_NAMES, sources=SOURCES)
-
+                           info=EXPLANATIONS, nice_names=NICE_NAMES, sources=SOURCES,
+                           skipped=json.dumps(session['skipped']))
 
 @app.route('/results_ovl.html', methods=['GET', 'POST'])
 def results_ovl():
@@ -690,6 +774,10 @@ def problem():
 @app.route('/privacy-and-cookie-policy.html')
 def privacy():
     return render_template('privacy-and-cookie-policy.html')
+
+@app.route('/contacts.html')
+def contacts():
+    return render_template('contacts.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

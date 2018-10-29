@@ -80,6 +80,7 @@ class MainApp:
                 
                 if arg == 'TAD':
                     tads_to_annotate = self.d[arg].split(',')
+                    
                     for t in tads_to_annotate:
                         if t != 'All' and t not in self.db_tad.collection_names():
                             sys.exit("The collection {} could not be found in the TAD db. Exiting.".format(
@@ -145,19 +146,35 @@ class MainApp:
     
             # if no cnv was split during liftover, any possible extra column will be preserved.
             # otherwise, only CHR, START, END will be retained.
-    
+
             if len(cnv_info_converted) == len(cnv_info):
                 print("Conversion successful. Re-adding additional input fields if present.")
                 cnv_info["CHR"] = cnv_info_converted["CHR"]
                 cnv_info["START"] = cnv_info_converted["START"]
                 cnv_info["END"] = cnv_info_converted["END"]
-            else:
-                print("One or more CNVs were split during liftover from {0} to hg19. If the input"
+            elif len(cnv_info_converted) > len(cnv_info):
+                print("One or more CNVs were split during liftover from {0} to hg19. If the input "
                       "file contained extra columns besides CHR, START, END, they will be "
                       "discarded.".format(self.args.reference))
                 cnv_info = cnv_info_converted
+            elif len(cnv_info_converted) < len(cnv_info):
+                print("NOT converted:")
+                liftover_failed = open(os.path.join(os.path.dirname(self.args.out), 'liftover_skipped.tsv'),
+                                       'w')
+                with open(tempfile_unmapped) as unmapped:
+                    for u_line in unmapped:
+                        if not u_line.startswith("#") and not u_line.strip() == '':
+                            liftover_failed.write(u_line)
+                            print(u_line)
+                liftover_failed.close()
+                cnv_info = cnv_info_converted
+
+                
             print("Converted:")
             print(cnv_info)
+            
+
+            
             # Cleaning
             for f in glob.glob(os.path.dirname(self.args.out) + '/tempfile*.tsv'):
                 os.remove(f)

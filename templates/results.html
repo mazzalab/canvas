@@ -59,6 +59,17 @@
     });
   }
 
+
+  console.log("SKIPPED:")
+  console.log({{skipped|safe}})
+  console.log({{skipped|safe}}.length)
+  var skipped_string= '';
+  if({{skipped|safe}}.length>=1){
+    for (elem in {{skipped|safe}}){
+      skipped_string+={{skipped|safe}}[elem];
+    }
+    alert("The followng CNV(s) could not be converted into the chosen reference coordinates, therefore will not be shown in the results panel:\n\n"+skipped_string);
+  }
   // if ({{choices|tojson|safe}}.includes('enhancer')){
   //   console.log("ENHANCER YES")
   //   console.log("{{ json_out }}".replace(".json", "_extra.json"))
@@ -422,7 +433,9 @@
     function resetSwitches(){
       console.log("RESET CALLED")
       {% for c in choices %}
-         document.getElementById('checkbox-plot-{{c}}').checked = false
+        {% if (c!='mirbase') and (c!='gene') %}
+           document.getElementById('checkbox-plot-{{c}}').checked = false;
+        {% endif %}
       {% endfor %}
     }
 </script>
@@ -478,7 +491,6 @@
 </script>
 
 {% endblock %}
-
 {% block title %}Results{% endblock %}
 {% block navbar %}
 {{ super() }}
@@ -491,7 +503,7 @@
         <img src="../static/img/dna2.png">
     </div>
 </div>
-<div class= "section section-gray section-clients" style="padding-top:10px; height: fit-content;">
+<div class= "section section-gray section-clients" style="padding-top:10px;">
   <div id="results-container" class="results-container container">
       <h2 style="margin-left:30px; margin-bottom: 40px; color: #307ba0; font-size:40px; text-shadow: 1px 1px 3px rgba(150, 150, 150, 0.56);">Results</h2>
     <div style="display:-webkit-box; margin-left: 30px;">
@@ -1205,3 +1217,6 @@
 
 {% endblock %}
 </div>
+
+
+</body>
