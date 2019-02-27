@@ -46,6 +46,7 @@ from subprocess import call, Popen, PIPE
 import glob
 from pprint import pprint
 import json
+from pandas.errors import ParserError
 
 
 class MainApp:
@@ -78,7 +79,7 @@ class MainApp:
                 if 'genelist' in arg and not arg.replace('_genelist', '') in self.db_gl.collection_names():
                     sys.exit("The collection {} could not be found in the genelists db. Exiting.".format(arg))
                 
-                if arg == 'TAD':
+                if arg == 'TAD' and self.d[arg]:
                     tads_to_annotate = self.d[arg].split(',')
                     
                     for t in tads_to_annotate:
@@ -109,7 +110,7 @@ class MainApp:
             if os.path.exists(self.args.cnv_file):
                 try:
                     cnv_info = self.read_cnv_coordinates_file(self.args.cnv_file)
-                except NameError:
+                except (NameError, ParserError, UnicodeDecodeError):
                     return -1
 
             else:
@@ -185,20 +186,14 @@ class MainApp:
         count = 0
         extra_info = {}
         for arg in self.d:
-            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists', 'reference'] and \
+            if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists', 'reference', "TAD"] and \
                     (self.d[arg] or self.d['all_beds']) and not arg.startswith('__') and not 'genelist' in arg:
                 count += 1
                 sys.stdout.write("Adding annotation for {}...\n".format(arg))
                 f = open(os.path.dirname(self.args.out)+'/'+str(count)+'_'+arg+'.progress', 'w')
                 f.close()
-                
-                if arg == 'TAD':
-                    print(tads_to_annotate)
-                    for t in tads_to_annotate:
-                        print("LAUNCHING TAD", t)
-                        self.add_TAD_annotation(t)
                         
-                elif arg == 'mirbase':
+                if arg == 'mirbase':
                     for target_db in self.db_t.collection_names():
                         if target_db != 'system.indexes':
                             self.mirbase_dict[target_db] = []  # initialized the target key (tarbase or targetscan) in the mirbase dict
@@ -208,7 +203,16 @@ class MainApp:
                 else:
                     extra_annot_info = self.add_annotation(arg)
                     extra_info.update({arg:extra_annot_info})
-        
+
+            if arg == 'TAD' and self.d[arg]:
+                count += 1
+                sys.stdout.write("Adding annotation for {}...\n".format(arg))
+                f = open(os.path.dirname(self.args.out)+'/'+str(count)+'_'+arg+'.progress', 'w')
+                f.close()
+                for t in tads_to_annotate:
+                    print("LAUNCHING TAD", t)
+                    self.add_TAD_annotation(t)
+
         # Genelists annotation
         print(self.d)
         sys.stdout.write("Adding genelists classifications...\n")
@@ -309,20 +313,20 @@ class MainApp:
             inside_molecule_data = db.find({"$and": [{"chr": chrom, "start": {"$gte": start},
                                             "end": {"$lte": end}}]})
 
+            inside_molecule = []
+            inside_molecule_coords = []
             inside_molecule_data_list = list(inside_molecule_data)
+            for d in list(inside_molecule_data_list):
+                inside_molecule.append(d['info'])
+                inside_molecule_coords.append("{0}-{1}".format(d['start'], d['end']))
+
             if inside_molecule_data_list and len(inside_molecule_data_list[0]) > 5:
                 extra_info_cnv = list(inside_molecule_data_list)
                 for i in range(0, len(extra_info_cnv)):
                     extra_info_cnv[i].pop('_id')
                 extra_info['inside'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': extra_info_cnv})
-            elif not inside_molecule_data_list or len(inside_molecule_data_list[0]) <= 5:
+            elif not inside_molecule_data_list:
                 extra_info['inside'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': []})
-
-            inside_molecule = inside_molecule_data.distinct('info')
-            # find the coordinates of these DISTINCT genes
-            distinct_inside_genes_data = list(
-                db.find({"info": {"$in": inside_molecule}}, {'start': 1, 'end': 1}))
-            inside_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_inside_genes_data)
 
             # print("finding cross")
 
@@ -341,20 +345,20 @@ class MainApp:
 
                 ]}
             )
+            cross_molecule = []
+            cross_molecule_coords = []
             cross_molecule_data_list = list(cross_molecule_data)
+            for d in list(cross_molecule_data_list):
+                cross_molecule.append(d['info'])
+                cross_molecule_coords.append("{0}-{1}".format(d['start'], d['end']))
+
             if cross_molecule_data_list and len(cross_molecule_data_list[0]) > 5:
                 extra_info_cnv = list(cross_molecule_data_list)
                 for i in range(0, len(extra_info_cnv)):
                     extra_info_cnv[i].pop('_id')
-                extra_info['cross'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': extra_info_cnv[0]})
+                extra_info['cross'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': extra_info_cnv})
             elif not cross_molecule_data_list:
                 extra_info['cross'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': []})
-
-            cross_molecule = cross_molecule_data.distinct('info')
-            # find the coordinates of these DISTINCT genes
-            distinct_cross_genes_data = list(
-                db.find({"info": {"$in": cross_molecule}}, {'start': 1, 'end': 1}))
-            cross_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_cross_genes_data)
 
             # print("finding distal")
 
@@ -369,8 +373,15 @@ class MainApp:
                         {"start": {"$gt": start - distance_from_gene}}, {"start": {"$lt": start}}
                     ]}
                 ]
-                })
+            })
+
+            distal_molecule = []
+            distal_molecule_coords = []
             distal_molecule_data_list = list(distal_molecule_data)
+            for d in list(distal_molecule_data_list):
+                distal_molecule.append(d['info'])
+                distal_molecule_coords.append("{0}-{1}".format(d['start'], d['end']))
+
             if distal_molecule_data_list and len(distal_molecule_data_list[0]) > 5:
                 extra_info_cnv = list(distal_molecule_data_list)
                 for i in range(0,len(extra_info_cnv)):
@@ -378,11 +389,7 @@ class MainApp:
                 extra_info['distal'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': extra_info_cnv})
             elif not distal_molecule_data_list:
                 extra_info['distal'].append({'cnv': "{0}:{1}-{2}".format(chrom, start, end), 'data': []})
-            distal_molecule = distal_molecule_data.distinct('info')
-            # find the coordinates of these DISTINCT genes
-            distinct_distal_genes_data = list(db.find({"info":{"$in":distal_molecule}}, {'start': 1, 'end': 1}))
-            distal_molecule_coords = list(str(d['start'])+'-'+str(d['end']) for d in distinct_distal_genes_data)
-            
+
             # print("step2")
             # print(len(inside_molecule))
             if len(inside_molecule) > 0:
@@ -414,7 +421,7 @@ class MainApp:
                 distal_molecules.append(".")
                 distal_molecules_count.append(0)
                 distal_molecules_coords.append(".")
-                
+
         # print("final")
         self.out_dataframe.loc[:, annotation_db + '_inside'] = inside_molecules
         self.out_dataframe.loc[:, annotation_db + '_inside_coords'] = inside_molecules_coords
@@ -622,12 +629,11 @@ class MainApp:
         :return: List of targeted genes by the miRs contained in the CNV
         """
         m_inside = re.findall(
-            r'(?:\.|(\"ID=(?P<mi_name>MI[0-9]+);[Alias=MI[0-9]+]?;Name=(?P<mirna_name>[A-Za-z0-9\-]+)\"[,]?))',
+            r'(?:\.|(\"ID=(?P<mi_name>MI[0-9_]+);[Alias=MI[0-9]+]?;Name=(?P<mirna_name>[A-Za-z0-9\-]+)\"[,]?))',
             mirs_in_cnv)
         
         mature_mir_gene_names = []
         mature_mir_gene_names_dict = OrderedDict()
-
         for (other, mi_name, mirna_name) in m_inside:
             if mi_name in mirbase_dict:
                 mature_mirna_names = mirbase_dict[mi_name]

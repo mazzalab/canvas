@@ -53,13 +53,13 @@ function JSONToCSVConverter(JSONData, ReportTitle, ShowLabel, cnv, category, pos
 
   var fileName = "Report_";
   fileName += ReportTitle.replace(/ /g,"_");
-  var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+  var uri = 'data:text/txt;charset=utf-8,' + escape(CSV);
   var link = document.createElement("a");
   link.href = uri;
 
   //set the visibility hidden so it will not effect on your web-layout
   link.style = "visibility:hidden";
-  link.download = fileName + ".csv";
+  link.download = fileName + ".txt";
 
   //this part will append the anchor tag and remove it after automatic click
   document.body.appendChild(link);

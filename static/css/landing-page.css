@@ -465,9 +465,13 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] {
 .radio-inline input[type=radio] {
   margin-left: -16px !important;
 }
+h1.hidden-xs {
+    margin:0;
+}
 
 #genoverse-wrap {
   text-align:-webkit-center;
+  text-align: -moz-center;
   margin:0;
   padding-top: 30px;
 }
@@ -1982,8 +1986,9 @@ address {
   .results-container {
     max-width: unset !important;
     width: 1300px;
-  }
 
+  }
+.container-fluid>.row {clear:both}
   #second-subpanel {
     width: 59%;
   }

@@ -596,11 +596,14 @@
     </div>
 
     <!-- Panels -->
-    <div id="panellist-div" class="row draggablePanelList" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
+
+    <div id="panellist-div" class="row row-eq-height draggablePanelList container-fluid" style="margin-top: 35px; margin-right: 15px; margin-left: 15px;">
+    {% set count = namespace(a=0) %}
     {% for c in choices %}
       {% if (c!='mirbase') and (c!='gene') %}
-            <div class="col-sm-4">
-              <div class="panel panel-info">
+        {% set count.a = count.a + 1 %}
+            <div class="col-md-4">
+              <div class="panel panel-info col-md-pull-4">
                        {% if c.endswith('_genelist') %}
                          <div class="panel-heading" style="font-weight: bold; color: #ffffff; background-color: #45af35 !important; border-color: #16821f !important">
                        {% else %}
@@ -613,7 +616,7 @@
                              </p>
                              </div>
 
-                               <input type="checkbox" class="ios8-switch ios8-switch-sm" id="checkbox-plot-{{c}}">
+                               <input type="checkbox" class="ios8-switch ios8-switch-sm" style="display:none;" id="checkbox-plot-{{c}}">
                                <label for="checkbox-plot-{{c}}">Show</label>
                                <script>
                                    console.log("checking ", '{{c}}')
@@ -631,11 +634,11 @@
                                            start = match[2]
                                            end = match[3]
                                            updatebrowser(chr, start, end, cnv_id, plot_switches);
-
                                      });
                                    });
                                </script>
                         </div>
+
 
                 <div class="panel-body">
                   <form>
@@ -770,6 +773,9 @@
                 </div>
               </div>
             </div>
+        {% endif %}
+        {% if count.a is divisibleby 3 and count.a != 0 %}
+          <div class="clearfix visible-lg-block"></div>
         {% endif %}
     {% endfor %}
     <script>

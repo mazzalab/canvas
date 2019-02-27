@@ -269,13 +269,11 @@ class MultiCheckboxField(SelectMultipleField):
     
 class MainForm(FlaskForm):
     line_input = StringField(u'Genomic region ', validators=[Length(max=50)])
-    upload = FileField('Input file', validators=[
-        FileAllowed(['txt', 'csv', 'cnv'], 'Text only!')
-    ])
+
+    upload = FileField('Input file', validators=[])
+
+    overlap_upload = FileField('Input file', validators=[])
     
-    overlap_upload = FileField('Input file', validators=[
-        FileAllowed(['txt', 'csv', 'cnv'], 'Text only!')
-    ])
     window = StringField(u'Window (bp):', validators=[Length(max=15)], default='1000000')
     window_tad = StringField(u'Window (bp):', validators=[Length(max=15)], default='1000000')
     padding = StringField(u'Padding (bp):', validators=[Length(max=15)], default='0')
@@ -348,7 +346,7 @@ def index():
             session['choice'] = 'line'
             session['filename'] = 'line input'
             session['working_filename'] = os.path.join(session['task_id'], session['task_id']+'.csv')
-            session['cnv_line'] = request.form['line_input']
+            session['cnv_line'] = request.form['line_input'].replace(',','')
 
         
         if 'radio-hg19' in request.form:
@@ -659,8 +657,8 @@ def thread_status():
     # # f_read.seek(st_size)
     progress = [os.path.basename(x).split('.')[0] for x in glob.glob(os.path.dirname(session['file_out'])+'/*.progress')]
     progress.sort(key=natural_keys)
-    print("STATUS")
-    print(progress)
+    # print("STATUS")
+    # print(progress)
     if finished == True:
         return jsonify(dict(status='finished'))
     elif finished == -1:
