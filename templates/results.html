@@ -344,6 +344,8 @@
 
     var cnvdrop = document.getElementById("cnv-dropdown");
     cnvselection = cnvdrop.options[cnvdrop.selectedIndex].value;
+    cnvselection_text = cnvdrop.options[cnvdrop.selectedIndex].text.replace(' ','').replace(' - ',':');
+
     var category = $(this).data('category');
     var position = 'inside-mirna';
     // var genelist_choices = {{genes_choices|tojson|safe}}
@@ -387,11 +389,11 @@
       for (var i = 0, length = mir_selects.length; i < length; i++){
         mirbase_tablehtml += "<tr><td>"+mir_selects[i].split(';')[1]+"</td>"+"<td>"+mir_selects[i].split(';')[0]+"</td>"
         for (var j = 0, length_targets = Object.keys(mirbase_jsonData).length; j < length_targets; j++){
-            mir_entry = mirbase_jsonData[Object.keys(mirbase_jsonData)[j]][position_index][mir_selects[i]]
+            mir_entry = mirbase_jsonData[Object.keys(mirbase_jsonData)[j]][cnvselection_text][position_index][mir_selects[i]]
             // The mirnas are taken from the window: they could or could not be in inside,cross,distal. Must be checked.
             if (mir_entry){
                 if (mir_entry[0] != ["."]){
-                  mirbase_tablehtml += `<td><img src=\"../static/img/smallcheck.png\" /><a id=\"listlink\" href=\"#\" onclick=\"openlist('${mir_selects[i]}', '${position_index}', '${Object.keys(mirbase_jsonData)[j]}');return false;\" style=\"vertical-align:middle\">&nbsp&nbspList</a></td>`
+                  mirbase_tablehtml += `<td><img src=\"../static/img/smallcheck.png\" /><a id=\"listlink\" href=\"#\" onclick=\"openlist('${mir_selects[i]}', '${position_index}', '${Object.keys(mirbase_jsonData)[j]}', '${cnvselection_text}');return false;\" style=\"vertical-align:middle\">&nbsp&nbspList</a></td>`
                 }else{
                   mirbase_tablehtml += "<td><img src=\"../static/img/smallcross.png\" /><span style=\"opacity:0\">N</span></td>"
                 }
@@ -441,7 +443,12 @@
 </script>
 
 <script>
-  function openlist(entry, position, db) {
+  function openlist(entry, position, db, cnv_text) {
+      {#console.log("HERE IN OPENLIST")#}
+      {#console.log(entry)#}
+      {#console.log(position)#}
+      {#console.log(db)#}
+      {#console.log(cnv_text)#}
     // Fixes dual-screen position                         Most browsers      Firefox
     var w = 300;
     var h = 700;
@@ -468,7 +475,7 @@
     //         document.getElementById('mirna-genes').innerHTML;
     // };
 
-    var genes = mirbase_jsonData[db][position][entry];
+    var genes = mirbase_jsonData[db][cnv_text][position][entry];
     var uniquegenes = [];
     $.each(genes, function(i, el){
         if($.inArray(el, uniquegenes) === -1) uniquegenes.push(el);

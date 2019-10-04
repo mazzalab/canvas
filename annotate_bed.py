@@ -68,7 +68,24 @@ class MainApp:
     def process(self):
     
         # sys.stdout = sys.stderr = open(self.args.out.replace('.xlsx', '_log.txt'), 'wt')
-        
+
+        # In case the input is a file...
+        if self.args.cnv_file:
+            if os.path.exists(self.args.cnv_file):
+                try:
+                    cnv_info = self.read_cnv_coordinates_file(self.args.cnv_file)
+                except (NameError, ParserError, UnicodeDecodeError):
+                    return -1
+
+            else:
+                sys.exit("CNV file not found: {}".format(self.args.cnv_file))
+
+        # Alternatively, with a text line input..
+        elif self.args.cnv_line:
+            cnv_info = self.read_cnv_coordinates_line(self.args.cnv_line)
+
+
+
         for arg in self.d:
             
             if arg not in ['cnv_line', 'cnv_file', 'out', 'distance', 'all_beds', 'all_genelists', 'reference'] and \
@@ -105,20 +122,6 @@ class MainApp:
                                  
         sys.stdout.write("Requested DBs are present. Proceeding to annotate...\n")
 
-        # In case the input is a file...
-        if self.args.cnv_file:
-            if os.path.exists(self.args.cnv_file):
-                try:
-                    cnv_info = self.read_cnv_coordinates_file(self.args.cnv_file)
-                except (NameError, ParserError, UnicodeDecodeError):
-                    return -1
-
-            else:
-                sys.exit("CNV file not found: {}".format(self.args.cnv_file))
-                
-        # Alternatively, with a text line input..
-        elif self.args.cnv_line:
-            cnv_info = self.read_cnv_coordinates_line(self.args.cnv_line)
 
         if self.args.reference != 'hg19':
             # Testing presence of CrossMap executable in PATH
@@ -171,15 +174,17 @@ class MainApp:
                 cnv_info = cnv_info_converted
 
                 
-            print("Converted:")
-            print(cnv_info)
+            sys.stdout.write("Converted:\n")
+            sys.stdout.write(str(cnv_info))
             
 
             
             # Cleaning
             for f in glob.glob(os.path.dirname(self.args.out) + '/tempfile*.tsv'):
                 os.remove(f)
-                
+        sys.stdout.write("WORKING WITH\n")
+        sys.stdout.write(str(cnv_info)+'\n')
+
         self.out_dataframe = cnv_info
 
         # Annotation of BEDs based on the options that were chosen
@@ -194,12 +199,15 @@ class MainApp:
                 f.close()
                         
                 if arg == 'mirbase':
-                    for target_db in self.db_t.collection_names():
-                        if target_db != 'system.indexes':
-                            self.mirbase_dict[target_db] = []  # initialized the target key (tarbase or targetscan) in the mirbase dict
-                            
-                            dict_inside, dict_cross, dict_distal = self.add_mirna_target(target=target_db, unique=True)
-                            self.mirbase_dict[target_db].extend((dict_inside, dict_cross, dict_distal))
+                        for target_db in self.db_t.collection_names():
+                            if target_db != 'system.indexes':
+                                self.mirbase_dict[target_db] = {}  # initialized the target key (tarbase or targetscan) in the mirbase dict
+                                for row in self.out_dataframe.itertuples():
+                                    queryid = str(row.CHR)+':'+str(row.START)+':'+str(row.END)
+
+                                    self.mirbase_dict[target_db][queryid] = []
+                                    dict_inside, dict_cross, dict_distal = self.add_mirna_target(inputrow=row, target=target_db, unique=True)
+                                    self.mirbase_dict[target_db][queryid].extend((dict_inside, dict_cross, dict_distal))
                 else:
                     extra_annot_info = self.add_annotation(arg)
                     extra_info.update({arg:extra_annot_info})
@@ -493,7 +501,7 @@ class MainApp:
                 start = row.START
                 end = row.END
             
-            print("finding inside")
+            # print("finding inside")
             inside_TAD_data = db.find({"$and": [{"chr": chrom, "start": {"$gte": start},
                                                       "end": {"$lte": end}}]})
         
@@ -504,7 +512,7 @@ class MainApp:
             inside_TAD_coords = list(
                 str(d['start']) + '-' + str(d['end']) for d in distinct_inside_TAD_data)
             
-            print("finding cross")
+            # print("finding cross")
             cross_TAD_data = db.find(
                 {"$or": [
                     {"$and": [
@@ -523,7 +531,7 @@ class MainApp:
                 str(d['start']) + '-' + str(d['end']) for d in distinct_cross_TAD_data)
 
 
-            print("finding covering")
+            # print("finding covering")
             covering_TAD_data = db.find(
                     {"$and": [
                         {"chr": chrom}, {"start": {"$lte": start}}, {"end": {"$gt": start}},
@@ -537,7 +545,7 @@ class MainApp:
             covering_TAD_coords = list(
                 str(d['start']) + '-' + str(d['end']) for d in distinct_covering_TAD_data)
 
-            print("finding distal")
+            # print("finding distal")
 
             distal_TAD_data = db.find(
                 {"$or": [
@@ -619,7 +627,7 @@ class MainApp:
         self.out_dataframe.loc[:, annotation_db + '_distal_count'] = distal_TADs_count
         # print("distal", len(distal_molecules[0].split(';')), len(distal_molecules_coords[0].split(';')), distal_molecules_count)
 
-    def __get_genetarget(self, mirs_in_cnv: str, mirbase_dict: dict, target_dict: dict) -> list:
+    def __get_genetarget(self, mirs_in_cnv: str, mirbase_dict: dict, target_dict: dict) -> OrderedDict:
         """
         Take a list of miRs, formatted as from miRBase, parse it, get the corresponding mature miR symbols, and get a list
         of their target genes
@@ -631,9 +639,11 @@ class MainApp:
         m_inside = re.findall(
             r'(?:\.|(\"ID=(?P<mi_name>MI[0-9_]+);[Alias=MI[0-9]+]?;Name=(?P<mirna_name>[A-Za-z0-9\-]+)\"[,]?))',
             mirs_in_cnv)
-        
+
+
         mature_mir_gene_names = []
         mature_mir_gene_names_dict = OrderedDict()
+        print('before writing', mature_mir_gene_names_dict)
         for (other, mi_name, mirna_name) in m_inside:
             if mi_name in mirbase_dict:
                 mature_mirna_names = mirbase_dict[mi_name]
@@ -664,10 +674,11 @@ class MainApp:
         # input()
         # print(mature_mir_gene_names == list(itertools.chain.from_iterable(list(mature_mir_gene_names_dict.values()))))
         # return mature_mir_gene_names_dict if len(mature_mir_gene_names) > 0 else ["."]
+        print('before sending', mature_mir_gene_names_dict)
 
         return mature_mir_gene_names_dict
 
-    def add_mirna_target(self, target: str, unique: bool):
+    def add_mirna_target(self, inputrow, target: str, unique: bool):
         """
         Take a DataFrame and annotate it with targeting genes of miRs according to a target db
         :param target: Suffix string for the column names containing gene target (inside, cross and distal)
@@ -724,35 +735,40 @@ class MainApp:
         target_genes_dict_inside = {}
         target_genes_dict_cross = {}
         target_genes_dict_distal = {}
-        
-        for row in self.out_dataframe.itertuples():
-            miR_inside = row.mirna_inside
-            target_genes_dict_inside = self.__get_genetarget(miR_inside, mirbase_info, target_info)
-            target_genes_names = list(itertools.chain.from_iterable(list(target_genes_dict_inside.values())))
-            target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
-            if target_genes_names != ['.']:
-                target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
-                
-            inside_mature_mir_gene_names.append(";".join(target_genes_names))
-            inside_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
 
-            miR_cross = row.mirna_cross
-            target_genes_dict_cross = self.__get_genetarget(miR_cross, mirbase_info, target_info)
-            target_genes_names = list(itertools.chain.from_iterable(list(target_genes_dict_cross.values())))
-            target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
-            if target_genes_names != ['.']:
-                target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
-            cross_mature_mir_gene_names.append(";".join(target_genes_names))
-            cross_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
+        print("HERE")
+        miR_inside = inputrow.mirna_inside
+        target_genes_dict_inside.update(self.__get_genetarget(miR_inside, mirbase_info, target_info))
+        print(target_genes_dict_inside)
+        print("QUESTO")
+        print("STO PER MORIRE")
+        target_genes_names = list(itertools.chain.from_iterable(list(target_genes_dict_inside.values())))
+        print(target_genes_names)
+        print("QUI MUOIO")
+        target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
+        if target_genes_names != ['.']:
+            target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
 
-            miR_distal = row.mirna_distal
-            target_genes_dict_distal = self.__get_genetarget(miR_distal, mirbase_info, target_info)
-            target_genes_names = list(itertools.chain.from_iterable(list(target_genes_dict_distal.values())))
-            target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
-            if target_genes_names != ['.']:
-                target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
-            distal_mature_mir_gene_names.append(";".join(target_genes_names))
-            distal_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
+        inside_mature_mir_gene_names.append(";".join(target_genes_names))
+        inside_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
+
+        miR_cross = inputrow.mirna_cross
+        target_genes_dict_cross.update(self.__get_genetarget(miR_cross, mirbase_info, target_info))
+        target_genes_names = list(itertools.chain.from_iterable(list(target_genes_dict_cross.values())))
+        target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
+        if target_genes_names != ['.']:
+            target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
+        cross_mature_mir_gene_names.append(";".join(target_genes_names))
+        cross_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
+
+        miR_distal = inputrow.mirna_distal
+        target_genes_dict_distal.update(self.__get_genetarget(miR_distal, mirbase_info, target_info))
+        target_genes_names = list(itertools.chain.from_iterable(list(target_genes_dict_distal.values())))
+        target_genes_names = list(set(target_genes_names) if unique else target_genes_names)
+        if target_genes_names != ['.']:
+            target_genes_names = list(filter(lambda a: a != '.', target_genes_names))
+        distal_mature_mir_gene_names.append(";".join(target_genes_names))
+        distal_mature_mir_gene_names_count.append(len(target_genes_names) if list(target_genes_names)[0] != "." else 0)
 
         self.out_dataframe.loc[:, target + '_inside'] = inside_mature_mir_gene_names
         self.out_dataframe.loc[:, target + '_inside_count'] = inside_mature_mir_gene_names_count
