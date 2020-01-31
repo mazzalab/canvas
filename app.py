@@ -224,24 +224,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_PATH'] = 5000
 
 
-
-#
-#     return '''
-#     <!doctype html>
-#     <title>Upload new File</title>
-#     <h1>Upload new File</h1>
-#     <form method=post enctype=multipart/form-data>
-#       <p><input type=file name=file>
-#          <input type=submit value=Upload>
-#     </form>
-#     '''
-#
-# @app.route('/uploads/<filename>')
-# def uploaded_file(filename):
-#     return send_from_directory(app.config['UPLOAD_FOLDER'],
-#
-#          filename)
-
 def atoi(text):
     return int(text) if text.isdigit() else text
 
@@ -455,7 +437,7 @@ def working():
         os.path.splitext(session['working_filename'])[0]))
     
     args = Object()
-    print("ARGOMENTI BEFORE")
+    print("ARGOMENTI")
     print(args.__dict__)
     setattrs(args, cnv_file=None, cnv_line=None, all_beds=False, circRNA=False,
              coding_gene=False, gene=False, longNC=False, mirna=False, mirbase=False,
