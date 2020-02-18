@@ -55,10 +55,10 @@ class MainApp:
         self.args = args
         self.connection = MongoClient('localhost', 27017, unicode_decode_error_handler='ignore')
     
-        self.db = self.connection['BED']
-        self.db_tad = self.connection['TAD']
-        self.db_gl = self.connection['genelists']
-        self.db_t = self.connection['targets']
+        self.db = self.connection['Incas_BED']
+        self.db_tad = self.connection['Incas_TAD']
+        self.db_gl = self.connection['Incas_genelists']
+        self.db_t = self.connection['Incas_targets']
         self.d = vars(self.args)
         self.mirbase_dict = {}  #this stores the mirbase annotation that will be written as a separate json
         print(self.d)
@@ -289,7 +289,7 @@ class MainApp:
         Take a DataFrame and add in the last six columns the annotation provided in the 4th column of the BED file
         :param str annotation_db: File path and name of the annotation BED file
         """
-        db = self.connection['BED'][annotation_db]
+        db = self.connection['Incas_BED'][annotation_db]
         sys.stdout.write('Annotating {}...\n'.format(annotation_db))
         distance_from_gene = self.args.distance
         
@@ -453,7 +453,7 @@ class MainApp:
         Take a DataFrame and add in the last six columns the annotation provided in the 4th column of the BED file
         :param str annotation_db: File path and name of the annotation BED file
         """
-        db = self.connection['TAD'][annotation_db]
+        db = self.connection['Incas_TAD'][annotation_db]
         sys.stdout.write('Annotating TAD {}...\n'.format(annotation_db))
         distance_from_CNV = self.args.distance
     
@@ -685,7 +685,7 @@ class MainApp:
         :param bool unique: If true, only unique genes will be reported for each CNV region
         """
         
-        db_mirbase = self.connection['BED']['mirbase']
+        db_mirbase = self.connection['Incas_BED']['mirbase']
         
         if unique:
             mirbase_list = db_mirbase.find({
@@ -710,7 +710,7 @@ class MainApp:
                 mirbase_info[m.group('mi')].append(m.group('mirna_name'))
         
         # print(target)
-        db_target = self.connection['targets'][target]
+        db_target = self.connection['Incas_targets'][target]
         target_info = {}
         # print(list(db_target.find()))
         for entry in list(db_target.find()):
@@ -780,7 +780,7 @@ class MainApp:
         return target_genes_dict_inside, target_genes_dict_cross, target_genes_dict_distal
 
     def add_meta_gene(self, genelist):
-        db = self.connection['genelists'][genelist]
+        db = self.connection['Incas_genelists'][genelist]
         genelist_l = set(db.find().distinct('gene'))
         print("Genelist")
         genes_inside = []

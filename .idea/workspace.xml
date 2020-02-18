@@ -4,9 +4,13 @@
     <bookmark url="file://$PROJECT_DIR$/annotate_bed.py" line="740" mnemonic="0" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="240b687c-d558-49db-b1ac-c8908ba7987b" name="Default" comment="- Mongo code cleaned &amp; sped up&#10;- Commas allowed in CNV single line input&#10;- Enhancers annotation downloads as txt">
+    <list default="true" id="240b687c-d558-49db-b1ac-c8908ba7987b" name="Default" comment="- Added documentation&#10;- Added conda environment">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/annotate_bed.py" beforeDir="false" afterPath="$PROJECT_DIR$/annotate_bed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overlapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/overlapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/landing-page.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/landing-page.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,17 +40,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/results.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="723">
-              <caret line="580" column="14" selection-start-line="580" selection-start-column="14" selection-end-line="580" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/json2csv.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+            <state relative-caret-position="326">
+              <caret line="721" column="52" selection-start-line="721" selection-start-column="48" selection-end-line="721" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -54,17 +49,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="750">
-              <caret line="50" column="41" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
+            <state relative-caret-position="1106">
+              <caret line="863" selection-start-line="863" selection-end-line="863" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/annotate_bed.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-53">
-              <caret line="908" column="21" selection-start-line="908" selection-start-column="17" selection-end-line="908" selection-end-column="21" />
+            <state relative-caret-position="701">
+              <caret line="737" lean-forward="true" selection-start-line="737" selection-end-line="738" />
               <folding>
                 <element signature="e#1224#1239#0" expanded="true" />
               </folding>
@@ -75,8 +70,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1281">
-              <caret line="439" column="20" selection-start-line="439" selection-start-column="20" selection-end-line="439" selection-end-column="20" />
+            <state relative-caret-position="594">
+              <caret line="666" column="47" selection-start-line="666" selection-start-column="47" selection-end-line="666" selection-end-column="47" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -85,19 +80,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/miniconda3/envs/incas/lib/python3.6/site-packages/pandas/__init__.py">
+        <entry file="file://$PROJECT_DIR$/templates/working.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="765">
+              <caret line="51" column="74" selection-start-line="51" selection-start-column="74" selection-end-line="51" selection-end-column="74" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="585">
+              <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/overlapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="36" column="80" selection-start-line="36" selection-start-column="80" selection-end-line="36" selection-end-column="80" />
+            <state relative-caret-position="401">
+              <caret line="38" column="35" lean-forward="true" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -106,13 +110,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CNVOverlap/cnv_operations.py">
+        <entry file="file://$PROJECT_DIR$/static/css/landing-page.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="270">
+              <caret line="2100" column="19" selection-start-line="2100" selection-start-column="19" selection-end-line="2100" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -121,7 +122,7 @@
         <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1050">
-              <caret line="70" lean-forward="true" selection-start-line="70" selection-end-line="70" />
+              <caret line="70" selection-start-line="70" selection-end-line="70" />
             </state>
           </provider>
         </entry>
@@ -135,22 +136,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>jquer</find>
-      <find>genoverse</find>
-      <find>angular</find>
-      <find>genoverse.</find>
-      <find>10.19</find>
-      <find>192.</find>
-      <find>\</find>
-      <find>self.db</find>
-      <find>mirbas</find>
-      <find>mirbase.js</find>
-      <find>mirbase.json</find>
-      <find>mirbase_dict</find>
-      <find>self.mirba</find>
-      <find>add_mirna</find>
-      <find>input(</find>
-      <find>mirbase_jso</find>
       <find>add_mir</find>
       <find>queryid</find>
       <find>row</find>
@@ -165,6 +150,22 @@
       <find>MainApp</find>
       <find>dump</find>
       <find>operations</find>
+      <find>googleapis</find>
+      <find>checking presence</find>
+      <find>checking</find>
+      <find>http</find>
+      <find>annotate</find>
+      <find>presence</find>
+      <find>http:</find>
+      <find>BED</find>
+      <find>self.db</find>
+      <find>ip</find>
+      <find>mongo</find>
+      <find>['BED']</find>
+      <find>['genelists']</find>
+      <find>['Incas_TAD']</find>
+      <find>['targets']</find>
+      <find>['</find>
     </findStrings>
     <replaceStrings>
       <replace>: 'Annotations have been retrieved from Dixon et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature 2012;485(7398):376-380.'</replace>
@@ -183,14 +184,16 @@
       <list>
         <option value="$PROJECT_DIR$/make_meta_gene.R" />
         <option value="$PROJECT_DIR$/CNVOverlap/cnv_operations.py" />
-        <option value="$PROJECT_DIR$/overlapper.py" />
-        <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/templates/working.html" />
         <option value="$PROJECT_DIR$/static/js/json2csv.js" />
-        <option value="$PROJECT_DIR$/annotate_bed.py" />
         <option value="$PROJECT_DIR$/templates/results.html" />
         <option value="$PROJECT_DIR$/setup_mongo_collections.sh" />
         <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/templates/base.html" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/static/css/landing-page.css" />
+        <option value="$PROJECT_DIR$/annotate_bed.py" />
+        <option value="$PROJECT_DIR$/overlapper.py" />
       </list>
     </option>
   </component>
@@ -211,6 +214,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -221,13 +225,28 @@
             <path>
               <item name="incas" type="b2602c69:ProjectViewProjectNode" />
               <item name="incas" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="incas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="incas" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="incas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="incas" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="incas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="incas" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -354,7 +373,8 @@
       <workItem from="1570181317445" duration="13249000" />
       <workItem from="1571662037624" duration="1637000" />
       <workItem from="1571836668264" duration="1217000" />
-      <workItem from="1580482583170" duration="1573000" />
+      <workItem from="1580482583170" duration="2560000" />
+      <workItem from="1582019623253" duration="5733000" />
     </task>
     <task id="LOCAL-00001" summary="- Major rewrite of annotate_bed.py (pure python3 + mongoDB)&#10;- First draft of flask backend + JS frontend">
       <created>1527260159072</created>
@@ -496,11 +516,18 @@
       <option name="project" value="LOCAL" />
       <updated>1551265984406</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="- Added documentation&#10;- Added conda environment">
+      <created>1580484329315</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1580484329316</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53987000" />
+    <option name="totallyTimeSpent" value="60707000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -513,13 +540,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1080" height="1893" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28336558" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20696326" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32956472" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3295129" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -527,7 +553,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3297414" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32956472" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.2051576" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.39541548" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
@@ -537,7 +563,7 @@
       <window_info anchor="right" id="R Graphics" order="3" />
       <window_info anchor="right" id="R Packages" order="4" />
       <window_info anchor="right" id="Database" order="5" weight="0.38104448" />
-      <window_info anchor="right" id="Mongo Explorer" order="6" visible="true" weight="0.003868472" />
+      <window_info anchor="right" id="Mongo Explorer" order="6" visible="true" weight="0.001934236" />
       <window_info anchor="right" id="Data View" order="7" />
       <window_info anchor="right" id="SciView" order="8" />
     </layout>
@@ -573,7 +599,8 @@
     <MESSAGE value="- new page templates for TADs pushed" />
     <MESSAGE value="- Incas 2.0 released" />
     <MESSAGE value="- Mongo code cleaned &amp; sped up&#10;- Commas allowed in CNV single line input&#10;- Enhancers annotation downloads as txt" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Mongo code cleaned &amp; sped up&#10;- Commas allowed in CNV single line input&#10;- Enhancers annotation downloads as txt" />
+    <MESSAGE value="- Added documentation&#10;- Added conda environment" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added documentation&#10;- Added conda environment" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/clean_targetscan.R" />
@@ -590,20 +617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="39" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/working.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="40" column="10" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/json2csv.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -611,34 +624,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="50" column="41" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/miniconda3/envs/incas/lib/python3.6/site-packages/pandas/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/overlapper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="36" column="80" selection-start-line="36" selection-start-column="80" selection-end-line="36" selection-end-column="80" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/results.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="723">
-          <caret line="580" column="14" selection-start-line="580" selection-start-column="14" selection-end-line="580" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -652,20 +641,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="70" lean-forward="true" selection-start-line="70" selection-end-line="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/other scripts/enhancerDB_setup.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/results.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="721" column="52" selection-start-line="721" selection-start-column="48" selection-end-line="721" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/working.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="51" column="74" selection-start-line="51" selection-start-column="74" selection-end-line="51" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/landing-page.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="2100" column="19" selection-start-line="2100" selection-start-column="19" selection-end-line="2100" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/annotate_bed.py_bak">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="218" column="35" selection-start-line="218" selection-start-column="27" selection-end-line="218" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1106">
+          <caret line="863" selection-start-line="863" selection-end-line="863" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup_mongo_collections.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1050">
+          <caret line="70" selection-start-line="70" selection-end-line="70" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1281">
-          <caret line="439" column="20" selection-start-line="439" selection-start-column="20" selection-end-line="439" selection-end-column="20" />
+        <state relative-caret-position="594">
+          <caret line="666" column="47" selection-start-line="666" selection-start-column="47" selection-end-line="666" selection-end-column="47" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
@@ -674,10 +705,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/annotate_bed.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-53">
-          <caret line="908" column="21" selection-start-line="908" selection-start-column="17" selection-end-line="908" selection-end-column="21" />
+        <state relative-caret-position="701">
+          <caret line="737" lean-forward="true" selection-start-line="737" selection-end-line="738" />
           <folding>
             <element signature="e#1224#1239#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/overlapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="401">
+          <caret line="38" column="35" lean-forward="true" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>

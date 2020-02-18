@@ -9,7 +9,7 @@ import xlsxwriter
 from pymongo import MongoClient
 
 connection = MongoClient('localhost', 27017, unicode_decode_error_handler='ignore')
-db = connection['overlaps']
+db = connection['Incas_overlaps']
 
 import os
 
@@ -67,7 +67,6 @@ class OverlapApp:
     def __init__(self, args):
         self.args = args
         self.search_db = False
-        print("ARGOMENTI INSIEDEEEEEEE")
         print(self.args)
         self.d = vars(self.args)
 
